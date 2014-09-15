@@ -34,6 +34,9 @@ group :test, :development do
 	gem 'factory_girl_rails'
 end
 
+group :test do
+	gem 'shoulda-matchers'
+end
 # Use unicorn as the app server
 # gem 'unicorn'
 
