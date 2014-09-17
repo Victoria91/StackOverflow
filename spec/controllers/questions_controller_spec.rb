@@ -50,4 +50,18 @@ RSpec.describe QuestionsController, :type => :controller do
 		end
 	end
 
+	describe 'GET #index' do
+		let(:questions) { FactoryGirl.create_list(:question, 2) }
+		before { get :index }
+
+		it 'loads questions to an array' do
+			expect(assigns(:questions)).to match_array(questions)
+		end
+
+		it 'renders index view' do
+			expect(response).to render_template :index
+		end
+
+	end
+
 end
