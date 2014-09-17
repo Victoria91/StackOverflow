@@ -1,4 +1,6 @@
 class QuestionsController < ApplicationController
+	before_action :find_question, only: :show
+
 	def new
 		@question = Question.new
 	end 
@@ -14,10 +16,17 @@ class QuestionsController < ApplicationController
 		end
 	end
 
+	def show
+	end
+
 	private
 
 	def question_params
 		params[:question].permit(:title,:body)
+	end
+
+	def find_question
+		@question = Question.find(params[:id])
 	end
 
 end

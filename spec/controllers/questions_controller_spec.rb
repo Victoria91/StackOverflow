@@ -26,4 +26,17 @@ RSpec.describe QuestionsController, :type => :controller do
 		end
 	end
 
+	describe 'GET #show' do
+		subject { FactoryGirl.create(:question) }
+		before { get :show, id: subject }
+
+		it 'loads a Question object' do
+			expect(assigns(:question)).to eq(subject)
+		end
+
+		it 'renders show view' do
+			expect(response).to render_template :show
+		end
+	end
+
 end

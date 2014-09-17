@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
   resources :questions
+
+  get 'answers/new/:id' => 'answers#new', as: 'new_answer'
+
+  resources :answers
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
