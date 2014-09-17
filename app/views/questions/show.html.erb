@@ -1,2 +1,3 @@
-<h2><%= @question.title  %></h2>
+<h2><%= @question.title %></h2>
 <h3><%= @question.body %></h2>
+<%= link_to 'Answer', new_question_answer_path(@question)%>

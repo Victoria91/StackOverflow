@@ -1,0 +1,5 @@
+<p><%= @question.body %></p>
+<%= simple_form_for [@answer.question, @answer] do |f| %>
+	<%= f.input :body, label: 'Your answer:' %>
+	<%= f.button :submit %>
+<% end %>

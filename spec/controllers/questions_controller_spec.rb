@@ -14,15 +14,26 @@ RSpec.describe QuestionsController, :type => :controller do
 	end
 
 	describe 'POST #create' do
-		subject { FactoryGirl.build(:question) }
-		
-		it 'creates a new Question object' do
-			expect { post :create, question: FactoryGirl.attributes_for(:question) }.to change(Question, :count).by(1)
+		context 'with valid attributes' do
+			it 'creates a new Question object' do
+				expect { post :create, question: FactoryGirl.attributes_for(:question) }.to change(Question, :count).by(1)
+			end
+
+			it 'redirects to show a question' do
+				post :create, question: FactoryGirl.attributes_for(:question) 
+				expect(response).to redirect_to question_path(assigns(:question))
+			end
 		end
 
-		it 'renders a show view' do
-			post :create, question: FactoryGirl.attributes_for(:question) 
-			expect(response).to redirect_to question_path(assigns(:question))
+		context 'with invalid attributes' do
+			it 'not creates a new Question object' do
+				expect { post :create, question: FactoryGirl.attributes_for(:question, body: nil) }.to_not change(Question, :count)
+			end
+
+			it 'renders a new view' do
+				post :create, question: FactoryGirl.attributes_for(:question, body: nil) 
+				expect(response).to render_template :new
+			end
 		end
 	end
 
