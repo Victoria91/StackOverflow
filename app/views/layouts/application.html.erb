@@ -12,8 +12,29 @@
   </head>
 
   <body>
+    <div class="icon-bar five-up">
+      <%= link_to  root_path, :class => 'item' do %>
+        <%= image_tag("home.png") %>
+      <% end %>
+      <a class="item">
+        <i class="fi-bookmark"></i>
+      </a>
+      <a class="item">
+        <i class="fi-info"></i>
+      </a>
+      <a class="item">
+        <i class="fi-mail"></i>
+      </a>
 
-    <%= yield %>
+      <%= link_to  destroy_user_session_path, :class => 'item' do %>
+        <%= image_tag("exit.png") %>
+      <% end %>
+    </div>
+    
+    <div class='row'> 
+      <%= yield %>
+    </div>
+
     <%= javascript_include_tag "application" %>
   </body>
 </html>
