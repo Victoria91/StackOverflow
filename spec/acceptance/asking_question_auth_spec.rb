@@ -4,7 +4,7 @@ feature 'A guest cannot ask question', %q{
 	Only authorized user can ask question
 } do
 	
-	given(:user) { create(:user) }
+	given(:user) { FactoryGirl.create(:user) }
 
 	scenario 'a guest cannot ask question' do
 		visit root_path
@@ -12,7 +12,7 @@ feature 'A guest cannot ask question', %q{
 	end
 
 	scenario 'an authorized user can ask question' do
-		User.create(email: 'test@mail.ru', password: 'qwerty12')
+		login_as user
 		visit root_path
 		expect(page).to have_link 'Ask your question'
 	end
