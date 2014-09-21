@@ -2,9 +2,10 @@ require 'rails_helper'
 
 RSpec.describe QuestionsController, :type => :controller do
 	describe 'GET #new' do
-		before { get :new }
 
 		context 'authorized' do
+			sign_in_user
+			before { get :new }
 
 			it 'loads a new Question object' do
 				expect(assigns(:question)).to be_a_new(Question)
@@ -17,12 +18,14 @@ RSpec.describe QuestionsController, :type => :controller do
 
 		context 'unauthorized' do
 			it 'redirects' do
+				get :new
 				expect(response).to be_redirect
 			end
 		end
 	end
 
 	describe 'POST #create' do
+		sign_in_user
 		context 'with valid attributes' do
 			it 'creates a new Question object' do
 				expect { post :create, question: FactoryGirl.attributes_for(:question) }.to change(Question, :count).by(1)
