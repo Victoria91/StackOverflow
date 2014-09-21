@@ -1,5 +1,6 @@
 class QuestionsController < ApplicationController
 	before_action :find_question, only: :show
+	before_action :authenticate_user!, only: [:new, :create]
 
 	def new
 		@question = Question.new

@@ -26,12 +26,14 @@
         <i class="fi-mail"></i>
       </a>
 
-      <%= link_to  destroy_user_session_path, :class => 'item' do %>
+      <%= link_to  destroy_user_session_path, :class => 'item', method: :delete do %>
         <%= image_tag("exit.png") %>
       <% end %>
     </div>
     
     <div class='row'> 
+      <p class='notice'><%= notice %></p>
+      <p class='alert'><%= alert %></p>
       <%= yield %>
     </div>
 

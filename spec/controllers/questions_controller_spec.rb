@@ -4,12 +4,21 @@ RSpec.describe QuestionsController, :type => :controller do
 	describe 'GET #new' do
 		before { get :new }
 
-		it 'loads a new Question object' do
-			expect(assigns(:question)).to be_a_new(Question)
+		context 'authorized' do
+
+			it 'loads a new Question object' do
+				expect(assigns(:question)).to be_a_new(Question)
+			end
+
+			it 'render a new view' do
+				expect(response).to render_template :new
+			end
 		end
 
-		it 'render a new view' do
-			expect(response).to render_template :new
+		context 'unauthorized' do
+			it 'redirects' do
+				expect(response).to be_redirect
+			end
 		end
 	end
 
