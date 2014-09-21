@@ -3,30 +3,40 @@ require 'rails_helper'
 RSpec.describe AnswersController, :type => :controller do
 	let(:question) { FactoryGirl.create(:question) }
 
-
 	describe 'GET #new' do
-		before { get :new, question_id: question }
+		context 'authorized' do
+			sign_in_user
+			before { get :new, question_id: question }
 
-		it 'loads a new Answer object' do
-			expect(assigns(:answer)).to be_a_new(Answer)
+			it 'loads a new Answer object' do
+				expect(assigns(:answer)).to be_a_new(Answer)
+			end
+
+			it 'renders new template' do
+				expect(response).to render_template :new
+			end
 		end
 
-		it 'new answer is associated with an incoming question' do
-		end
-
-		it 'renders new template' do
-			expect(response).to render_template :new
+		context 'anauthorized' do
+			it 'redirects' do
+				get :new, question_id: question
+				expect(response).to be_redirect
+			end
 		end
 	end
 
 	describe 'POST #create' do
-		it 'creates a new Answer' do
-			expect{ post :create, answer: FactoryGirl.attributes_for(:answer), question_id: question }.to change(Answer, :count).by(1)
-		end
+		context 'authorized' do
+			sign_in_user
 
-		it 'redirect to answer_path' do
-			post :create, answer: FactoryGirl.attributes_for(:answer, question_id: question), question_id: question
-			expect(response).to redirect_to question_answer_path(question,assigns(:answer))
+			it 'creates a new Answer' do
+				expect{ post :create, answer: FactoryGirl.attributes_for(:answer), question_id: question }.to change(question.answers, :count).by(1)
+			end
+
+			it 'redirect to answer_path' do
+				post :create, answer: FactoryGirl.attributes_for(:answer, question_id: question), question_id: question
+				expect(response).to redirect_to question_answer_path(question,assigns(:answer))
+			end
 		end
 
 	end

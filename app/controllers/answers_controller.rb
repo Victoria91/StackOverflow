@@ -1,5 +1,6 @@
 class AnswersController < ApplicationController
-	before_filter :find_answer, only: :show
+	before_action :find_answer, only: :show
+	before_action :find_question, :authenticate_user!, only: [:new, :create]
 
 	def new
 		@question = Question.find(params[:question_id])
@@ -29,5 +30,9 @@ class AnswersController < ApplicationController
 
 	def find_answer
 		@answer = Answer.find(params[:id])
+	end
+
+	def find_question
+		@question = Question.find(params[:question_id])
 	end
 end
