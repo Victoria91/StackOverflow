@@ -9,13 +9,13 @@ feature 'A guest cannot answer question', %q{
 
 	scenario 'a guest cannot answer' do
 		visit question_path(question)
-		expect(page).not_to have_link 'answer'
+		expect(page).not_to have_link 'Answer'
 	end
 
 	scenario 'an authorized user can answer question' do
 		login_as user
 		visit question_path(question)
-		expect(page).to have_link(:question)
+		expect(page).to have_link 'Answer'
 	end
 
 end

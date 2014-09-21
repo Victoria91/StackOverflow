@@ -1,3 +1,6 @@
 %h2= @question.title
 %h3= @question.body
-= link_to 'Answer', new_question_answer_path(@question)
+-@question.answers.each do |a|
+	%hr= a.body
+%br
+= link_to 'Answer', new_question_answer_path(@question) if user_signed_in?
