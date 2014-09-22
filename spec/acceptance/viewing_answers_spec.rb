@@ -13,7 +13,7 @@ feature 'viewing answers', %q{
 		question.answers << answer
 		visit question_path(question)
 		expect(page).to have_content question.body
-		save_and_open_page
+		#save_and_open_page
 		expect(page).to have_content answer.body
 	end
 
