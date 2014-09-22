@@ -15,11 +15,11 @@ feature 'delete question', %q{
 
 	scenario 'can delete his question' do
 		visit question_path(his_question)
-		expect(page).to have_link 'delete'
+		expect(page).to have_link 'Delete'
 	end
 
 	scenario 'cannot delete another question' do
 		visit question_path(another_question)
-		expect(page).not_to have_link 'delete'
+		expect(page).not_to have_link 'Delete'
 	end
 end
