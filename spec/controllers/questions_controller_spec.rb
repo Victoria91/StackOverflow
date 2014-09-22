@@ -86,7 +86,7 @@ RSpec.describe QuestionsController, :type => :controller do
 			before { question }
 
 			it 'deletes a question' do
-				expect{ delete :destroy, id: question }.to change(Question, :count).by(1)
+				expect{ delete :destroy, id: question }.to change(Question, :count).by(-1)
 			end
 
 			it 'redirects to root path' do
@@ -99,9 +99,15 @@ RSpec.describe QuestionsController, :type => :controller do
 		context 'another question' do
 			let(:another_user) { FactoryGirl.create(:user) }
 			let(:another_question) { FactoryGirl.create(:question, user: another_user) }
+			before { another_question }
 
 			it 'deletes a question' do
 				expect{ delete :destroy, id: another_question }.not_to change(Question, :count)
+			end
+
+			it 'redirects to root path' do
+				delete :destroy, id: another_question
+				expect(response).to redirect_to question_path(another_question)
 			end
 
 		end

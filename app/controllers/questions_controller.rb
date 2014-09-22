@@ -1,5 +1,5 @@
 class QuestionsController < ApplicationController
-	before_action :find_question, only: :show
+	before_action :find_question, only: [:show, :destroy]
 	before_action :authenticate_user!, only: [:new, :create]
 
 	def new
@@ -23,6 +23,16 @@ class QuestionsController < ApplicationController
 	end
 
 	def show
+	end
+
+	def destroy
+		if @question.user == current_user
+			@question.destroy
+			redirect_to root_path
+		else
+			flash[:notice] = 'Only owner can delete question'	
+			redirect_to question_path(@question)
+		end
 	end
 
 	private
