@@ -39,11 +39,13 @@ gem 'haml-rails'
 group :test, :development do
 	gem 'rspec-rails'
 	gem 'factory_girl_rails'
+	gem 'launchy'
 end
 
 group :test do
 	gem 'shoulda-matchers'
 	gem 'capybara'
+	gem 'faker'
 end
 # Use unicorn as the app server
 # gem 'unicorn'

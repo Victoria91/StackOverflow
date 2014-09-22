@@ -1,3 +1,9 @@
 %h2= @question.title
 %h3= @question.body
+<<<<<<< HEAD
+=======
+-@question.answers.each do |a|
+	%hr= a.body
+%br
+>>>>>>> 78316648_view_answers
 = link_to 'Answer', new_question_answer_path(@question) if user_signed_in?
