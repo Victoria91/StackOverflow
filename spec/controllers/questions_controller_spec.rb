@@ -76,4 +76,34 @@ RSpec.describe QuestionsController, :type => :controller do
 
 	end
 
+
+	describe 'DELETE #destroy' do
+		sign_in_user
+
+		context 'own question' do
+			let(:question) { FactoryGirl.create(:question, user: @user) }
+			before { question }
+
+			it 'deletes a question' do
+				expect{ delete :destroy, id: question }.to change(Question, :count).by(1)
+			end
+
+			it 'redirects to root path' do
+				delete :destroy, id: question
+				expect(response).to redirect_to root_path
+			end
+
+		end
+
+		context 'another question' do
+			let(:another_user) { FactoryGirl.create(:user) }
+			let(:another_question) { FactoryGirl.create(:question, user: another_user) }
+
+			it 'deletes a question' do
+				expect{ delete :destroy, id: question }.not_to change(Question, :count)
+			end
+
+		end
+
+	end
 end
