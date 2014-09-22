@@ -26,9 +26,10 @@ RSpec.describe QuestionsController, :type => :controller do
 
 	describe 'POST #create' do
 		sign_in_user
+
 		context 'with valid attributes' do
 			it 'creates a new Question object' do
-				expect { post :create, question: FactoryGirl.attributes_for(:question) }.to change(Question, :count).by(1)
+				expect { post :create, question: FactoryGirl.attributes_for(:question) }.to change(@user.questions, :count).by(1)
 			end
 
 			it 'redirects to show a question' do
@@ -100,7 +101,7 @@ RSpec.describe QuestionsController, :type => :controller do
 			let(:another_question) { FactoryGirl.create(:question, user: another_user) }
 
 			it 'deletes a question' do
-				expect{ delete :destroy, id: question }.not_to change(Question, :count)
+				expect{ delete :destroy, id: another_question }.not_to change(Question, :count)
 			end
 
 		end
