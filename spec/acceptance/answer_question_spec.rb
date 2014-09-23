@@ -1,36 +1,36 @@
 require 'rails_helper'
 
-feature 'ask question', %q{
+feature 'A guest cannot answer question', %q{
 	As an authorized user 
-	I want to be able to ask question
-	In order to solve my problem 
+	I want to answer a question
+	In order to help to solve a problem
 } do
-	
+
 	given(:user) { FactoryGirl.create(:user) }
-	given(:question) { FactoryGirl.build(:question) }
+	given(:question) { FactoryGirl.create(:question) }
+	given(:answer) { FactoryGirl.build(:answer) }
 
-
-	scenario 'a guest cannot ask question' do
-		visit root_path
-		expect(page).not_to have_link 'Ask your question'
+	scenario 'a guest cannot answer' do
+		visit question_path(question)
+		expect(page).not_to have_link 'Answer'
 	end
 
-	scenario 'authorized user can ask question' do
+	scenario 'an authorized user can answer question' do
 		login_as user
-		visit root_path
-		expect(page).to have_link 'Ask your question'
+		visit question_path(question)
+		expect(page).to have_link 'Answer'
 	end
 
-	scenario 'asking question' do 
+	scenario 'answer question' do
 		login_as user
-		visit root_path
-		click_link 'Ask your question'
-		fill_in 'Title', with: question.title
-		fill_in 'Body', with: question.body
-		click_on 'Create Question'
-		expect(page).to have_content 'Your question has been saved.'
-		expect(page).to have_content question.title
+		visit question_path(question)
+		click_link 'Answer'
+		fill_in 'Your answer', with: answer.body
+		click_on 'Create Answer'
+		expect(page).to have_content 'Your answer has been saved'
 		expect(page).to have_content question.body
+		expect(page).to have_content answer.body
 	end
 
 end
+
