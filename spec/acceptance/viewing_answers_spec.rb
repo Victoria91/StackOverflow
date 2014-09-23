@@ -10,7 +10,8 @@ feature 'viewing answers', %q{
 	given(:answer) { FactoryGirl.create(:answer, question: question) }
 
 	scenario 'view answer to a given question' do
-		question.answers << answer
+		question
+		answer
 		visit question_path(question)
 		expect(page).to have_content question.body
 		#save_and_open_page
