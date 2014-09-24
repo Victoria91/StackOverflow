@@ -40,11 +40,11 @@ RSpec.describe QuestionsController, :type => :controller do
 
 		context 'with invalid attributes' do
 			it 'not creates a new Question object' do
-				expect { post :create, question: FactoryGirl.attributes_for(:question, body: nil) }.to_not change(Question, :count)
+				expect { post :create, question: FactoryGirl.attributes_for(:invalid_question) }.to_not change(Question, :count)
 			end
 
 			it 'renders a new view' do
-				post :create, question: FactoryGirl.attributes_for(:question, body: nil) 
+				post :create, question: FactoryGirl.attributes_for(:invalid_question) 
 				expect(response).to render_template :new
 			end
 		end
