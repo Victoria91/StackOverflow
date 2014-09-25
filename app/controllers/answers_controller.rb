@@ -2,21 +2,9 @@ class AnswersController < ApplicationController
 	before_action :find_answer, only: :show
 	before_action :find_question, :authenticate_user!, only: [:new, :create]
 
-	def new
-		@question = Question.find(params[:question_id])
-		@answer = @question.answers.new
-	end
 
 	def create
-		@question = Question.find(params[:question_id])
-		@answer = @question.answers.new(answer_params)
-
-		if @answer.save
-			flash[:notice] = 'Your answer has been saved'
-      redirect_to question_answer_path(@question,@answer)
-		else
-			render :new
-		end
+		@question.answers.create(answer_params)
 	end
 
 	def show
@@ -25,7 +13,7 @@ class AnswersController < ApplicationController
 	private
 	
 	def answer_params
-		params.require(:answer).permit(:question_id, :body)
+		params.require(:answer).permit(:body)
 	end
 
 	def find_answer

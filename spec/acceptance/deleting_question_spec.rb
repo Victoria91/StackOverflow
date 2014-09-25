@@ -16,7 +16,7 @@ feature 'delete question', %q{
 		visit questions_path
 		expect(page).to have_link his_question.title
 		expect(page).to have_link another_question.title
-		visit question_path(his_question)
+		click_link his_question.title
 		click_link 'Delete'
 		expect(page).to have_content 'Your question has been deleted'
 		expect(page).not_to have_link his_question.title
