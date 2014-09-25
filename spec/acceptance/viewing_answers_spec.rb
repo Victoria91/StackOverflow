@@ -7,13 +7,12 @@ feature 'viewing answers', %q{
 } do
 	
 	given!(:question) { FactoryGirl.create(:question) }
-	given!(:answer) { FactoryGirl.create(:answer, question: question) }
+	given!(:answers) { FactoryGirl.create_list(:answer, 5, question: question) }
 
 	scenario 'view answer to a given question' do
 		visit question_path(question)
 		expect(page).to have_content question.body
-		expect(page).to have_content answer.body
+		answers.each { |a| expect(page).to have_content a.body }
 	end
-
 
 end

@@ -18,7 +18,8 @@ feature 'A guest cannot answer question', %q{
 	scenario 'an authorized user can answer question' do
 		login_as user
 		visit question_path(question)
-		expect(page).to have_link 'Answer'
+		click_link 'Answer'
+		expect(page).to have_button 'Create Answer'
 	end
 
 	scenario 'answer question' do

@@ -45,6 +45,7 @@ end
 group :test do
 	gem 'shoulda-matchers'
 	gem 'capybara'
+	gem 'capybara-email'
 	gem 'faker'
 end
 # Use unicorn as the app server

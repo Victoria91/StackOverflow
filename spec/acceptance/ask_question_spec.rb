@@ -17,7 +17,8 @@ feature 'ask question', %q{
 	scenario 'authorized user can ask question' do
 		login_as user
 		visit root_path
-		expect(page).to have_link 'Ask your question'
+		click_link 'Ask your question'
+		expect(page).to have_button 'Create Question'
 	end
 
 	scenario 'asking question' do 

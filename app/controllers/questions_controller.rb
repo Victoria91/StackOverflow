@@ -28,6 +28,7 @@ class QuestionsController < ApplicationController
 	def destroy
 		if @question.user == current_user
 			@question.destroy
+			flash[:notice] = 'Your question has been deleted'
 			redirect_to root_path
 		else
 			flash[:notice] = 'Only owner can delete question'	

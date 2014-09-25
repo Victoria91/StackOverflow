@@ -10,9 +10,7 @@ feature 'view questions', %q{
 
 	scenario 'view questions' do
 		visit questions_path
-		questions.each do |q|
-			expect(page).to have_link q.title
-		end
+		questions.each { |q| expect(page).to have_link q.title }
 	end
 
 end
