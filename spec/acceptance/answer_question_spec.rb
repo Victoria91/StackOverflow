@@ -23,8 +23,8 @@ feature 'A guest cannot answer question', %q{
 
 	scenario 'answer question', js: true do
 		login_as user
-		visit question_path(question)
-		#click_link 'Answer'
+		visit questions_path
+		click_link question.title
 		fill_in 'Your answer', with: answer.body
 		click_on 'Create Answer'
 		#expect(page).to have_content 'Your answer has been saved'
@@ -32,6 +32,7 @@ feature 'A guest cannot answer question', %q{
 		expect(page).to have_content question.body
 		within '.answers' do
 			expect(page).to have_content answer.body 
+			page.assert_selector('hr', :count => 1)
 		end
 	end
 

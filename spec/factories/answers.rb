@@ -2,6 +2,6 @@
 
 FactoryGirl.define do
   factory :answer do
-    body 'answer1'
+    body { Faker::Lorem.paragraph }
   end
 end
