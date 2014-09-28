@@ -8,8 +8,12 @@ RSpec.describe AnswersController, :type => :controller do
 		context 'authorized' do
 			sign_in_user
 
-			it 'creates a new Answer' do
+			it 'creates a new answer related to question' do
 				expect{ post :create, answer: FactoryGirl.attributes_for(:answer), question_id: question, format: :js }.to change(question.answers, :count).by(1)
+			end
+
+			it 'creates a new answer related to the user' do
+				expect{ post :create, answer: FactoryGirl.attributes_for(:answer), question_id: question, format: :js }.to change(@user.answers, :count).by(1)
 			end
 
 			it 'redirect to answer_path' do
