@@ -1,2 +1,9 @@
--@question.answers.each do |a|
-	%hr= a.body
+- @question.answers.each do |a|
+	- if user_signed_in? and a.user == current_user 
+		%hr
+		.editable_answer{ data: {answer_id: a.id }, title: 'click to edit'}
+			= a.body
+		= simple_form_for [@question,a], remote: true, html: {id: "answer_#{a.id}", class: "editable_answer_form"} do |f|
+			= f.input :body, label: ''
+			= f.button :submit, class: 'tiny'
+			= f.button :submit, 'Cancel', class: 'alert tiny'

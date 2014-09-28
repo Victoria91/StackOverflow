@@ -17,3 +17,10 @@
 //= require_tree .
 
 $(function(){ $(document).foundation(); });
+$(document).ready(function(){
+	$(".editable_answer").click(function(){
+		$(this).hide();
+		answer_id = $(this).data('answerId');
+		$("#answer_"+answer_id).show();
+	})
+});
