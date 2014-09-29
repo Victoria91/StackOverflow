@@ -52,6 +52,20 @@ RSpec.describe AnswersController, :type => :controller do
 				expect(response).to render_template :update
 			end
 		end
+
+		context 'unauthorized' do
+			let(:answer) { FactoryGirl.create(:answer, question: question, user: @user) }
+			let(:new_answer) { FactoryGirl.build(:answer) }
+
+			it 'updates an answer' do
+				expect{ patch :update, question_id: question, id: answer, answer: {body: new_answer.body}, format: :js}.not_to change{ answer.reload.body}
+			end
+
+			it 'renders update template' do
+				patch :update, question_id: question, id: answer, answer: {body: new_answer.body}, format: :js
+				expect(response.status).to eq(401)
+			end
+		end
 	end
 
 end

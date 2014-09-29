@@ -1,2 +1,4 @@
 $('.answers').html("<%= j render 'questions/answers'%>");
-$('#answer_body').val('');
+$('.new_answer #answer_body').val('');
+$(".editable_answer").click(show_answer_form);
+$('.alert').click(hide_answer_form);
