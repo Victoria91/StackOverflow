@@ -114,6 +114,30 @@ RSpec.describe QuestionsController, :type => :controller do
 			end
 
 		end
+	end
 
+	describe 'PATCH #update' do
+		context 'authorized' do
+			sign_in_user
+			let(:question) { FactoryGirl.create(:question, user: @user) }
+
+			context 'own question' do
+				it 'updates a question object' do
+					expect{ patch :update, id: question, question: {body: 'new body'}, format: :js}.to change{question.reload.body}.to 'new body'
+				end
+			end
+
+			context 'someone elses question' do
+				it 'NOT updates a question object' do
+					expect{ patch :update, id: question, question: {body: 'new body'}, format: :js}.not_to change{question.reload.body}
+				end
+			end
+
+			it 'renders update template' do
+				patch :update, id: question, question: {body: 'new body'}, format: :js
+				expect(response).to render_template :update
+			end
+
+		end
 	end
 end
