@@ -23,4 +23,8 @@ $(document).ready(function(){
 		answer_id = $(this).data('answerId');
 		$("#answer_"+answer_id).show();
 	})
+	$('.alert').click(function(){
+		$(this).parent().hide();
+		$('.editable_answer').show();
+	})
 });

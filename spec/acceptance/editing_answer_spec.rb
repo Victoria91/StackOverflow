@@ -8,13 +8,20 @@ feature 'editing_answer', %q{
 
 	given(:user) { FactoryGirl.create(:user)}
 	given(:question) { FactoryGirl.create(:question) }
-	given(:answer) { FactoryGirl.create(:answer, user: user, question: question) }
+	given!(:answer) { FactoryGirl.create(:answer, user: user, question: question) }
 
-	scenario 'editing my answer' do
+	scenario 'editing my answer', js: true do
+		login_as user
 		visit question_path(question)
-		click_on answer.body
-		fill_in 'Edit Answer', with: 'new answer'
-		click_on 'Edit'
-		expect(page).to have_link 'new answer'
+		find('.editable_answer', :text => answer.body).click 
+		within '.editable_answer_form' do
+			fill_in 'answer[body]', with: 'new answer'
+			click_on 'Update Answer'
+		end
+		within '.answers' do
+			expect(page).to have_content 'new answer'
+			expect(page).not_to have_selector 'textarea'
+			expect(page).not_to have_content answer.body
+		end
 	end
 end
