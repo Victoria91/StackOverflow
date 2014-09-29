@@ -35,15 +35,16 @@ feature 'editing_answer', %q{
 		find('.editable_answer', :text => answer.body).click 
 		within '.editable_answer_form' do
 			expect(page).to have_selector 'textarea'
+			fill_in 'answer[body]', with: ''
 			click_on 'Update Answer'
 		end
 		within '.answers' do
 			expect(page).to have_selector 'textarea'
-			expect(page).not_to have_selector '.answer_errors'
+			expect(page).to have_selector '.answer_errors'
 		end
 	end
 
-	scenario 'editing another answer', js: true do
+	scenario 'editing another answer' do
 		login_as user
 		visit question_path(question)
 		expect(page).to have_content(answer.body)
