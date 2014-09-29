@@ -17,14 +17,16 @@
 //= require_tree .
 
 $(function(){ $(document).foundation(); });
+var show_answer_form = function(){
+	$(this).hide();
+	answer_id = $(this).data('answerId');
+	$("#answer_"+answer_id).show();	
+};
+var hide_answer_form = function(){
+	$(this).parent().hide();
+	$('.editable_answer').show();
+}
 $(document).ready(function(){
-	$(".editable_answer").click(function(){
-		$(this).hide();
-		answer_id = $(this).data('answerId');
-		$("#answer_"+answer_id).show();
-	})
-	$('.alert').click(function(){
-		$(this).parent().hide();
-		$('.editable_answer').show();
-	})
+	$(".editable_answer").click(show_answer_form);
+	$('.alert').click(hide_answer_form);
 });
