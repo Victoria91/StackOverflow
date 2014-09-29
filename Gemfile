@@ -40,8 +40,6 @@ group :test, :development do
 	gem 'rspec-rails'
 	gem 'factory_girl_rails'
 	gem 'launchy'
-	gem 'selenium-webdriver'
-	gem 'database_cleaner'
 end
 
 group :test do
@@ -49,6 +47,8 @@ group :test do
 	gem 'capybara'
 	gem 'capybara-email'
 	gem 'faker'
+	gem 'selenium-webdriver'
+	gem 'database_cleaner'
 end
 # Use unicorn as the app server
 # gem 'unicorn'

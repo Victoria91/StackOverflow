@@ -4,7 +4,9 @@ class AnswersController < ApplicationController
 
 
 	def create
-		@question.answers.create(answer_params)
+		@answer = @question.answers.new(answer_params)
+		@answer.save
+		respond_to :js
 	end
 
 	def show
