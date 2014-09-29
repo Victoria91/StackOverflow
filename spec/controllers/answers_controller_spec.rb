@@ -24,7 +24,7 @@ RSpec.describe AnswersController, :type => :controller do
 
 	end
 
-	describe 'GET show'
+	describe 'GET show' do
 		let(:answer) { FactoryGirl.create(:answer, question: question) }
 		before { get :show, question_id: question, id: answer }
 
@@ -35,5 +35,23 @@ RSpec.describe AnswersController, :type => :controller do
 		it 'renders show template' do
 			expect(response).to render_template :show
 		end
+	end
+
+	describe 'PATCH #update' do
+		context 'authorized' do
+			sign_in_user
+			let(:answer) { FactoryGirl.create(:answer, question: question, user: @user) }
+			let(:new_answer) { FactoryGirl.build(:answer) }
+
+			it 'updates an answer' do
+				expect{ patch :update, question_id: question, id: answer, answer: {body: new_answer.body}}.to change{ answer.reload.body}.to(new_answer.body)
+			end
+
+			it 'renders update template' do
+				patch :update, question_id: question, id: answer, answer: {body: new_answer.body}
+				expect(response).to render_template :update
+			end
+		end
+	end
 
 end
