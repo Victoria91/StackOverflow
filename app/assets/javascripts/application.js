@@ -22,11 +22,14 @@ var show_answer_form = function(){
 	answer_id = $(this).data('answerId');
 	$("#answer_"+answer_id).show();	
 };
-var hide_answer_form = function(){
-	$(this).parent().hide();
+var hide_answer_form = function(e){
+	e.preventDefault();
+	answer_id = $(this).data('answerId');
+	//alert (answer_id);
+	$("#answer_"+answer_id).hide();	
 	$('.editable_answer').show();
 }
 $(document).ready(function(){
 	$(".editable_answer").click(show_answer_form);
-	$('.alert').click(hide_answer_form);
+	$(".alert").click(hide_answer_form);
 });

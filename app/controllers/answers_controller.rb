@@ -2,7 +2,6 @@ class AnswersController < ApplicationController
 	before_action :find_answer, only: [:show, :update]
 	before_action :find_question, :authenticate_user!, only: [:new, :create, :update]
 
-
 	def create
 		@answer = @question.answers.new(answer_params)
 		@answer.user = current_user
