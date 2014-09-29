@@ -44,11 +44,11 @@ RSpec.describe AnswersController, :type => :controller do
 			let(:new_answer) { FactoryGirl.build(:answer) }
 
 			it 'updates an answer' do
-				expect{ patch :update, question_id: question, id: answer, answer: {body: new_answer.body}}.to change{ answer.reload.body}.to(new_answer.body)
+				expect{ patch :update, question_id: question, id: answer, answer: {body: new_answer.body}, format: :js}.to change{ answer.reload.body}.to(new_answer.body)
 			end
 
 			it 'renders update template' do
-				patch :update, question_id: question, id: answer, answer: {body: new_answer.body}
+				patch :update, question_id: question, id: answer, answer: {body: new_answer.body}, format: :js
 				expect(response).to render_template :update
 			end
 		end
