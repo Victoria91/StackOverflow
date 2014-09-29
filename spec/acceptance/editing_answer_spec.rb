@@ -13,7 +13,7 @@ feature 'editing_answer', %q{
 	given!(:another_answer) { FactoryGirl.create(:answer, user: another_user, question: question) }
 
 
-	scenario 'editing own answer', js: true do
+	scenario 'editing own answer with valid attributes', js: true do
 		login_as user
 		visit question_path(question)
 		find('.editable_answer', :text => answer.body).click 
@@ -26,6 +26,20 @@ feature 'editing_answer', %q{
 			expect(page).to have_content 'new answer'
 			expect(page).not_to have_selector 'textarea'
 			expect(page).not_to have_content answer.body
+		end
+	end
+
+	scenario 'editing own answer with invalid attributes', js: true do
+		login_as user
+		visit question_path(question)
+		find('.editable_answer', :text => answer.body).click 
+		within '.editable_answer_form' do
+			expect(page).to have_selector 'textarea'
+			click_on 'Update Answer'
+		end
+		within '.answers' do
+			expect(page).to have_selector 'textarea'
+			expect(page).not_to have_selector '.answer_errors'
 		end
 	end
 

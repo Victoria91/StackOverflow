@@ -25,8 +25,7 @@ var show_answer_form = function(){
 var hide_answer_form = function(e){
 	e.preventDefault();
 	answer_id = $(this).data('answerId');
-	//alert (answer_id);
-	$("#answer_"+answer_id).hide();	
+	$("#answer_" + answer_id).hide();	
 	$('.editable_answer').show();
 }
 $(document).ready(function(){
