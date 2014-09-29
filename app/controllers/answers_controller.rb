@@ -1,15 +1,18 @@
 class AnswersController < ApplicationController
-	before_action :find_answer, only: :show
-	before_action :find_question, :authenticate_user!, only: [:new, :create]
-
+	before_action :find_answer, only: [:show, :update]
+	before_action :find_question, :authenticate_user!, only: [:new, :create, :update]
 
 	def create
 		@answer = @question.answers.new(answer_params)
+		@answer.user = current_user
 		@answer.save
-		respond_to :js
 	end
 
 	def show
+	end
+
+	def update
+		@answer.update(answer_params)
 	end
 
 	private
