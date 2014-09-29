@@ -5,6 +5,8 @@
 			%i Your answer
 			%br
 			= answer.body
+		- if @answer.errors.present? 
+			.answer_errors{ id: "answer_#{answer.id}" }
 		= simple_form_for [@question,answer], remote: true, html: {id: "answer_#{answer.id}", class: "editable_answer_form"} do |f|
 			= f.input :body, label: false
 			= f.button :submit, class: 'tiny'

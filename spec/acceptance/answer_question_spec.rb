@@ -13,15 +13,10 @@ feature 'A guest cannot answer question', %q{
 	scenario 'a guest cannot answer' do
 		visit question_path(question)
 		expect(page).not_to have_button 'Create Answer'
+		expect(page).not_to have_selector 'textarea'
 	end
 
-	scenario 'an authorized user can answer question' do
-		login_as user
-		visit question_path(question)
-		expect(page).to have_button 'Create Answer'
-	end
-
-	scenario 'answer question', js: true do
+	scenario 'answer question with valid attributes', js: true do
 		login_as user
 		visit questions_path
 		click_link question.title
@@ -32,8 +27,17 @@ feature 'A guest cannot answer question', %q{
 		expect(page).to have_content question.body
 		within '.answers' do
 			expect(page).to have_content answer.body 
-			page.assert_selector('hr', :count => 1)
 		end
+	end
+
+	scenario 'answer question with invalid attributes', js: true do
+		login_as user
+		visit questions_path
+		click_link question.title
+		click_on 'Create Answer'
+		expect(page).to have_selector '.answer_errors'
+		expect(current_path).to eq(question_path(question))
+		expect(page).to have_content question.body
 	end
 
 end
