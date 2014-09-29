@@ -27,6 +27,7 @@ feature 'A guest cannot answer question', %q{
 		expect(page).to have_content question.body
 		within '.answers' do
 			expect(page).to have_content answer.body 
+			expect(page).to have_selector('hr',count:1)
 		end
 	end
 
