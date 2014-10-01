@@ -120,6 +120,8 @@ RSpec.describe QuestionsController, :type => :controller do
 		context 'authorized' do
 			sign_in_user
 			let(:question) { FactoryGirl.create(:question, user: @user) }
+			let(:another_user) { FactoryGirl.create(:user) }
+			let(:another_question) { FactoryGirl.create(:question, user: another_user) }
 
 			context 'own question' do
 				it 'updates a question object' do
@@ -129,7 +131,7 @@ RSpec.describe QuestionsController, :type => :controller do
 
 			context 'someone elses question' do
 				it 'NOT updates a question object' do
-					expect{ patch :update, id: question, question: {body: 'new body'}, format: :js}.not_to change{question.reload.body}
+					expect{ patch :update, id: another_question, question: {body: 'new body'}, format: :js}.not_to change{question.reload.body}
 				end
 			end
 
