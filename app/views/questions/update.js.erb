@@ -1,8 +1,6 @@
-$("#edit_question_link").click(function(e){
-		$("#edit_question_form").show();
-});
 $(".editable_answer").click(show_answer_form);
 $('.alert').click(hide_answer_form);
+$("#edit_question_link").click(show_question_form);
 <% if @question.errors.present? %>
 	<% @question.errors.full_messages.each do |message| %>
 		$('.question_errors').html('<%= j message %>');
