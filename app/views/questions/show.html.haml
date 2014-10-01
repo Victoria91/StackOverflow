@@ -1,8 +1,16 @@
+.question_errors
 %h2= @question.title
 %h3= @question.body
 
 - if user_signed_in? and current_user == @question.user
-	.floatl= link_to 'Delete', question_path(@question), method: :delete
+	.floatl
+		= link_to 'Edit'
+		= link_to 'Delete', question_path(@question), method: :delete
+	.edit_question
+	= simple_form_for @question, remote: true do |f|
+		= f.input :title
+		= f.input :body
+		= f.button :submit
 
 .answers
 	= render 'answers'

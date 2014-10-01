@@ -125,19 +125,28 @@ RSpec.describe QuestionsController, :type => :controller do
 
 			context 'own question' do
 				it 'updates a question object' do
-					expect{ patch :update, id: question, question: {body: 'new body'}, format: :js}.to change{question.reload.body}.to 'new body'
+					expect{ patch :update, id: question, question: {body: 'new body'}, format: :js}.to change{ question.reload.body }.to 'new body'
 				end
 			end
 
 			context 'someone elses question' do
 				it 'NOT updates a question object' do
-					expect{ patch :update, id: another_question, question: {body: 'new body'}, format: :js}.not_to change{question.reload.body}
+					expect{ patch :update, id: another_question, question: {body: 'new bod45454y'}, format: :js}.not_to change{ another_question.reload }
 				end
 			end
 
 			it 'renders update template' do
 				patch :update, id: question, question: {body: 'new body'}, format: :js
 				expect(response).to render_template :update
+			end
+
+		end
+
+		context 'unauthorized' do
+			let(:question) { FactoryGirl.create(:question, user: @user) }
+
+			it 'not updates a question object' do
+				expect{ patch :update, id: question, question: {body: 'new body'}, format: :js}.not_to change{question.reload}
 			end
 
 		end

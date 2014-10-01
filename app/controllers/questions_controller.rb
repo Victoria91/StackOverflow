@@ -1,6 +1,6 @@
 class QuestionsController < ApplicationController
-	before_action :find_question, only: [:show, :destroy]
-	before_action :authenticate_user!, only: [:new, :create, :destroy]
+	before_action :find_question, only: [:show, :destroy, :update]
+	before_action :authenticate_user!, only: [:new, :create, :destroy, :update]
 
 	def new
 		@question = Question.new
@@ -35,6 +35,16 @@ class QuestionsController < ApplicationController
 			flash[:notice] = 'Only owner can delete question'	
 			redirect_to question_path(@question)
 		end
+	end
+
+	def update
+		#if @question.user == current_user
+			@question.update(question_params)
+			flash[:notice] = 'Your question has been updated'
+		#else
+		#	flash[:notice] = 'Only owner can update question'
+		#	redirect_to question_path(@question)
+		#end
 	end
 
 	private
