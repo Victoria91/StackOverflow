@@ -7,7 +7,10 @@
     <title><%= content_for?(:title) ? yield(:title) : "StackOverflow" %></title>
 
     <%= stylesheet_link_tag    "application" %>
+            <%= javascript_include_tag "application" %>
+
     <%= javascript_include_tag "vendor/modernizr" %>
+
     <%= csrf_meta_tags %>
   </head>
 
@@ -37,6 +40,5 @@
       <%= yield %>
     </div>
 
-    <%= javascript_include_tag "application" %>
   </body>
 </html>

@@ -14,9 +14,8 @@ feature 'edit question', %q{
 	context 'authorized' do
 		before { login_as user }
 
-		scenario 'edit my question vith valid attributes' do
-			visit questions_path
-			click_link question.title
+		scenario 'edit my question vith valid attributes', js: true do
+			visit question_path(question)
 			click_link 'Edit'
 			fill_in "Title", with: 'New question title'
 			fill_in "Body", with: 'New question body'
@@ -29,22 +28,21 @@ feature 'edit question', %q{
 			end
 			expect(page).not_to have_content question.body
 			expect(page).not_to have_content question.title
+			expect(page).not_to have_selector '.edit_question'
 		end
 
-		scenario 'edit my question with invalid attributes' do
-			visit questions_path
-			click_link question.title
+		scenario 'edit my question with invalid attributes', js: true  do
+			visit question_path(question)
 			click_link 'Edit'
 			fill_in "Title", with: ''
 			fill_in "Body", with: 'New question body'
 			click_on 'Update Question'
-			within 'h2' do
-				expect(page).not_to have_content 'New question title'
-			end
 			within 'h3' do
 				expect(page).not_to have_content 'New question body'
 			end
-			expect(page).not_to have_selector 'textarea'
+			within '.edit_question' do
+				expect(page).to have_selector 'textarea'
+			end
 		end
 
 		scenario 'edit someone elses question' do

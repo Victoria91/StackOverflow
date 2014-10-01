@@ -31,4 +31,8 @@ var hide_answer_form = function(e){
 $(document).ready(function(){
 	$(".editable_answer").click(show_answer_form);
 	$(".alert").click(hide_answer_form);
+	$("#edit_question_link").click(function(e){
+		e.preventDefault();
+		$("#edit_question_form").show();
+	});
 });

@@ -1,8 +1,14 @@
+$("#edit_question_link").click(function(e){
+		$("#edit_question_form").show();
+});
+$(".editable_answer").click(show_answer_form);
+$('.alert').click(hide_answer_form);
 <% if @question.errors.present? %>
 	<% @question.errors.full_messages.each do |message| %>
 		$('.question_errors').html('<%= j message %>');
 	<% end %>
 <% else %>
-	$('h2').html('<%= j question.title %>');
-	$('h3').html('<%= j question.body %>');
+	$('h2').html('<%= j @question.title %>');
+	$('h3').html('<%= j @question.body %>');
+	$('.edit_question').hide();
 <% end %>
