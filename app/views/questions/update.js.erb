@@ -5,6 +5,7 @@
 		$('.question_errors').append('<br/>');
 	<% end %>
 <% else %>
+	$('.question_errors').html('');
 	$('.question h2').html('<%= j @question.title %>');
 	$('.question h3').html('<%= j @question.body %>');
 	$('.edit_question').hide();
