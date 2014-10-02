@@ -1,10 +1,9 @@
-$(".editable_answer").click(show_answer_form);
-$('.alert').click(hide_answer_form);
-$("#edit_question_link").click(show_question_form);
 <% if @answer.errors.present? %>
     <% @answer.errors.full_messages.each do |message| %>
         $("#answer_errors_<%= @answer.id %>").html('<%= j message %>');
     <% end %>
 <% else %>
 	$('.answers').html("<%= j render 'questions/answers'%>");
+	$(document).ready(ready);
+	$(document).on('page:load',ready);
 <% end %>	

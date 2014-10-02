@@ -15,21 +15,3 @@
 //= require foundation
 //= require turbolinks
 //= require_tree .
-
-$(function(){ $(document).foundation(); });
-var show_answer_form = function(){
-	$(this).hide();
-	answer_id = $(this).data('answerId');
-	$("#answer_"+answer_id).show();	
-};
-var hide_answer_form = function(e){
-	e.preventDefault();
-	answer_id = $(this).data('answerId');
-	$("#answer_" + answer_id).hide();	
-	$('.editable_answer').show();
-};
-var show_question_form = function(e){
-	e.preventDefault();
-	$("#edit_question_form").show();
-};
-  

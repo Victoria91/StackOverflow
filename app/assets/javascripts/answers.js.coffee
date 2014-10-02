@@ -2,22 +2,21 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
-show_answer_form = ->
-	$(this).hide()
-	answer_id = $(this).data('answerId')
-	$("#answer_"+answer_id).show()
+ready = ->
+	$(document).on 'click', '.editable_answer', (e) ->
+		$(this).hide()
+		answer_id = $(this).data('answerId')
+		$("#answer_"+answer_id).show()
 
-hide_answer_form = (e) ->
-	e.preventDefault()
-	answer_id = $(this).data('answerId')
-	$("#answer_" + answer_id).hide()
-	$('.editable_answer').show()
+	$(document).on 'click', '.alert', (e) ->
+		e.preventDefault()
+		answer_id = $(this).data('answerId')
+		$("#answer_" + answer_id).hide()
+		$('.editable_answer').show()
 
-show_question_form = (e) ->
-	e.preventDefault()
-	$("#edit_question_form").show()
+	$(document).on 'click', '#edit_question_link', (e) ->
+		e.preventDefault()
+		$("#edit_question_form").show()
 
-$(document).ready ->
-	$(".editable_answer").click(show_answer_form)
-	$(".alert").click(hide_answer_form)
-	$("#edit_question_link").click(show_question_form)
+$(document).ready(ready)
+$(document).on('page:load',ready)
