@@ -1,10 +1,12 @@
 <% if @question.errors.present? %>
+	$('.question_errors').html('');
 	<% @question.errors.full_messages.each do |message| %>
-		$('.question_errors').html('<%= j message %>');
+		$('.question_errors').append('<%= j message %>');
+		$('.question_errors').append('<br/>');
 	<% end %>
 <% else %>
-	$('h2').html('<%= j @question.title %>');
-	$('h3').html('<%= j @question.body %>');
+	$('.question h2').html('<%= j @question.title %>');
+	$('.question h3').html('<%= j @question.body %>');
 	$('.edit_question').hide();
 	$(document).ready(ready);
 	$(document).on('page:load',ready);
