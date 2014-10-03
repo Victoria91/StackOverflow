@@ -17,14 +17,14 @@ feature 'delete answer', %q{
 			visit question_path(question)
 		end
 
-		scenario 'user can delete his answer' do
+		scenario 'user can delete his answer', js: true do
 			within '.answers' do
 				find("#delete_answer_#{answer.id}_link").click
 				expect(page).not_to have_content answer.body
 			end
 		end
 
-		scenario 'user cannot delete another answer' do
+		scenario 'user cannot delete another answer', js: true do
 			within '.answers' do
 				expect(page).not_to have_selector "#delete_answer_#{another_answer.id}_link"
 			end

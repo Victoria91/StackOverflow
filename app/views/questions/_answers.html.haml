@@ -1,15 +1,15 @@
 - @question.answers.order("created_at").each do |answer|
+	%hr
 	- if user_signed_in? and answer.user == current_user 
-		%hr
-		.editable_answer{ data: {answer_id: answer.id }, title: 'click to edit'}
+		.editable_answer{ data: { answer_id: answer.id }, title: 'click to edit'}
 			%i Your answer
 			%br
 			= answer.body
-		= simple_form_for [@question,answer], remote: true, html: {id: "answer_#{answer.id}", class: "editable_answer_form"} do |f|
+			.floatl= link_to 'Delete', question_answer_path(@question, answer), method: :delete, remote: true, id: "delete_answer_#{answer.id}_link" 
+		= simple_form_for [@question,answer], remote: true, html: { id: "answer_#{answer.id}", class: "editable_answer_form" } do |f|
 			.answer_errors{ id: "answer_errors_#{answer.id}" }
 			= f.input :body, label: false
 			= f.button :submit, class: 'tiny'
 			= f.button :submit, 'Cancel', class: 'alert tiny', data: {answer_id: answer.id }
 	- else
-		%hr
 		= answer.body

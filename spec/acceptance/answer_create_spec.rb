@@ -22,7 +22,6 @@ feature 'Answer question', %q{
 		click_link question.title
 		fill_in 'Your answer', with: answer.body
 		click_on 'Create Answer'
-		#expect(page).to have_content 'Your answer has been saved'
 		expect(current_path).to eq(question_path(question))
 		expect(page).to have_content question.body
 		within '.answers' do
