@@ -1,7 +1,7 @@
 class AnswersController < ApplicationController
-	before_action :authenticate_user!, only: [:new, :create, :update]
-	before_action :find_question, only: [:new, :create, :update]
-	before_action :find_answer, only: [:show, :update]
+	before_action :authenticate_user!
+	before_action :find_question
+	before_action :find_answer, except: :create
 
 	def create
 		@answer = @question.answers.new(answer_params)
@@ -9,11 +9,12 @@ class AnswersController < ApplicationController
 		@answer.save
 	end
 
-	def show
-	end
-
 	def update
 		@answer.update(answer_params)
+	end
+
+	def destroy
+		@answer.destroy if @answer.user == current_user
 	end
 
 	private
