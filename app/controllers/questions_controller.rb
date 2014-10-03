@@ -39,8 +39,7 @@ class QuestionsController < ApplicationController
 
 	def update
 		#if @question.user == current_user
-			@question.update(question_params)
-			flash[:notice] = 'Your question has been updated'
+		@question.update(question_params)
 		#else
 		#	flash[:notice] = 'Only owner can update question'
 		#	redirect_to question_path(@question)
