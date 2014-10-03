@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature 'A guest cannot answer question', %q{
+feature 'Answer question', %q{
 	As an authorized user 
 	I want to answer a question
 	In order to help to solve a problem
