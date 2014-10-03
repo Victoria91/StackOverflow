@@ -38,12 +38,7 @@ class QuestionsController < ApplicationController
 	end
 
 	def update
-		#if @question.user == current_user
-		@question.update(question_params)
-		#else
-		#	flash[:notice] = 'Only owner can update question'
-		#	redirect_to question_path(@question)
-		#end
+		@question.update(question_params) if @question.user == current_user
 	end
 
 	private

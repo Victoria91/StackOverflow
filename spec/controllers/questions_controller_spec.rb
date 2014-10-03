@@ -119,9 +119,9 @@ RSpec.describe QuestionsController, :type => :controller do
 	describe 'PATCH #update' do
 		context 'authorized' do
 			sign_in_user
-			let!(:question) { FactoryGirl.create(:question, user: @user) }
-			let!(:another_user) { FactoryGirl.create(:user) }
-			let!(:another_question) { FactoryGirl.create(:question, user: another_user) }
+			let(:question) { FactoryGirl.create(:question, user: @user) }
+			let(:another_user) { FactoryGirl.create(:user) }
+			let(:another_question) { FactoryGirl.create(:question, user: another_user) }
 
 			context 'own question' do
 				it 'updates a question object' do
@@ -131,7 +131,7 @@ RSpec.describe QuestionsController, :type => :controller do
 
 			context 'someone elses question' do
 				it 'NOT updates a question object' do
-					expect{ patch :update, id: another_question, question: {body: 'new bod45454y'}, format: :js}.not_to change{ another_question.reload }
+					expect{ patch :update, id: another_question, question: {body: 'new bod45454y'}, format: :js}.not_to change{ another_question.reload.body }
 					expect(response.status).to eq(200)
 				end
 			end
@@ -147,7 +147,7 @@ RSpec.describe QuestionsController, :type => :controller do
 			let(:question) { FactoryGirl.create(:question, user: @user) }
 
 			it 'not updates a question object' do
-				expect{ patch :update, id: question, question: {body: 'new body'}, format: :js}.not_to change{question.reload}
+				expect{ patch :update, id: question, question: {body: 'new body'}, format: :js}.not_to change{question.reload.body}
 			end
 
 		end
