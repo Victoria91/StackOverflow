@@ -3,7 +3,6 @@ require 'rails_helper'
 RSpec.describe AnswersController, :type => :controller do
 	let(:question) { FactoryGirl.create(:question) }
 
-
 	describe 'POST #create' do
 		context 'authorized' do
 			sign_in_user
@@ -65,6 +64,39 @@ RSpec.describe AnswersController, :type => :controller do
 				patch :update, question_id: question, id: answer, answer: {body: new_answer.body}, format: :js
 				expect(response.status).to eq(401)
 			end
+		end
+	end
+
+	describe 'DELETE #destroy' do
+		let(:answer) { FactoryGirl.create(:answer, question: question, user: @user) }
+
+		context 'authorized' do
+			sign_in_user
+
+			it 'deletes own answer' do
+				expect{ delete :destroy, question_id: question, id: answer, format: :js }.to change(question.answers, :count).by(-1)
+			end
+
+			it 'NOT deletes another answer' do
+				expect{ delete :destroy, question_id: question, id: answer, format: :js }.not_to change(question.answers, :count)
+			end
+			
+			it 'renders destroy view' do
+				delete :destroy, question_id: question, id: answer
+				render_template :destroy
+			end
+		end
+
+		context 'unauthorized' do
+			it 'not deletes answer object' do
+				expect{ delete :destroy, question_id: question, id: answer, format: :js }.not_to change(question.answers, :count)
+			end
+
+			it 'responses 401 status' do
+				delete :destroy, question_id: question, id: answer, format: :js 
+				expect(response.status).to eq(401)
+			end
+
 		end
 	end
 
