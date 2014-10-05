@@ -10,13 +10,18 @@
 	color: red;
 }
 
-.accept {
+.accept, .accepted {
+	opactity: 0.1;
 	margin-right: 20px;
 	float: left;
 	background-position: 0 -560px;
 	background-image: url('<%= image_path("so_sprites.png") %>');
 	width: 39px;
 	height: 40px;
+}
+
+.accepted {
+	background-position: 0 -460px;
 }
 
 .accept:hover {

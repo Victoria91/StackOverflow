@@ -1,7 +1,7 @@
 - @question.answers.order("created_at").each do |answer|
 	%hr
 	- if user_signed_in? and @question.user == current_user 
-		.accept{ id: "accept_answer_#{answer.id}" }
+		.accept{ id: "accept_answer_#{answer.id}", title: 'click to accept' }
 	- if user_signed_in? and answer.user == current_user 
 		.editable_answer{ data: { answer_id: answer.id }, title: 'click to edit'}
 			%i Your answer
