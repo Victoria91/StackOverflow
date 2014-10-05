@@ -92,4 +92,42 @@ RSpec.describe AnswersController, :type => :controller do
 		end
 	end
 
+	describe 'POST #accept' do
+		context 'authorized' do
+			sign_in_user
+			let!(:question) { FactoryGirl.create(:question, user: @user) }
+			let(:another_question) { FactoryGirl.create(:question, user: FactoryGirl.create(:user)) }
+			let!(:answer) { FactoryGirl.create(:answer, question: question) }
+			let(:another_answer) { FactoryGirl.create(:answer,question: another_question) }
+
+			it 'accepts answer' do
+				puts answer.accepted
+				expect{ 
+					post :accept, question_id: question, id: answer, format: :js
+				}.to change{answer.reload.accepted}.to true
+				puts answer.reload.accepted
+			end
+
+			it 'reaccept answer' do 
+				accepted_answer = FactoryGirl.create(:answer,question: question, accepted: true)
+				expect{ post :accept, question_id: question, id: accepted_answer, format: :js}.to change{accepted_answer.reload.accepted}.to false
+			end
+
+			it 'not accepted another users question' do
+				expect{ post :accept, question_id: another_question, id: another_answer, format: :js}.not_to change{answer.reload.accepted}
+			end
+
+		end
+
+		context 'unauthorized' do
+			let(:question) { FactoryGirl.create(:question, user: FactoryGirl.create(:user)) }
+			let(:answer) { FactoryGirl.create(:answer,question: question) }
+
+			it 'not changes accepted state' do
+				expect{ post :accept, question_id: question, id: answer, format: :js}.not_to change(answer.reload, :accepted)
+			end
+
+		end
+	end
+
 end

@@ -3,7 +3,9 @@ Rails.application.routes.draw do
   root 'questions#index'
   
   resources :questions do
-     resources :answers
+    resources :answers do
+      post 'accept', on: :member
+    end
   end
 
   

@@ -16,10 +16,9 @@ context 'authorized' do
 	before { login_as user }
 
 	context 'own question' do
-		before { visit question_path(:question) }
+		before { visit question_path(question) }
 
 		scenario 'on own question' do
-			visit question_path(:question)
 			within '.answers .accepted' do
 				expect(page).not_to have_selector '"#accept_answer_#{answer.id}"'
 			end

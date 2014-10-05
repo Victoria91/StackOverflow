@@ -22,7 +22,7 @@ RSpec.describe Question, :type => :model do
   end
 
   it '#toggle_accepted changes accept accepted state to false for accepted' do
-    answer_one.update!(accepted: true)
+    question.toggle_accepted(answer_one)
     expect{ question.toggle_accepted(answer_one) }.to change(answer_one.reload, :accepted).to false
   end
 end

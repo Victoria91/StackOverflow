@@ -17,6 +17,10 @@ class AnswersController < ApplicationController
 		@answer.destroy if @answer.user == current_user
 	end
 
+	def accept
+		@question.toggle_accepted(@answer) if @question.user == current_user
+	end
+
 	private
 	
 	def answer_params
