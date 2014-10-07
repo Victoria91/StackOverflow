@@ -7,6 +7,7 @@ RSpec.describe Question, :type => :model do
   it { should have_many :answers }
   it { should have_many :attachments }
   it { should ensure_length_of(:title).is_at_most(255) }
+  it { should accept_nested_attributes_for :attachments }
 
   let!(:question) { FactoryGirl.create(:question) }
   let!(:answer_one) { FactoryGirl.create(:answer, question: question) }

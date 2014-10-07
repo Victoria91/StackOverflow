@@ -7,6 +7,8 @@ RSpec.describe Answer, :type => :model do
   it { should belong_to :user }
   it { should have_many :attachments }
   it { should validate_presence_of :question }
+  it { should accept_nested_attributes_for :attachments }
+
  
   it 'invalid_answer factory is invalid' do
   	expect(FactoryGirl.build(:invalid_answer)).not_to be_valid

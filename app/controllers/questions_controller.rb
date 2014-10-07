@@ -4,6 +4,7 @@ class QuestionsController < ApplicationController
 
 	def new
 		@question = Question.new
+		@attachments = @question.attachments.build
 	end 
 
 	def index
@@ -44,7 +45,7 @@ class QuestionsController < ApplicationController
 	private
 
 	def question_params
-		params[:question].permit(:title,:body)
+		params[:question].permit(:title,:body, attachments_attributes: [:file])
 	end
 
 	def find_question

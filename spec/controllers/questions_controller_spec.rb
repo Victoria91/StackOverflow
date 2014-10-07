@@ -2,7 +2,6 @@ require 'rails_helper'
 
 RSpec.describe QuestionsController, :type => :controller do
 	describe 'GET #new' do
-
 		context 'authorized' do
 			sign_in_user
 			before { get :new }
@@ -13,6 +12,10 @@ RSpec.describe QuestionsController, :type => :controller do
 
 			it 'render a new view' do
 				expect(response).to render_template :new
+			end
+
+			it 'loads attachment' do 
+				expect(assigns(:question).attachments.first).to be_a_new(Attachment)
 			end
 		end
 

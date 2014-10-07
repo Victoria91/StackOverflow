@@ -55,8 +55,6 @@ RSpec.describe AnswersController, :type => :controller do
 	end
 
 	describe 'DELETE #destroy' do
-		
-
 		context 'authorized' do
 			sign_in_user
 			let!(:answer) { FactoryGirl.create(:answer, question: question, user: @user) }
