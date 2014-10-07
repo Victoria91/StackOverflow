@@ -33,6 +33,8 @@ gem 'foundation-rails'
 gem 'devise'
 
 gem 'haml-rails'
+
+gem 'carrierwave'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

@@ -21,7 +21,6 @@ feature 'attach file to question', %q{
 		click_on 'Create Question'
 		expect(page).to have_link 'sepc_helper.rb'
 	end
-	
 
 	scenario 'attach to an existed question' do
 		visit question_path(question)
