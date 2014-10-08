@@ -13,10 +13,6 @@ RSpec.describe QuestionsController, :type => :controller do
 			it 'render a new view' do
 				expect(response).to render_template :new
 			end
-
-			it 'loads attachment' do 
-				expect(assigns(:question).attachments.first).to be_a_new(Attachment)
-			end
 		end
 
 		context 'unauthorized' do

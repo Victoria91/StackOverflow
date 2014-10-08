@@ -6,7 +6,9 @@ class Question < ActiveRecord::Base
 	validates :title, :body, presence: true
 	validates :title, length: { maximum: 255 }
 
-	accepts_nested_attributes_for :attachments
+	accepts_nested_attributes_for :attachments,
+                                reject_if: proc { |attributes| attributes['file'].blank? },
+                                allow_destroy: true
 
 
   def accepted_answer 

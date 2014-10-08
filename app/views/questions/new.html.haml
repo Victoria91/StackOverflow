@@ -1,9 +1,11 @@
-= simple_form_for @question do |f| 
+= simple_nested_form_for @question do |f| 
   = f.input :title 
   = f.input :body 
   
   %p Attachments:
-  = f.fields_for :attachments do |a|
+  = f.simple_fields_for :attachments, @question.attachments.build, wrapper: false do |a|
     = a.input :file
+    = a.link_to_remove 'Remove this attachment'
+    %p= f.link_to_add 'Add an attachment', :attachments, data: { target: "#tasks" }  
 
   = f.button :submit 

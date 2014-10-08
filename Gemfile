@@ -35,6 +35,8 @@ gem 'devise'
 gem 'haml-rails'
 
 gem 'carrierwave'
+
+gem 'nested_form', :git => "git://github.com/ryanb/nested_form.git"
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
