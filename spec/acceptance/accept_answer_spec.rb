@@ -10,39 +10,28 @@ given(:user) { FactoryGirl.create(:user) }
 given(:another_user) { FactoryGirl.create(:user) }
 given(:question) { FactoryGirl.create(:question, user: user) }
 given(:another_question) { FactoryGirl.create(:question, user: another_user) }
-given!(:answer) { FactoryGirl.create(:answer, question: question, user: another_user) }
+given(:answer) { FactoryGirl.create(:answer, question: question, user: another_user) }
+given(:accepted_answer) { FactoryGirl.create(:answer, question: question, accepted: true) }
+
 
 context 'authorized' do
 	before { login_as user }
 
 	context 'own question' do
-		before { visit question_path(question) }
-
 		scenario 'accept answer', js: true do
+			answer
+			visit question_path(question)
+			expect(page).not_to have_selector '.accepted'
 			find("#accept_answer_#{answer.id}").click
-		#	within '.accepted' do
-				expect(page).to have_selector "#accept_answer_#{answer.id}"
-		#	end
+			expect(page).to have_selector '.accepted'
 		end
 
 		scenario 'reaccept', js: true do
-			#accepted_answer = FactoryGirl.create(:answer, question: question, accepted: true)
-			##expect(page).to have_selector '.accepted'
-			#find("#accept_answer_#{answer.id}").click
-			#within '.answers .accepted' do
-			#	expect(page).to have_selector "#accept_answer_#{answer.id}"
-		#	end
-		end
-
-		scenario 'cancel accept', js: true do
-			#accepted_answer = FactoryGirl.create(:answer, question: question, accepted: true)
-			#within '.answers .accepted' do
-			#	expect(page).to have_selector "#accept_answer_#{accepted_answer.id}"
-			#end
-		#	find("#accept_answer_#{accepted_answer.id}").click
-		#	within '.answers .accepted' do
-			#	expect(page).not_to have_selector "#accept_answer_#{accepted_answer.id}"
-		#	end
+			accepted_answer
+			visit question_path(question)
+			expect(page).to have_selector '.accepted'
+			find(".accepted").click
+			expect(page).not_to have_selector '.accepted'
 		end
 	end
 

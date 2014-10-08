@@ -23,11 +23,5 @@ ready = ->
 		$('.question_errors').html('')
 		$("#edit_question_form").hide()
 
-	$(document).on 'click', '.accept', (e) ->
-    $.ajax({
-      type: "POST",
-      url: "/questions/"+$(this).data('questionId')+"/answers/"+$(this).data('answerId')+"/accept"
-    })
-
 $(document).ready(ready)
 $(document).on('page:load',ready)
