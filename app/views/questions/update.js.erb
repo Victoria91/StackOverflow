@@ -7,6 +7,7 @@ $('.question_errors').html('');
 <% else %>
 	$('.question h2').html('<%= j @question.title %>');
 	$('.question h3').html('<%= j @question.body %>');
+  $('.attachments').html('<%= j render 'attachments' %>')
 	$('.edit_question').hide();
 	$(document).ready(ready);
 	$(document).on('page:load',ready);

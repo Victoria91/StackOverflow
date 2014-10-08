@@ -1,0 +1,3 @@
+%ul
+  - @question.attachments.each do |at|
+    %li= link_to at.file.identifier, at.file.url

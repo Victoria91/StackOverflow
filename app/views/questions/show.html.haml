@@ -2,9 +2,8 @@
   %h2= @question.title
   %h3= @question.body
 %p Attachments:
-%ul
-  - @question.attachments.each do |at|
-    %li= link_to at.file.identifier, at.file.url
+.attachments
+  = render 'attachments'
 
 - if user_signed_in? and current_user == @question.user
   .question_errors
