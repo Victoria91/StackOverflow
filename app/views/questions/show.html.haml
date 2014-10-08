@@ -4,7 +4,7 @@
 %p Attachments:
 %ul
 	- @question.attachments.each do |at|
-		%li= at.file.file.filename
+		%li= link_to at.file.identifier, at.file.url
 
 - if user_signed_in? and current_user == @question.user
 	.question_errors
