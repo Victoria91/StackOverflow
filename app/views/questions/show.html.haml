@@ -1,28 +1,36 @@
 .question
-	%h2= @question.title
-	%h3= @question.body
+  %h2= @question.title
+  %h3= @question.body
 %p Attachments:
 %ul
-	- @question.attachments.each do |at|
-		%li= link_to at.file.identifier, at.file.url
+  - @question.attachments.each do |at|
+    %li= link_to at.file.identifier, at.file.url
 
 - if user_signed_in? and current_user == @question.user
-	.question_errors
-	= simple_form_for @question, remote: true, html: { id: 'edit_question_form' } do |f|
-		= f.input :title
-		= f.input :body
-		= f.button :submit
-		= f.button :submit, 'Cancel', class: 'alert', id: 'cancel_question_edit'
-	.floatl
-		= link_to 'Edit', '', id: 'edit_question_link' 
-		= link_to 'Delete', question_path(@question), method: :delete, id: 'delete_question_link', data: { confirm: 'sure?' }
+  .question_errors
+  = simple_nested_form_for @question, remote: true, html: { id: 'edit_question_form' }  do |f| 
+    = f.input :title 
+    = f.input :body 
+    
+    %p Attachments:
+    = f.simple_fields_for :attachments, @question.attachments.build, wrapper: false do |a|
+      = a.input :file
+      = a.link_to_remove 'Remove this attachment'
+      %p= f.link_to_add 'Add an attachment', :attachments, data: { target: "#tasks" }  
+
+    = f.button :submit 
+
+    = f.button :submit, 'Cancel', class: 'alert', id: 'cancel_question_edit'
+  .floatl
+    = link_to 'Edit', '', id: 'edit_question_link' 
+    = link_to 'Delete', question_path(@question), method: :delete, id: 'delete_question_link', data: { confirm: 'sure?' }
 
 .answers
-	= render 'answers'
+  = render 'answers'
 
 .answer_errors{ id: "new_answer_error" }
 
 - if user_signed_in?
-	= simple_form_for [@question, @answer], remote: true do |f|
-		= f.input :body, label: 'Your answer:' 
-		= f.button :submit 
+  = simple_form_for [@question, @answer], remote: true do |f|
+    = f.input :body, label: 'Your answer:' 
+    = f.button :submit 

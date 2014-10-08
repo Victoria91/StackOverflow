@@ -15,8 +15,12 @@ class Question < ActiveRecord::Base
     self.answers.find_by(accepted: true)
   end
 
+  def answer_to_reaccept(answer)
+    answer.accepted?
+  end
+
   def toggle_accepted(answer) 
-    accepted_answer.update!(accepted: false) if accepted_answer and !answer.accepted?
+    accepted_answer.update!(accepted: false) if accepted_answer and not answer_to_reaccept(answer)
 		answer.toggle(:accepted).save!
 	end
 
