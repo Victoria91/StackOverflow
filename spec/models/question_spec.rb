@@ -9,22 +9,22 @@ RSpec.describe Question, :type => :model do
   it { should ensure_length_of(:title).is_at_most(255) }
   it { should accept_nested_attributes_for :attachments }
 
-  let!(:question) { FactoryGirl.create(:question) }
-  let!(:answer_one) { FactoryGirl.create(:answer, question: question) }
-  let!(:answer_two) { FactoryGirl.create(:answer, question: question) }
+  let(:question) { FactoryGirl.create(:question) }
+  let!(:unaccepted_answer) { FactoryGirl.create(:answer, question: question) }
+  let!(:accepted_answer) { FactoryGirl.create(:answer, question: question, accepted: true) }
 
-  it '#toggle_accepted changes accepted state to true for unaccepted' do
-  	expect{ question.toggle_accepted(answer_one) }.to change(answer_one, :accepted).to true
+  describe '#accepted_answer' do
+    it 'returns an accepted_answer' do
+      answer = question.accepted_answer
+      expect(answer).not_to eq(unaccepted_answer)
+      expect(answer).to eq(accepted_answer)
+    end
+
+    it 'returns nil when there is no accepted answer' do
+      accepted_answer.update!(accepted: false)
+      expect(question.accepted_answer).to eq(nil)
+    end
+
   end
 
-  it 'only one answer can be accepted' do
-    question.toggle_accepted(answer_two)
-  	question.toggle_accepted(answer_one) 
-    expect(question.answers.where(accepted: true).count).to eq(1)
-  end
-
-  it '#toggle_accepted changes accept accepted state to false for accepted' do
-    question.toggle_accepted(answer_one)
-    expect{ question.toggle_accepted(answer_one) }.to change(answer_one.reload, :accepted).to false
-  end
 end
