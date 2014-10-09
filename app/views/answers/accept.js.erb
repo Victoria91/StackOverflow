@@ -1,3 +1,4 @@
-$('.answers').html("<%= j render 'questions/answers'%>");
+$(".accepted").removeClass('accepted').addClass('accept');
+$('#accept_answer_<%= @answer.id %>').toggleClass('accepted', <%= @question.accepted_answer ? true : false %>);
 $(document).ready(ready);
 $(document).on('page:load',ready);

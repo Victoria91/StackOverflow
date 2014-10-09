@@ -18,7 +18,7 @@ class AnswersController < ApplicationController
 	end
 
 	def accept
-		@question.toggle_accepted(@answer) if @question.user == current_user
+		@answer.toggle_accepted if @question.user == current_user
 	end
 
 	private
