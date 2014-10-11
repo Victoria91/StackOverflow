@@ -30,12 +30,12 @@ RSpec.describe AnswersController, :type => :controller do
 			let(:new_answer) { FactoryGirl.build(:answer) }
 
 			it 'updates an answer' do
-				expect{ patch :update, question_id: question, id: answer, answer: {body: new_answer.body}, format: :js}.to change{ answer.reload.body}.to(new_answer.body)
+				expect{ patch :update, question_id: question, id: answer, answer: {body: new_answer.body}, format: :json}.to change{ answer.reload.body}.to(new_answer.body)
 			end
 
-			it 'renders update template' do
-				patch :update, question_id: question, id: answer, answer: {body: new_answer.body}, format: :js
-				expect(response).to render_template :update
+			it 'status is success' do
+				patch :update, question_id: question, id: answer, answer: {body: new_answer.body}, format: :json
+				expect(response.status).to eq(200)
 			end
 		end
 
@@ -44,11 +44,11 @@ RSpec.describe AnswersController, :type => :controller do
 			let(:new_answer) { FactoryGirl.build(:answer) }
 
 			it 'updates an answer' do
-				expect{ patch :update, question_id: question, id: answer, answer: {body: new_answer.body}, format: :js}.not_to change{ answer.reload.body}
+				expect{ patch :update, question_id: question, id: answer, answer: {body: new_answer.body}, format: :json}.not_to change{ answer.reload.body}
 			end
 
 			it 'renders update template' do
-				patch :update, question_id: question, id: answer, answer: {body: new_answer.body}, format: :js
+				patch :update, question_id: question, id: answer, answer: {body: new_answer.body}, format: :json
 				expect(response.status).to eq(401)
 			end
 		end

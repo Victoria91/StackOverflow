@@ -3,6 +3,7 @@
         $("#answer_errors_<%= @answer.id %>").html('<%= j message %>');
     <% end %>
 <% else %>
+  alert 'sdfsdfsdf';
 	$('.answers').html("<%= j render 'questions/answers'%>");
 	$(document).ready(ready);
 	$(document).on('page:load',ready);

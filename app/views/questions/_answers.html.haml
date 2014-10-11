@@ -8,10 +8,10 @@
 		.editable_answer{ data: { answer_id: answer.id }, title: 'click to edit'}
 			%i Your answer
 			%br
-			= answer.body
+			.answer{ id: "answer_text_#{answer.id}" }= answer.body
 			.floatl
 				= link_to 'Delete', question_answer_path(@question, answer), method: :delete, remote: true, id: "delete_answer_#{answer.id}_link"
-		= simple_form_for [@question,answer], remote: true, html: { id: "answer_#{answer.id}", class: "editable_answer_form" } do |f|
+		= simple_form_for [@question,answer], remote: true, html: { id: "answer_#{answer.id}", class: "editable_answer_form" }, data: { type: :json, answer_id: answer.id} do |f|
 			.answer_errors{ id: "answer_errors_#{answer.id}" }
 			= f.input :body, label: false
 			= f.button :submit, class: 'tiny'

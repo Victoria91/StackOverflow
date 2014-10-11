@@ -10,7 +10,13 @@ class AnswersController < ApplicationController
 	end
 
 	def update
-		@answer.update(answer_params)
+		respond_to do |format|
+			if @answer.update(answer_params)
+				format.json { render json: @answer }
+			else
+				format.json { render json: @answer.errors.full_messages, status: :unprocessable_entity }
+			end
+		end
 	end
 
 	def destroy
