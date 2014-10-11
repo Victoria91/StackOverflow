@@ -8,16 +8,16 @@ RSpec.describe AnswersController, :type => :controller do
 			sign_in_user
 
 			it 'creates a new answer related to question' do
-				expect{ post :create, answer: FactoryGirl.attributes_for(:answer), question_id: question, format: :js }.to change(question.answers, :count).by(1)
+				expect{ post :create, answer: FactoryGirl.attributes_for(:answer), question_id: question, format: :json }.to change(question.answers, :count).by(1)
 			end
 
 			it 'creates a new answer related to the user' do
-				expect{ post :create, answer: FactoryGirl.attributes_for(:answer), question_id: question, format: :js }.to change(@user.answers, :count).by(1)
+				expect{ post :create, answer: FactoryGirl.attributes_for(:answer), question_id: question, format: :json }.to change(@user.answers, :count).by(1)
 			end
 
 			it 'redirect to answer_path' do
-				post :create, answer: FactoryGirl.attributes_for(:answer, question_id: question), question_id: question, format: :js
-				expect(response).to render_template :create
+				post :create, answer: FactoryGirl.attributes_for(:answer, question_id: question), question_id: question, format: :json
+				expect(response.status).to eq(200)
 			end
 		end
 
