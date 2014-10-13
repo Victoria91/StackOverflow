@@ -37,7 +37,7 @@ ready = ->
 
   $('.new_answer').bind 'ajax:success', (e, data, status, xhr) ->
     answer = $.parseJSON(xhr.responseText)
-    $(".answers").append(answer.body)
+    $(".answers").append('<hr>' + '<i>Your answer</i><br/>' + answer.body)
   .bind 'ajax:error', (e, xhr, status, error) ->
     errors = $.parseJSON(xhr.responseText)
     $.each errors, (index, value) ->
