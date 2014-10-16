@@ -15,6 +15,7 @@ class QuestionsController < ApplicationController
 		@question.user = current_user
 
 		if @question.save
+			PrivatePub.publish_to '/questions', question: @question.to_json
 			flash[:notice] = 'Your question has been saved.'
 			redirect_to @question
 		else

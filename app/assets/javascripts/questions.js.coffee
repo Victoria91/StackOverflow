@@ -55,5 +55,10 @@ ready = ->
       $('.editable_answer').show()
       $('#answer_' + answer.id).hide()
 
+  PrivatePub.subscribe "/questions", (data, channel) ->
+    question = $.parseJSON(data['question'])
+    $('.questions').append('<p><a href="questions/'+question.id+'" id="question_' + question.id + '">' + question.title + '</a></p>')
+    $('#question_' + question.id).animate({color: "#f00"}, 2000).animate({color: "#0078a0"}, 2000)
+
 $(document).ready(ready)
 $(document).on('page:load',ready)

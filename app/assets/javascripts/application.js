@@ -12,6 +12,7 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require jquery-ui
 //= require jquery.remotipart
 //= require private_pub
 //= require jquery_nested_form
