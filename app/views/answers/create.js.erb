@@ -1,4 +1,3 @@
-
 <% if @answer.errors.present? %>
     <% @answer.errors.full_messages.each do |message| %>
         $('#new_answer_error').html('<%= j message %>');
