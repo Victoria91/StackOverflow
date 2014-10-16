@@ -8,7 +8,10 @@ class AnswersController < ApplicationController
 		@answer.user = current_user
 		respond_to do |format|
 			if @answer.save
-				format.json { render json: @answer }
+				format.json do 
+					PrivatePub.publish_to "/questions/#{@question.id}/answers", answer: @answer.to_json
+					render nothing: true
+				end
 			else
 				format.json { render json: @answer.errors.full_messages, status: :unprocessable_entity }
 			end
@@ -18,7 +21,10 @@ class AnswersController < ApplicationController
 	def update
 		respond_to do |format|
 			if @answer.update(answer_params)
-				format.json { render json: @answer }
+				format.json do 
+					PrivatePub.publish_to "/questions/#{@question.id}/answers", answer: @answer.to_json
+					render nothing: true
+				end
 			else
 				format.json { render json: @answer.errors.full_messages, status: :unprocessable_entity }
 			end

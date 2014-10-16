@@ -3,6 +3,9 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 ready = ->
+
+  questionId = $('.answers').data('questionId')
+
   $(document).on 'click', '.editable_answer', (e) ->
     $(this).hide()
     answer_id = $(this).data('answerId')
@@ -25,7 +28,6 @@ ready = ->
     $("#edit_question_form").hide()
 
   $('.editable_answer_form').bind 'ajax:success', (e, data, status, xhr) ->
-    alert 'fdsfds'
     answer = $.parseJSON(xhr.responseText)
     $("#answer_text_" + answer.id).html(answer.body)
     $('.editable_answer').show()
@@ -37,15 +39,21 @@ ready = ->
     $.each errors, (index, value) ->
       $('#answer_errors_'+answer_id).append(value)
 
-  $('.new_answer').bind 'ajax:success', (e, data, status, xhr) ->
-    $('.new_answer #answer_body').val('');
-    answer = $.parseJSON(xhr.responseText)
-    $(".answers").append('<hr>' + '<i>Your answer</i><br/>' + answer.body)
-  .bind 'ajax:error', (e, xhr, status, error) ->
+  $('.new_answer').bind 'ajax:error', (e, xhr, status, error) ->
     $('.answer_errors').html('')
     errors = $.parseJSON(xhr.responseText)
     $.each errors, (index, value) ->
-      $('.answer_errors').append(value)
+     $('.answer_errors').append(value)
+
+  PrivatePub.subscribe "/questions/" + questionId + "/answers", (data, channel) ->
+    answer = $.parseJSON(data['answer'])
+    if (answer.created_at == answer.updated_at)
+      $('.new_answer #answer_body').val('')
+      $(".answers").append('<hr>' + '<i>Your answer</i><br/>' + answer.body)
+    else
+      $("#answer_text_" + answer.id).html(answer.body)
+      $('.editable_answer').show()
+      $('#answer_' + answer.id).hide()
 
 $(document).ready(ready)
 $(document).on('page:load',ready)
