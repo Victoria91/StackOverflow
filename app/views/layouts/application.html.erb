@@ -34,7 +34,9 @@
     </div>
     
     <div class='row'> 
-      <p class='notice'><%= notice %></p>
+      <% if notice %>
+        <span class="success radius label"><%= notice %></span>
+      <% end %>
       <p class='alert'><%= alert %></p>
       <%= yield %>
     </div>

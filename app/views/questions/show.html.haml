@@ -26,8 +26,6 @@
 .answers{ data: { question_id: @question.id } }
   = render 'answers'
 
-.answer_errors{ id: "new_answer_error" }
-
 - if user_signed_in?
   = simple_form_for [@question, @answer], remote: true, data: { type: :json } do |f|
     = f.input :body, label: 'Your answer:' 

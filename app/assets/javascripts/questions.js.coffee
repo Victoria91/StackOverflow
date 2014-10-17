@@ -40,20 +40,22 @@ ready = ->
       $('#answer_errors_'+answer_id).append(value)
 
   $('.new_answer').bind 'ajax:error', (e, xhr, status, error) ->
-    $('.answer_errors').html('')
+    $('.answers').after('<div class="answer_errors" id="new_answer_error"></div>');
     errors = $.parseJSON(xhr.responseText)
     $.each errors, (index, value) ->
-     $('.answer_errors').append(value)
+     $('#new_answer_error').append(value).animate({ opacity: "hide" }, "slow");
 
   PrivatePub.subscribe "/questions/" + questionId + "/answers", (data, channel) ->
     answer = $.parseJSON(data['answer'])
     if (answer.created_at == answer.updated_at)
       $('.new_answer #answer_body').val('')
-      $(".answers").append('<hr>' + '<i>Your answer</i><br/>' + answer.body)
+      $(".answers").append('<hr><i>Your answer</i><br/>')
+      $(".answers").append('<div class="answer" id="answer_text_'+answer.id+'">' + answer.body + '</div>')
     else
       $("#answer_text_" + answer.id).html(answer.body)
       $('.editable_answer').show()
       $('#answer_' + answer.id).hide()
+    $('#answer_text_' + answer.id).animate({color: "#f00"}, 2000).animate({color: "#000"}, 2000)
 
   PrivatePub.subscribe "/questions", (data, channel) ->
     question = $.parseJSON(data['question'])
