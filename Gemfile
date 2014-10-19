@@ -49,18 +49,18 @@ gem 'jquery-ui-rails'
 # gem 'bcrypt', '~> 3.1.7'
 
 group :test, :development do
-	gem 'rspec-rails'
-	gem 'factory_girl_rails'
-	gem 'launchy'
+  gem 'rspec-rails'
+  gem 'factory_girl_rails'
+  gem 'launchy'
 end
 
 group :test do
-	gem 'shoulda-matchers'
-	gem 'capybara'
-	gem 'capybara-email'
-	gem 'faker'
-	gem 'selenium-webdriver'
-	gem 'database_cleaner'
+  gem 'shoulda-matchers'
+  gem 'capybara'
+  gem 'capybara-email'
+  gem 'faker'
+  gem 'selenium-webdriver'
+  gem 'database_cleaner'
 end
 # Use unicorn as the app server
 # gem 'unicorn'

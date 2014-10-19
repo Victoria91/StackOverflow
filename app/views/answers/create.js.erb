@@ -3,9 +3,9 @@
         $('#new_answer_error').html('<%= j message %>');
     <% end %>
 <% else %>
-	$('.answers').html("<%= j render 'questions/answers'%>");
-	$('.new_answer #answer_body').val('');
-	$('#new_answer_error').html('');
-	$(document).ready(ready);
-	$(document).on('page:load',ready);
+  $('.answers').html("<%= j render 'questions/answers'%>");
+  $('.new_answer #answer_body').val('');
+  $('#new_answer_error').html('');
+  $(document).ready(ready);
+  $(document).on('page:load',ready);
 <% end %>

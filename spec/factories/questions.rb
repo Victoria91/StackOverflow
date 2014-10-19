@@ -7,6 +7,6 @@ FactoryGirl.define do
   end
 
   factory :invalid_question, class: Question do
-  	title { Faker::Lorem.sentence }
+    title { Faker::Lorem.sentence }
   end
 end
