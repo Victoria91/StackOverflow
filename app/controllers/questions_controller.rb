@@ -1,45 +1,39 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, only: [:new, :create, :destroy, :update]
   before_action :find_question, only: [:show, :destroy, :update]
+  before_action :authorize_user, only: [:update, :destroy]
+  after_action :publish_to_questions_chanel, only: :create
+
+  respond_to :html, :js, :json
 
   def new
-    @question = Question.new
+    respond_with(@question = Question.new)
   end
 
   def index
-    @questions = Question.all
+    respond_with(@questions = Question.all)
   end
 
   def create
     @question = Question.new(question_params)
     @question.user = current_user
-
-    if @question.save
-      PrivatePub.publish_to '/questions', question: @question.to_json
-      flash[:notice] = 'Your question has been saved.'
-      redirect_to @question
-    else
-      render :new
-    end
+    flash[:notice] = 'Your question has been saved.' if @question.save
+    respond_with(@question)
   end
 
   def show
     @answer = @question.answers.build
+    respond_with @question
   end
 
   def destroy
-    if @question.user == current_user
-      @question.destroy
-      flash[:notice] = 'Your question has been deleted'
-      redirect_to root_path
-    else
-      flash[:notice] = 'Only owner can delete question'
-      redirect_to question_path(@question)
-    end
+    flash[:notice] = 'Your question has been deleted'
+    respond_with(@question.destroy) 
   end
 
   def update
-    @question.update(question_params) if @question.user == current_user
+    @question.update(question_params) 
+    respond_with(@question)
   end
 
   private
@@ -50,6 +44,16 @@ class QuestionsController < ApplicationController
 
   def find_question
     @question = Question.find(params[:id])
+  end
+
+  def authorize_user
+    if @question.user != current_user 
+      redirect_to questions_path, notice: 'Only owner can do this action' 
+    end
+  end
+
+  def publish_to_questions_chanel
+    PrivatePub.publish_to '/questions', question: @question.to_json if @question.save
   end
 
 end

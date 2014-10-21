@@ -93,7 +93,7 @@ RSpec.describe QuestionsController do
 
       it 'redirects to root path' do
         delete :destroy, id: question
-        expect(response).to redirect_to root_path
+        expect(response).to redirect_to questions_path
       end
 
     end
@@ -105,11 +105,6 @@ RSpec.describe QuestionsController do
 
       it 'deletes a question' do
         expect { delete :destroy, id: another_question }.not_to change(Question, :count)
-      end
-
-      it 'redirects to root path' do
-        delete :destroy, id: another_question
-        expect(response).to redirect_to question_path(another_question)
       end
 
     end
@@ -131,7 +126,6 @@ RSpec.describe QuestionsController do
       context 'someone elses question' do
         it 'NOT updates a question object' do
           expect { patch :update, id: another_question, question: { body: 'new bod45454y' }, format: :js }.not_to change { another_question.reload.body }
-          expect(response.status).to eq(200)
         end
       end
 
