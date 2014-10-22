@@ -45,6 +45,8 @@ gem 'private_pub'
 gem 'thin'
 
 gem 'jquery-ui-rails'
+
+gem 'handlebars_assets'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

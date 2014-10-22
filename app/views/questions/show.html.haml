@@ -1,4 +1,4 @@
-.question
+.question{ data: { author: @question.user_id == current_user } }
   %h2= @question.title
   %h3= @question.body
 .attachments

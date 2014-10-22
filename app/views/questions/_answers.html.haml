@@ -6,7 +6,7 @@
 		- elsif answer.accepted?
 			.accepted
 		- if user_signed_in? and answer.user == current_user 
-			.editable_answer{ data: { answer_id: answer.id }, title: 'click to edit'}
+			.editable_answer{ data: { answer_id: answer.id }, title: 'click to edit' }
 				%i Your answer
 				%br
 				.answer{ id: "answer_text_#{answer.id}" }= answer.body
@@ -16,6 +16,6 @@
 				.answer_errors{ id: "answer_errors_#{answer.id}" }
 				= f.input :body, label: false
 				= f.button :submit, class: 'tiny'
-				= f.button :submit, 'Cancel', class: 'alert tiny', data: {answer_id: answer.id }
+				= f.button :submit, 'Cancel', class: 'alert tiny', data: { answer_id: answer.id }
 		- else
 			= answer.body

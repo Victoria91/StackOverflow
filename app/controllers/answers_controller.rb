@@ -27,7 +27,7 @@ class AnswersController < ApplicationController
   private
 
   def publish_to_question_answer_channel 
-  	PrivatePub.publish_to "/questions/#{@question.id}/answers", answer: @answer.to_json if @answer.save
+  	PrivatePub.publish_to "/questions/#{@question.id}/answers", answer: @answer.to_json if @answer.valid?
   end
 
   def answer_params

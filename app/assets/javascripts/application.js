@@ -18,4 +18,7 @@
 //= require jquery_nested_form
 //= require foundation
 //= require turbolinks
+//= require handlebars.runtime
+//= require_tree ./templates
 //= require_tree .
+
