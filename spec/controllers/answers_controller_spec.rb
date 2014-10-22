@@ -17,7 +17,7 @@ RSpec.describe AnswersController do
 
       it 'redirect to answer_path' do
         post :create, answer: FactoryGirl.attributes_for(:answer, question_id: question), question_id: question, format: :json
-        expect(response.status).to eq(200)
+        expect(response.status).to eq(201)
       end
     end
 
@@ -35,7 +35,7 @@ RSpec.describe AnswersController do
 
       it 'status is success' do
         patch :update, question_id: question, id: answer, answer: { body: new_answer.body }, format: :json
-        expect(response.status).to eq(200)
+        expect(response.status).to eq(204)
       end
     end
 

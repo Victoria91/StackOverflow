@@ -2,33 +2,18 @@ class AnswersController < ApplicationController
   before_action :authenticate_user!
   before_action :find_question
   before_action :find_answer, except: :create
+  after_action :publish_to_question_answer_channel, only: [:create, :update]
+
+  respond_to :js, only: [:destroy, :accept] 
+  respond_to :json, only: [:create, :update]
 
   def create
-    @answer = @question.answers.new(answer_params)
-    @answer.user = current_user
-    respond_to do |format|
-      if @answer.save
-        format.json do
-          PrivatePub.publish_to "/questions/#{@question.id}/answers", answer: @answer.to_json
-          render nothing: true
-        end
-      else
-        format.json { render json: @answer.errors.full_messages, status: :unprocessable_entity }
-      end
-    end
+    respond_with(@question, @answer = @question.answers.create(answer_params.merge(user: current_user)))
   end
 
   def update
-    respond_to do |format|
-      if @answer.update(answer_params)
-        format.json do
-          PrivatePub.publish_to "/questions/#{@question.id}/answers", answer: @answer.to_json
-          render nothing: true
-        end
-      else
-        format.json { render json: @answer.errors.full_messages, status: :unprocessable_entity }
-      end
-    end
+    @answer.update(answer_params)
+    respond_with(@answer)
   end
 
   def destroy
@@ -40,6 +25,10 @@ class AnswersController < ApplicationController
   end
 
   private
+
+  def publish_to_question_answer_channel 
+  	PrivatePub.publish_to "/questions/#{@question.id}/answers", answer: @answer.to_json if @answer.save
+  end
 
   def answer_params
     params.require(:answer).permit(:body, attachments_attributes: [:file, :id, :_destroy])

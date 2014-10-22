@@ -28,11 +28,11 @@ class QuestionsController < ApplicationController
 
   def destroy
     flash[:notice] = 'Your question has been deleted'
-    respond_with(@question.destroy) 
+    respond_with(@question.destroy)
   end
 
   def update
-    @question.update(question_params) 
+    @question.update(question_params)
     respond_with(@question)
   end
 
@@ -47,13 +47,10 @@ class QuestionsController < ApplicationController
   end
 
   def authorize_user
-    if @question.user != current_user 
-      redirect_to questions_path, notice: 'Only owner can do this action' 
-    end
+    redirect_to questions_path, notice: 'Only owner can do this action' if @question.user != current_user
   end
 
   def publish_to_questions_chanel
     PrivatePub.publish_to '/questions', question: @question.to_json if @question.save
   end
-
 end

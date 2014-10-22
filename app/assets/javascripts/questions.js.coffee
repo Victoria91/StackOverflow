@@ -27,23 +27,18 @@ ready = ->
     $('.question_errors').html('')
     $("#edit_question_form").hide()
 
-  $('.editable_answer_form').bind 'ajax:success', (e, data, status, xhr) ->
-    answer = $.parseJSON(xhr.responseText)
-    $("#answer_text_" + answer.id).html(answer.body)
-    $('.editable_answer').show()
-    $(this).hide()
-  .bind 'ajax:error', (e, xhr, status, error) ->
+  $('.editable_answer_form').bind 'ajax:error', (e, xhr, status, error) ->
     answer_id = $(this).data('answerId')
     $('#answer_errors_'+answer_id).html('')
-    errors = $.parseJSON(xhr.responseText)
+    errors = $.parseJSON(xhr.responseText)['errors']
     $.each errors, (index, value) ->
-      $('#answer_errors_'+answer_id).append(value)
+      $('#answer_errors_'+answer_id).append(index + ' ' + value)
 
   $('.new_answer').bind 'ajax:error', (e, xhr, status, error) ->
     $('.answers').after('<div class="answer_errors" id="new_answer_error"></div>');
-    errors = $.parseJSON(xhr.responseText)
+    errors = $.parseJSON(xhr.responseText)['errors']
     $.each errors, (index, value) ->
-     $('#new_answer_error').append(value).animate({ opacity: "hide" }, "slow");
+      $('#new_answer_error').append(index + ' ' + value).animate({ opacity: "hide" }, "slow");
 
   PrivatePub.subscribe "/questions/" + questionId + "/answers", (data, channel) ->
     answer = $.parseJSON(data['answer'])
