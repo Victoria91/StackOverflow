@@ -45,12 +45,16 @@ ready = ->
     answer = $.parseJSON(data['answer'])
     if (answer.created_at == answer.updated_at)
       answer_field = $('.new_answer #answer_body') 
-      $('.answers').append('<hr>')
+      $('.answers').append('<div id="' + answer.id + '"></div>')
+      $('#' + answer.id).append('<hr>')
       if question_author?
-        $('.answers').append(HandlebarsTemplates["accept"](answer))
+        $('#' + answer.id).append(HandlebarsTemplates["accept"](answer))
       if answer_field.val() == answer.body
         $('.new_answer #answer_body').val('')  
-        $('.answers').append(HandlebarsTemplates["answer"](answer))
+        $('#' + answer.id).append(HandlebarsTemplates["answer"](answer))
+        $('#' + answer.id).append(HandlebarsTemplates["answer_form"](answer))
+      else 
+        $('#' + answer.id).append('<div class="answer" id="answer_text_"'+ answer.id+'>'+ answer.body+'</div>')
     else
       $("#answer_text_" + answer.id).html(answer.body)
       $('.editable_answer').show()
