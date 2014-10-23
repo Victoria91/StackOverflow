@@ -1,4 +1,18 @@
-%i Your answer
-%br
-.answer{ id: "answer_text_{{id}}" }
-  {{body}}
+.editable_answer{ data: { answer_id: "{{id}}" }, title: "click to edit"}
+  %i Your answer
+  %br
+  .answer{ id: "answer_text_{{id}}" }
+    {{body}}
+  .floatl
+    %a{ data: { method: :delete, remote: true }, href: "/questions/{{question_id}}/answers/{{id}}", id: "delete_answer_{{id}}_link", rel: "nofollow" }
+      Delete
+%form{ action: "/questions/{{question_id}}/answers/{{id}}", class: "simple_form editable_answer_form", data: {answer_id:"{{id}}" , remote: true, type: :json}, id: "answer_{{id}}", method: :post, novalidate: "novalidate"}
+  %div{ style: 'display:none' }
+    %input{ name: "utf8", type: "hidden", value: "✓"}
+    %input{name: "_method", type: "hidden", value: "patch"}
+  .answer_errors{ id: "answer_errors_{{id}}" }
+  %div{ class: "input text required answer_body"}
+    %textarea{ class:"text required", id: "answer_body", name: "answer[body]"}
+      aaaaaaaa
+  %input{ class: "button tiny", name: "commit", type: "submit", value: "Update Answer"}
+  %input{ class: "button alert tiny", data: { answer-id: "942" }, name: "commit", type: "submit", value: "Cancel"}
