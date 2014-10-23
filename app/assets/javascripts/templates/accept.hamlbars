@@ -1,0 +1,1 @@
+%a{class: 'accept', data: { method: :post, remote: true }, href: "/questions/{{question_id}}/answers/{{id}}/accept", title: 'click to accept', rel: 'nofollow', id: "accept_answer_{{id}}" }

@@ -1,0 +1,4 @@
+%i Your answer
+%br
+.answer{ id: "answer_text_{{id}}" }
+  {{body}}

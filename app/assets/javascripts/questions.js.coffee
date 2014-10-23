@@ -5,7 +5,7 @@
 ready = ->
 
   questionId = $('.answers').data('questionId')
-  author = $('.question').data('author')
+  question_author = $('.question').data('author')
 
   $(document).on 'click', '.editable_answer', (e) ->
     $(this).hide()
@@ -43,12 +43,14 @@ ready = ->
 
   PrivatePub.subscribe "/questions/" + questionId + "/answers", (data, channel) ->
     answer = $.parseJSON(data['answer'])
-    if (answer.created_at == answer.updated_at)    
-      $('.new_answer #answer_body').val('')
-      $(".answers").append('<hr>')
-      $('.answers').append(HandlebarsTemplates["accept"](answer))
-      $(".answers").append('<i>Your answer</i><br/>')
-      $(".answers").append('<div class="answer" id="answer_text_'+answer.id+'">' + answer.body + '</div>')
+    if (answer.created_at == answer.updated_at)
+      answer_field = $('.new_answer #answer_body') 
+      if answer_field.val() == answer.body
+        $('.new_answer #answer_body').val('')  
+      $('.answers').append('<hr>')
+      if question_author?
+        $('.answers').append(HandlebarsTemplates["accept"](answer))
+      $('.answers').append(HandlebarsTemplates["answer"](answer))
     else
       $("#answer_text_" + answer.id).html(answer.body)
       $('.editable_answer').show()
