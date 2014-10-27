@@ -1,5 +1,5 @@
 class OmniauthCallbacksController < Devise::OmniauthCallbacksController
-  before_action :find_user_for_oauth
+  before_action :find_user_for_oauth, except: :create_user
 
   def facebook
     if @user.persisted?
@@ -23,8 +23,20 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
       @user = User.new
       @uid = request.env['omniauth.auth'].uid 
       @provider = request.env['omniauth.auth'].provider 
-      render 'users/confirmations/new'
+      render 'devise/confirmations/new'
     end
+  end
+
+  def create_user
+    #render json: request.params   
+    @user = User.create(user_params.merge(password:'qwerty12123213', password_confirmation:'qwerty12123213'))
+    @user.send_confirmation_instructions
+    redirect_to root_path, notice: 'confirmation sent'
+  end
+
+  private
+  def user_params 
+    params[:user].permit(:email, authorizations_attributes: [:provider, :uid,])
   end
 
   private

@@ -1,10 +1,12 @@
 Rails.application.routes.draw do
   root 'questions#index'
 
-  devise_for :users, controllers: { omniauth_callbacks: 'omniauth_callbacks', confirmations: 'users/confirmations' }
+
+  devise_for :users, controllers: { omniauth_callbacks: 'omniauth_callbacks' }
   devise_scope :user do
-    post 'confirmations', to: 'users/confirmations#create'
+    post 'create_user', to: 'omniauth_callbacks#create_user'
   end
+
   
   resources :questions do
     resources :answers do
