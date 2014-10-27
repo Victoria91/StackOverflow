@@ -12,5 +12,5 @@ feature 'sign in with social network', %q(
     click_link 'Sign in with Facebook'
     expect(page).to have_content('Successfully authenticated from Facebook account.')
   end
- 
+
 end

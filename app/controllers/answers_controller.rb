@@ -4,7 +4,7 @@ class AnswersController < ApplicationController
   before_action :find_answer, except: :create
   after_action :publish_to_question_answer_channel, only: [:create, :update]
 
-  respond_to :js, only: [:destroy, :accept] 
+  respond_to :js, only: [:destroy, :accept]
   respond_to :json, only: [:create, :update]
 
   def create
@@ -26,8 +26,8 @@ class AnswersController < ApplicationController
 
   private
 
-  def publish_to_question_answer_channel 
-  	PrivatePub.publish_to "/questions/#{@question.id}/answers", answer: @answer.to_json if @answer.valid?
+  def publish_to_question_answer_channel
+    PrivatePub.publish_to "/questions/#{@question.id}/answers", answer: @answer.to_json if @answer.valid?
   end
 
   def answer_params
