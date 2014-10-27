@@ -13,4 +13,12 @@ feature 'sign in with social network', %q(
     expect(page).to have_content('Successfully authenticated from Facebook account.')
   end
 
+  it 'sign in with vkontakte' do
+    visit root_path
+    click_link 'Sign in'
+    mock_auth_hash
+    click_link 'Sign in with Vkontakte'
+    expect(page).to have_content('Successfully authenticated from Vkontakte account.')
+  end
+
 end
