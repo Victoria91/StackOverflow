@@ -49,6 +49,9 @@ gem 'jquery-ui-rails'
 gem 'handlebars_assets'
 
 gem 'hamlbars', '~> 2.0'
+
+gem 'omniauth'
+gem 'omniauth-facebook'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
