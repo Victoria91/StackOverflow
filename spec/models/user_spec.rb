@@ -3,6 +3,8 @@ require 'rails_helper'
 RSpec.describe User do
 
   it { should have_many :authorizations }
+  it { should accept_nested_attributes_for :authorizations }
+
   describe '.find_for_oauth' do
     let!(:user) { FactoryGirl.create(:user) }
     let(:auth) { OmniAuth::AuthHash.new(provider: 'facebook', uid: '123456') }

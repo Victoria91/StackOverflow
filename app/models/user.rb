@@ -2,11 +2,13 @@ class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable, :confirmable, :recoverable, 
-         :rememberable, :trackable, :validatable, :omniauthable, omniauth_providers: [:facebook, :vkontakte]
+         :rememberable, :trackable, :validatable, :omniauthable, 
+         omniauth_providers: [:facebook, :vkontakte, :twitter]
 
   has_many :questions
   has_many :answers
   has_many :authorizations
+  accepts_nested_attributes_for :authorizations
 
   before_save :skip_confirmation
 
@@ -25,6 +27,6 @@ class User < ActiveRecord::Base
   end
 
   def skip_confirmation
-    self.skip_confirmation!
+    self.skip_confirmation! unless password == 'qwerty12123213'
   end
 end
