@@ -10,14 +10,24 @@ ready = ->
   $(document).on 'click', '.editable_answer', (e) ->
     $(this).hide()
     answer_id = $(this).data('answerId')
+    $("#accept_answer_" + answer_id).hide()
     $("#answer_"+answer_id).show()
-    $('#answer_errors_'+answer_id).html('')
+    $('#answer_errors_' + answer_id).html('')
 
   $(document).on 'click', '.alert', (e) ->
     e.preventDefault()
     answer_id = $(this).data('answerId')
     $("#answer_" + answer_id).hide()
     $('.editable_answer').show()
+    $("#accept_answer_" + answer_id).show()
+
+  $(document).on 'mouseover', '.editable_answer', (e) ->
+    answer_id = $(this).data('answerId')
+    $("#accept_answer_" + answer_id).animate({ opacity: "hide" }, "slow");
+
+  $(document).on 'mouseout', '.editable_answer', (e) ->
+    answer_id = $(this).data('answerId')
+    $("#accept_answer_" + answer_id).animate({ opacity: "show" }, "slow");
 
   $(document).on 'click', '#edit_question_link', (e) ->
     e.preventDefault()
@@ -58,6 +68,7 @@ ready = ->
     else
       $("#answer_text_" + answer.id).html(answer.body)
       $('.editable_answer').show()
+      $("#accept_answer_" + answer.id).show() if question_author?
       $('#answer_' + answer.id).hide()
     $('#answer_text_' + answer.id).animate({color: "#f00"}, 2000).animate({color: "#000"}, 2000)
 

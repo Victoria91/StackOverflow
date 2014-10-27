@@ -6,9 +6,9 @@
 		- elsif answer.accepted?
 			.accepted
 		- if user_signed_in? and answer.user == current_user 
-			.editable_answer{ data: { answer_id: answer.id }, title: 'click to edit' }
-				%i Your answer
-				%br
+			%i Your answer
+			%br
+			.editable_answer{ data: { answer_id: answer.id }, title: 'click to edit' }	
 				.answer{ id: "answer_text_#{answer.id}" }= answer.body
 				.floatl
 					= link_to 'Delete', question_answer_path(@question, answer), method: :delete, remote: true, id: "delete_answer_#{answer.id}_link"
