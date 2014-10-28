@@ -5,20 +5,35 @@ feature 'sign in with social network', %q(
   I want to sign in with facebook
 ) do
 
-  it 'sign in with facebook' do
+  background do 
     visit root_path
     click_link 'Sign in'
     mock_auth_hash
-    click_link 'Sign in with Facebook'
-    expect(page).to have_content('Successfully authenticated from Facebook account.')
   end
 
-  it 'sign in with vkontakte' do
-    visit root_path
-    click_link 'Sign in'
-    mock_auth_hash
-    click_link 'Sign in with Vkontakte'
-    expect(page).to have_content('Successfully authenticated from Vkontakte account.')
+  context 'sign in with' do
+    scenario 'sign in with facebook' do
+      click_link 'Sign in with Facebook'
+      expect(page).to have_content('Successfully authenticated from Facebook account.')
+      expect(page).to have_link 'Ask your question'
+    end
+
+    scenario 'sign in with vkontakte' do
+      click_link 'Sign in with Vkontakte'
+      expect(page).to have_content('Successfully authenticated from Vkontakte account.')
+      expect(page).to have_link 'Ask your question'
+    end
+
+    scenario 'sign in with twitter' do
+      click_link 'Sign in with Twitter'
+      fill_in 'Email', with: 'mail@mail.com'
+      click_button 'Send confirmation instructions'
+      open_email('mail@mail.com')
+      current_email.click_link 'Confirm my account'
+      expect(page).to have_content 'Your email address has been successfully confirmed.'
+      click_link 'Sign in with Twitter'
+      expect(page).to have_content('Successfully authenticated from Twitter account.')
+    end
   end
 
 end

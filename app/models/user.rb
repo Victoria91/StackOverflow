@@ -17,12 +17,14 @@ class User < ActiveRecord::Base
     return authorization.user if authorization
 
     email = auth.info[:email]
-    user = User.where(email: email).first
-    unless user
-      password = Devise.friendly_token[0, 20]
-      user = User.create!(email: email, password: password, password_confirmation: password)
+    if email
+      user = User.where(email: email).first
+      unless user
+        password = Devise.friendly_token[0, 20]
+        user = User.create!(email: email, password: password, password_confirmation: password)
+      end
+      user.authorizations.create(uid: auth.uid, provider: auth.provider)
     end
-    user.authorizations.create(uid: auth.uid, provider: auth.provider)
     user
   end
 
