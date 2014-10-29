@@ -2,17 +2,11 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
   before_action :find_user_for_oauth, except: :create_user
 
   def facebook
-    if @user.persisted?
-      sign_in_and_redirect @user, event: :authentication
-      set_flash_message(:notice, :success, kind: 'Facebook') if is_navigational_format?
-    end
+    soc_net_sign_in('Facebook')
   end
 
   def vkontakte
-    if @user.persisted?
-      sign_in_and_redirect @user, event: :authentication
-      set_flash_message(:notice, :success, kind: 'Vkontakte') if is_navigational_format?
-    end
+    soc_net_sign_in('Vkontakte')
   end
 
   def twitter
@@ -30,5 +24,12 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
   private
   def find_user_for_oauth
     @user = User.find_for_oauth(request.env['omniauth.auth'])
+  end
+
+  def soc_net_sign_in(kind)
+    if @user.persisted?
+      sign_in_and_redirect @user, event: :authentication
+      set_flash_message(:notice, :success, kind: kind) if is_navigational_format?
+    end
   end
 end

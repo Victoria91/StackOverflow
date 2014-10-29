@@ -29,9 +29,7 @@ feature 'sign in with social network', %q(
       fill_in 'Email', with: 'mail@mail.com'
       click_button 'Send confirmation instructions'
       open_email('mail@mail.com')
-      current_email.click_link 'Confirm my account'
-      expect(page).to have_content 'Your email address has been successfully confirmed. Your are now signed in'
-      expect(page).to have_link 'Ask question'
+      expect(current_email).to have_link 'Confirm my account'
     end
   end
 

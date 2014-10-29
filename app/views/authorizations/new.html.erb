@@ -1,15 +1,11 @@
 <%= session.to_json %>
-<h2>Resend confirmation instructions</h2>
+<h2>Send confirmation instructions</h2>
 
 <%= simple_form_for(@user, url: confirm_auth_path, html: { method: :post }) do |f| %>
   <%= f.error_notification %>
   <%= f.full_error :confirmation_token %>
   <div class="form-inputs">
     <%= f.input :email, required: true, autofocus: true %>
-    <%= f.simple_fields_for :authorizations, @user.authorizations.build do |a| %>
-      <%= a.input :uid, input_html: { value: @uid, type: 'hidden' }, label: false %>
-      <%= a.input :provider, input_html: { value: @provider, type: 'hidden' }, label: false %>
-      <%  end %>
   </div>
 
   <div class="form-actions">
@@ -17,4 +13,3 @@
   </div>
 <% end %>
 
-<%= render "devise/shared/links" %>

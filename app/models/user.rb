@@ -1,7 +1,7 @@
 class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
-  devise :database_authenticatable, :registerable, :confirmable, :recoverable, 
+  devise :database_authenticatable, :registerable, :recoverable, 
          :rememberable, :trackable, :validatable, :omniauthable, 
          omniauth_providers: [:facebook, :vkontakte, :twitter]
 
@@ -9,8 +9,6 @@ class User < ActiveRecord::Base
   has_many :answers
   has_many :authorizations
   accepts_nested_attributes_for :authorizations
-
-  before_save :skip_confirmation
 
   def self.find_for_oauth(auth)
     authorization = Authorization.where(provider: auth.provider, uid: auth.uid.to_s).first
@@ -26,9 +24,5 @@ class User < ActiveRecord::Base
       user.authorizations.create(uid: auth.uid, provider: auth.provider)
     end
     user
-  end
-
-  def skip_confirmation
-    self.skip_confirmation!
   end
 end
