@@ -30,9 +30,8 @@ feature 'sign in with social network', %q(
       click_button 'Send confirmation instructions'
       open_email('mail@mail.com')
       current_email.click_link 'Confirm my account'
-      expect(page).to have_content 'Your email address has been successfully confirmed.'
-      click_link 'Sign in with Twitter'
-      expect(page).to have_content('Successfully authenticated from Twitter account.')
+      expect(page).to have_content 'Your email address has been successfully confirmed. Your are now signed in'
+      expect(page).to have_link 'Ask question'
     end
   end
 

@@ -21,22 +21,10 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
       set_flash_message(:notice, :success, kind: 'Twitter') if is_navigational_format?
     else
       @user = User.new
-      @uid = request.env['omniauth.auth'].uid 
-      @provider = request.env['omniauth.auth'].provider 
-      render 'devise/confirmations/new'
+      session[:uid] = request.env['omniauth.auth'].uid 
+      session[:provider] = request.env['omniauth.auth'].provider 
+      render 'authorizations/new'
     end
-  end
-
-  def create_user
-    #render json: request.params   
-    @user = User.create(user_params.merge(password:'qwerty12123213', password_confirmation:'qwerty12123213'))
-    @user.send_confirmation_instructions
-    redirect_to root_path, notice: 'confirmation sent'
-  end
-
-  private
-  def user_params 
-    params[:user].permit(:email, authorizations_attributes: [:provider, :uid,])
   end
 
   private

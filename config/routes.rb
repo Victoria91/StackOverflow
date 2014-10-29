@@ -4,10 +4,11 @@ Rails.application.routes.draw do
 
   devise_for :users, controllers: { omniauth_callbacks: 'omniauth_callbacks' }
   devise_scope :user do
-    post 'create_user', to: 'omniauth_callbacks#create_user'
+    post 'confirm_auth', to: 'authorizations#confirm_auth'
   end
 
-  
+  get '/authorizations', to: 'authorizations#show'
+
   resources :questions do
     resources :answers do
       post 'accept', on: :member

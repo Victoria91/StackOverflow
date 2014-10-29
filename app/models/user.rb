@@ -29,6 +29,6 @@ class User < ActiveRecord::Base
   end
 
   def skip_confirmation
-    self.skip_confirmation! unless password == 'qwerty12123213'
+    self.skip_confirmation!
   end
 end
