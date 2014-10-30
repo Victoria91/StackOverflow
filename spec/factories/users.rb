@@ -9,6 +9,5 @@ FactoryGirl.define do
     email
     password 'qwerty12'
     password_confirmation 'qwerty12'
-    confirmed_at Time.now
   end
 end

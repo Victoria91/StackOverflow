@@ -10,8 +10,8 @@ RSpec.describe Ability do
   end
 
   context 'user' do
-    let(:user) { FactoryGirl.create(:user) }
-    let(:another_user) { FactoryGirl.create(:user) }
+    let(:user) { create(:user) }
+    let(:another_user) { create(:user) }
 
     it { should be_able_to(:read, :all) }
     it { should_not be_able_to(:manage, :all) }
@@ -20,17 +20,13 @@ RSpec.describe Ability do
       it { should be_able_to(:create, Question) }
 
       context 'own question' do
-        let(:question)  { FactoryGirl.create(:question, user: user) }
-
-        it { should be_able_to(:update, :question) }
-        it { should be_able_to(:delete, :question) }
+        it { should be_able_to(:update, create(:question, user: user), user: user) }
+        it { should be_able_to(:destroy, create(:question, user: user), user: user) }
       end
 
       context 'another question' do
-        let(:question) { FactoryGirl.create(:question, user: another_user) }
-
-        it { should_not be_able_to(:update, :question) }
-        it { should_not be_able_to(:delete, :question) }
+        it { should_not be_able_to(:update, create(:question, user: another_user), user: user) }
+        it { should_not be_able_to(:destroy, create(:question, user: another_user), user: user) }
       end
     end
 
@@ -38,17 +34,17 @@ RSpec.describe Ability do
       it { should be_able_to(:create, Answer) }
 
       context 'own question' do
-        let(:answer)  { FactoryGirl.create(:answer, user: user) }
-
-        it { should be_able_to(:update, :answer) }
-        it { should be_able_to(:delete, :answer) }
+        it { should be_able_to(:update, create(:answer, user: user, question: create(:question)), user) }
+        it { should be_able_to(:destroy, create(:answer, user: user, question: create(:question)), user) }
       end
 
       context 'another question' do
-        let(:answer) { FactoryGirl.create(:answer, user: another_user) }
+        it { should_not be_able_to(:update, create(:answer, user: another_user, question: create(:question)), user: user) }
+        it { should_not be_able_to(:destroy, create(:answer, user: another_user, question: create(:question)), user: user) }
+      end
 
-        it { should_not be_able_to(:update, :answer) }
-        it { should_not be_able_to(:delete, :answer) }
+      context '#accept' do
+        it { should_not be_able_to(:accept, create(:answer, question: create(:question, user: user)), user: user)}
       end
     end
   end
