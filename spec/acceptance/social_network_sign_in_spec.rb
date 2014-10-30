@@ -13,19 +13,19 @@ feature 'sign in with social network', %q(
 
   context 'sign in with' do
     scenario 'sign in with facebook' do
-      click_link 'Sign in with Facebook'
+      click_on 'Facebook'
       expect(page).to have_content('Successfully authenticated from Facebook account.')
       expect(page).to have_link 'Ask your question'
     end
 
     scenario 'sign in with vkontakte' do
-      click_link 'Sign in with Vkontakte'
+      click_on 'Vkontakte'
       expect(page).to have_content('Successfully authenticated from Vkontakte account.')
       expect(page).to have_link 'Ask your question'
     end
 
     scenario 'sign in with twitter' do
-      click_link 'Sign in with Twitter'
+      click_on 'Twitter'
       fill_in 'Email', with: 'mail@mail.com'
       click_button 'Send confirmation instructions'
       open_email('mail@mail.com')
