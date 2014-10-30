@@ -3,18 +3,18 @@ class AuthorizationsController < ApplicationController
   def confirm_auth
     @token = Devise.friendly_token[0,30]
     @user = User.where(user_params).first
-    return send_confirmation if @user
-    @user = User.new(user_params.merge(password: @token, password_confirmation: @token))
-    return send_confirmation if @user.save
-    render 'authorizations/new' 
+    @user ||= User.create(user_params.merge(password: @token, password_confirmation: @token))
+    if @user.save
+      send_confirmation
+    else
+      render 'authorizations/new' 
+    end
   end
 
   def show 
-    token = params[:token]
-    if token == session[:token]
+    if params[:token] == session[:token]
       @user = User.where(email: session[:email]).first
       @user.authorizations.create(uid: session[:uid], provider: session[:provider])
-      reset_session
       sign_in @user
       flash[:notice] = 'Your email address has been successfully confirmed. Your are now signed in with Twitter account'
     else 
