@@ -12,6 +12,7 @@ class Ability
       can :create, Answer, user: user
       can :destroy, Answer, user: user
       can :accept, Answer, question: { user: user }
+      #can :vote, Question
     end
 
     can :read, :all

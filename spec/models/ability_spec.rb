@@ -30,6 +30,24 @@ RSpec.describe Ability do
         it { should_not be_able_to(:update, another_question, user: user) }
         it { should_not be_able_to(:destroy, another_question, user: user) }
       end
+
+      context 'votes' do
+        context 'on another_question' do
+          context 'first time' do
+            it { should be_able_to(:vote, question, user: another_user) }
+          end
+
+          context 'second time' do
+            let!(:vote) { create(:vote, question: question, user: another_user) }
+
+            it { should_not be_able_to(:vote, question, user: another_user) }            
+          end
+        end
+
+        context 'on own question' do
+          it { should_not be_able_to(:vote, question, user: user) }
+        end
+      end
     end
 
     context 'Answer' do
