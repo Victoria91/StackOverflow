@@ -4,6 +4,7 @@ FactoryGirl.define do
   factory :question do
     title { Faker::Lorem.sentence }
     body { Faker::Lorem.paragraph }
+    rating { Faker::Number.digit }
   end
 
   factory :invalid_question, class: Question do

@@ -29,13 +29,13 @@ RSpec.describe Question do
  
   describe '#vote_up' do
     it 'increases question rating' do
-      expect{question.vote_up}.to change(question.rating).by(1)
+      expect{ question.vote_up }.to change{ question.rating }.by(1)
     end
   end
 
   describe '#vote_down' do
     it 'decreases question rating' do
-      expect{question.vote_down}.to change(question.rating).by(1)
+      expect{ question.vote_down }.to change{ question.rating }.by(-1)
     end
 
   end
