@@ -12,7 +12,7 @@ feature 'delete answer', %q(
   given!(:another_answer) { FactoryGirl.create(:answer, question: question, user: another_user) }
 
   context 'authorized' do
-    before do
+    background do
       login_as user
       visit question_path(question)
     end
