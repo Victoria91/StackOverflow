@@ -7,6 +7,8 @@ class AnswersController < ApplicationController
   respond_to :js, only: [:destroy, :accept]
   respond_to :json, only: [:create, :update]
 
+  authorize_resource
+
   def create
     respond_with(@question, @answer = @question.answers.create(answer_params.merge(user: current_user)))
   end
@@ -17,11 +19,11 @@ class AnswersController < ApplicationController
   end
 
   def destroy
-    @answer.destroy if @answer.user == current_user
+    @answer.destroy
   end
 
   def accept
-    @answer.toggle_accepted if @question.user == current_user
+    @answer.toggle_accepted
   end
 
   private

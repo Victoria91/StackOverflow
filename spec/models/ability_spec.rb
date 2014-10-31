@@ -18,33 +18,38 @@ RSpec.describe Ability do
 
     context 'Question' do
       it { should be_able_to(:create, Question) }
+      let(:question) { create(:question, user: user) }
+      let(:another_question) { create(:question, user: another_user) }
 
       context 'own question' do
-        it { should be_able_to(:update, create(:question, user: user), user: user) }
-        it { should be_able_to(:destroy, create(:question, user: user), user: user) }
+        it { should be_able_to(:update, question, user: user) }
+        it { should be_able_to(:destroy, question, user: user) }
       end
 
       context 'another question' do
-        it { should_not be_able_to(:update, create(:question, user: another_user), user: user) }
-        it { should_not be_able_to(:destroy, create(:question, user: another_user), user: user) }
+        it { should_not be_able_to(:update, another_question, user: user) }
+        it { should_not be_able_to(:destroy, another_question, user: user) }
       end
     end
 
     context 'Answer' do
       it { should be_able_to(:create, Answer) }
+      let(:answer) { create(:answer, user: user, question: create(:question)) }
+      let(:another_answer) { create(:answer, user: another_user, question: create(:question)) }
 
       context 'own question' do
-        it { should be_able_to(:update, create(:answer, user: user, question: create(:question)), user) }
-        it { should be_able_to(:destroy, create(:answer, user: user, question: create(:question)), user) }
+        it { should be_able_to(:update, answer, user) }
+        it { should be_able_to(:destroy, answer, user) }
       end
 
       context 'another question' do
-        it { should_not be_able_to(:update, create(:answer, user: another_user, question: create(:question)), user: user) }
-        it { should_not be_able_to(:destroy, create(:answer, user: another_user, question: create(:question)), user: user) }
+        it { should_not be_able_to(:update, another_answer, user: user) }
+        it { should_not be_able_to(:destroy, another_answer, user: user) }
       end
 
       context '#accept' do
-        it { should_not be_able_to(:accept, create(:answer, question: create(:question, user: user)), user: user)}
+        it { should_not be_able_to(:accept, create(:answer, question: create(:question, user: another_user)), user: user) }
+        it { should be_able_to(:accept, create(:answer, question: create(:question, user: user)), user: user) }
       end
     end
   end

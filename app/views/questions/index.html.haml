@@ -4,8 +4,8 @@
   = link_to 'Sign up', new_user_registration_path
   in order to ask, answer questions and not only 
   %br
--else
-  = link_to 'Ask your question', new_question_path 
+
+= link_to 'Ask your question', new_question_path if can?(:create, Question)
 
 .questions
   -@questions.each do |q| 

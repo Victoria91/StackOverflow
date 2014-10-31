@@ -4,7 +4,7 @@
 .attachments
   = render 'attachments'
 
-- if user_signed_in? and current_user == @question.user
+- if can?(:update, @question)
   .question_errors
   = simple_nested_form_for @question, remote: true, html: { id: 'edit_question_form' }  do |f| 
     = f.input :title 
@@ -26,7 +26,7 @@
 .answers{ data: { question_id: @question.id } }
   = render 'answers'
 
-- if user_signed_in?
+- if can?(:create, Answer)
   = simple_form_for [@question, @answer], remote: true, data: { type: :json } do |f|
     = f.input :body, label: 'Your answer:' 
     = f.button :submit 

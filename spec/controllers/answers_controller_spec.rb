@@ -26,17 +26,27 @@ RSpec.describe AnswersController do
   describe 'PATCH #update' do
     context 'authorized' do
       sign_in_user
+      let(:another_user) { create(:user) }
       let(:answer) { FactoryGirl.create(:answer, question: question, user: @user) }
+      let(:another_answer) { create(:answer, question: question, user: another_user) }
       let(:new_answer) { FactoryGirl.build(:answer) }
 
-      it 'updates an answer' do
-        expect { patch :update, question_id: question, id: answer, answer: { body: new_answer.body }, format: :json }.to change { answer.reload.body }.to(new_answer.body)
+      context 'own answer' do
+        it 'updates an answer' do
+          expect { patch :update, question_id: question, id: answer, answer: { body: new_answer.body }, format: :json }.to change { answer.reload.body }.to(new_answer.body)
+        end
+
+        it 'status is success' do
+          patch :update, question_id: question, id: answer, answer: { body: new_answer.body }, format: :json
+          expect(response.status).to eq(204)
+        end
       end
 
-      it 'status is success' do
-        patch :update, question_id: question, id: answer, answer: { body: new_answer.body }, format: :json
-        expect(response.status).to eq(204)
-      end
+      context 'another_answer' do
+        it 'updates an answer' do
+          expect { patch :update, question_id: question, id: another_answer, answer: { body: new_answer.body }, format: :json }.not_to change { another_answer.body }
+        end
+      end  
     end
 
     context 'unauthorized' do
@@ -58,7 +68,7 @@ RSpec.describe AnswersController do
     context 'authorized' do
       sign_in_user
       let!(:answer) { FactoryGirl.create(:answer, question: question, user: @user) }
-      let!(:another_answer) { FactoryGirl.create(:answer, question: question, user: FactoryGirl.create(:user)) }
+      let!(:another_answer) { create(:answer, question: question, user: create(:user)) }
 
       it 'deletes own answer' do
         expect { delete :destroy, question_id: question, id: answer, format: :js }.to change(Answer, :count).by(-1)
@@ -99,9 +109,7 @@ RSpec.describe AnswersController do
       let(:another_answer) { FactoryGirl.create(:answer, question: another_question) }
 
       it 'accepts answer' do
-        puts answer.accepted
         expect { post :accept, question_id: question, id: answer, format: :js }.to change { answer.reload.accepted }.to true
-        puts answer.reload.accepted
       end
 
       it 'reaccept answer' do
@@ -110,7 +118,7 @@ RSpec.describe AnswersController do
       end
 
       it 'not accepted another users question' do
-        expect { post :accept, question_id: another_question, id: another_answer, format: :js }.not_to change { answer.reload.accepted }
+        expect { post :accept, question_id: another_question, id: another_answer, format: :js }.not_to change { another_answer.reload.accepted }
       end
 
     end

@@ -8,11 +8,12 @@ class Ability
     if user
       can :create, :all
       can :manage, Question, user: user
-      can :update, Answer, user: user 
-      can :create, Answer, user: user 
+      can :update, Answer, user: user
+      can :create, Answer, user: user
       can :destroy, Answer, user: user
+      can :accept, Answer, question: { user: user }
     end
-    
+
     can :read, :all
   end
 end

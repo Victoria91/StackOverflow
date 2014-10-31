@@ -1,10 +1,11 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, only: [:new, :create, :destroy, :update]
   before_action :find_question, only: [:show, :destroy, :update]
-  before_action :authorize_user, only: [:update, :destroy]
   after_action :publish_to_questions_chanel, only: :create
 
   respond_to :html, :js, :json
+
+  authorize_resource
 
   def new
     respond_with(@question = Question.new)
@@ -44,10 +45,6 @@ class QuestionsController < ApplicationController
 
   def find_question
     @question = Question.find(params[:id])
-  end
-
-  def authorize_user
-    redirect_to questions_path, notice: 'Only owner can do this action' if @question.user != current_user
   end
 
   def publish_to_questions_chanel

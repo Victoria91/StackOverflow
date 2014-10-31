@@ -1,11 +1,11 @@
 - @question.answers.order("created_at").each do |answer|
 	%div{ id: "#{answer.id}"}
 		%hr
-		- if user_signed_in? and @question.user == current_user 
+		- if can?(:accept, answer) 
 			= link_to '', accept_question_answer_path(@question, answer), method: :post, remote: true, class: answer.accepted? ? 'accepted' : 'accept', title: 'click to accept', id: "accept_answer_#{answer.id}"
 		- elsif answer.accepted?
 			.accepted
-		- if user_signed_in? and answer.user == current_user 
+		- if can?(:update, answer) 
 			%i Your answer
 			%br
 			.editable_answer{ data: { answer_id: answer.id }, title: 'click to edit' }	
