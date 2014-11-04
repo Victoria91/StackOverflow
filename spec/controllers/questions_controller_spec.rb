@@ -146,4 +146,14 @@ RSpec.describe QuestionsController do
     end
   end
 
+  describe 'POST #vote_up' do
+    it 'increases vote rating'
+    it 'creates a new user vote on question with value up'
+  end
+
+  describe 'POST #vote_down' do
+    it 'decreases vote rating'
+    it 'creates a new user vote on question with value down'
+  end
+
 end

@@ -6,6 +6,7 @@ RSpec.describe Question do
   it { should validate_presence_of :body }
   it { should have_many :answers }
   it { should have_many :attachments }
+  it { should have_many :votes }
   it { should ensure_length_of(:title).is_at_most(255) }
   it { should accept_nested_attributes_for :attachments }
 

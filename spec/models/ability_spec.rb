@@ -10,8 +10,8 @@ RSpec.describe Ability do
   end
 
   context 'user' do
-    let(:user) { create(:user) }
-    let(:another_user) { create(:user) }
+    let!(:user) { create(:user) }
+    let!(:another_user) { create(:user) }
 
     it { should be_able_to(:read, :all) }
     it { should_not be_able_to(:manage, :all) }
@@ -33,8 +33,9 @@ RSpec.describe Ability do
 
       context 'votes' do
         context 'on another_question' do
+
           context 'first time' do
-            it { should be_able_to(:vote, question, user: another_user) }
+            it { should be_able_to(:vote, create(:question, user: user), user: another_user) }
           end
 
           context 'second time' do
@@ -45,7 +46,7 @@ RSpec.describe Ability do
         end
 
         context 'on own question' do
-          it { should_not be_able_to(:vote, question, user: user) }
+          it { should_not be_able_to(:vote, create(:question, user: user), user: user) }
         end
       end
     end
@@ -56,8 +57,8 @@ RSpec.describe Ability do
       let(:another_answer) { create(:answer, user: another_user, question: create(:question)) }
 
       context 'own question' do
-        it { should be_able_to(:update, answer, user) }
-        it { should be_able_to(:destroy, answer, user) }
+        it { should be_able_to(:update, answer, user: user) }
+        it { should be_able_to(:destroy, answer, user: user) }
       end
 
       context 'another question' do
@@ -66,8 +67,8 @@ RSpec.describe Ability do
       end
 
       context '#accept' do
-        it { should_not be_able_to(:accept, create(:answer, question: create(:question, user: another_user)), user: user) }
         it { should be_able_to(:accept, create(:answer, question: create(:question, user: user)), user: user) }
+        it { should_not be_able_to(:accept, create(:answer, question: create(:question, user: another_user)), user: user) }
       end
     end
   end

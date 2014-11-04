@@ -17,7 +17,7 @@ class AuthorizationsController < ApplicationController
       sign_in @user
       flash[:notice] = 'Your email address has been successfully confirmed. Your are now signed in with Twitter account'
     else
-      flash[:notice] = 'Invalid email. Try to sign up one more time'
+      flash[:notice] = 'Invalid confirmation. Try to sign up one more time'
     end
     redirect_to root_path
   end

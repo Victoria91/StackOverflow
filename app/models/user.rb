@@ -8,7 +8,7 @@ class User < ActiveRecord::Base
   has_many :questions
   has_many :answers
   has_many :authorizations
-  accepts_nested_attributes_for :authorizations
+  has_many :votes
 
   def self.find_for_oauth(auth)
     authorization = Authorization.where(provider: auth.provider, uid: auth.uid.to_s).first

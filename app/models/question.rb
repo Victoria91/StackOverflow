@@ -2,6 +2,7 @@ class Question < ActiveRecord::Base
   has_many :answers
   belongs_to :user
   has_many :attachments, as: :attachmentable
+  has_many :votes
 
   validates :title, :body, presence: true
   validates :title, length: { maximum: 255 }
