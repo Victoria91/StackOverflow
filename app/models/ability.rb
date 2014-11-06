@@ -11,13 +11,9 @@ class Ability
       can :create, [Question, Answer]
       can [:update, :create, :destroy], [Question, Answer], user: user
       can :accept, Answer, question: { user: user }
-      can :vote, Question, user: !user
-     # cannot :vote, Question, user: user
-
-
-   #   can :vote, Question do |q|
-   #     q.votes.where(user: user).count == 0 && q.user != user
-   #   end
+      can :vote, Question do |q|
+        q.votes.where(user: user).empty? && q.user != user
+      end
     end
 
     can :read, :all

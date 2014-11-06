@@ -22,53 +22,55 @@ RSpec.describe Ability do
       let(:another_question) { create(:question, user: another_user) }
 
       context 'own question' do
-        it { should be_able_to(:update, question, user: user) }
-        it { should be_able_to(:destroy, question, user: user) }
+        it { should be_able_to(:update, question) }
+        it { should be_able_to(:destroy, question) }
       end
 
       context 'another question' do
-        it { should_not be_able_to(:update, another_question, user: user) }
-        it { should_not be_able_to(:destroy, another_question, user: user) }
+        it { should_not be_able_to(:update, another_question) }
+        it { should_not be_able_to(:destroy, another_question) }
       end
 
       context 'votes' do
         context 'on another_question' do
 
           context 'first time' do
-            it { should be_able_to(:vote, create(:question, user: user), user: another_user) }
+            it { should be_able_to(:vote, another_question) }
           end
 
           context 'second time' do
             let!(:vote) { create(:vote, question: question, user: another_user) }
 
-            it { should_not be_able_to(:vote, question, user: another_user) }            
+            it { should_not be_able_to(:vote, question) }
           end
         end
 
         context 'on own question' do
-          it { should_not be_able_to(:vote, create(:question, user: user), user: user) }
+          it { should_not be_able_to(:vote, question) }
         end
       end
     end
 
     context 'Answer' do
       it { should be_able_to(:create, Answer) }
+      let(:question) { create(:question, user: user) }
+      let(:another_question) { create(:question, user: another_user) }
       let(:answer) { create(:answer, user: user, question: create(:question)) }
       let(:another_answer) { create(:answer, user: another_user, question: create(:question)) }
 
-      context 'own question' do
-        it { should be_able_to(:update, answer, user: user) }
-        it { should be_able_to(:destroy, answer, user: user) }
+      context 'own answer' do
+        it { should be_able_to(:update, answer) }
+        it { should be_able_to(:destroy, answer) }
       end
 
-      context 'another question' do
-        it { should_not be_able_to(:update, another_answer, user: user) }
-        it { should_not be_able_to(:destroy, another_answer, user: user) }
+      context 'another answer' do
+        it { should_not be_able_to(:update, another_answer) }
+        it { should_not be_able_to(:destroy, another_answer) }
       end
 
       context '#accept' do
-        it { should be_able_to(:accept, create(:answer, question: create(:question, user: user)), user: user) }
-        it { should_not be_able_to(:accept, create(:answer, question: create(:question, user: another_user)), user: user) }
+        it { should be_able_to(:accept, create(:answer, question: question)) }
+        it { should_not be_able_to(:accept, create(:answer, question: another_question)) }
       end
     end
   end
