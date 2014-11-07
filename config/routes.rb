@@ -10,6 +10,8 @@ Rails.application.routes.draw do
   get '/authorizations', to: 'authorizations#show'
 
   resources :questions do
+    post 'vote_up', on: :member
+    post 'vote_down', on: :member
     resources :answers do
       post 'accept', on: :member
     end

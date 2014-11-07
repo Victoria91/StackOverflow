@@ -148,29 +148,52 @@ RSpec.describe QuestionsController do
 
   describe 'POST #vote_up' do
     let(:question) { FactoryGirl.create(:question, user: create(:user)) }
-    sign_in_user
 
     context 'authorized' do
       sign_in_user
-      it 'increases vote rating' do
+      it 'increases vote rating on own question' do
         expect { post :vote_up, id: question, format: :js }.to change { question.reload.rating }.by(1)
       end
 
+      it 'not increases vote rating on another_question question' do
+        expect { post :vote_up, id: create(:question, user: @user), format: :js }.not_to change { question.reload.rating }
+      end
+
       it 'creates a new user vote on question with value up' do
-        expect { post :vote_up, id: question, format: :js }.to change { user.votes.where(value: '+1').by(1) }
+        expect { post :vote_up, id: question, format: :js }.to change { @user.votes.where(vote_type: '+1').count }.by(1)
       end
     end
 
     context 'unauthorized' do
-      it 'not vote rating' do
+      it 'not changes question rating' do
         expect { post :vote_up, id: question, format: :js }.not_to change { question.reload.rating }
       end
     end
   end
 
   describe 'POST #vote_down' do
-    it 'decreases vote rating'
-    it 'creates a new user vote on question with value down'
+    let(:question) { FactoryGirl.create(:question, user: create(:user)) }
+
+    context 'authorized' do
+      sign_in_user
+      it 'decreases vote rating on own question' do
+        expect { post :vote_down, id: question, format: :js }.to change { question.reload.rating }.by(-1)
+      end
+
+      it 'not decreases vote rating on another_question question' do
+        expect { post :vote_down, id: create(:question, user: @user), format: :js }.not_to change { question.reload.rating }
+      end
+
+      it 'creates a new user vote on question with value down' do
+        expect { post :vote_down, id: question, format: :js }.to change { @user.votes.where(vote_type: '-1').count }.by(1)
+      end
+    end
+
+    context 'unauthorized' do
+      it 'not changes question rating' do
+        expect { post :vote_down, id: question, format: :js }.not_to change { question.reload.rating }
+      end
+    end
   end
 
 end

@@ -1,6 +1,6 @@
 class QuestionsController < ApplicationController
-  before_action :authenticate_user!, only: [:new, :create, :destroy, :update]
-  before_action :find_question, only: [:show, :destroy, :update]
+  before_action :authenticate_user!, except: [:index, :show]
+  before_action :find_question, except: [:index, :new, :create]
   after_action :publish_to_questions_chanel, only: :create
 
   respond_to :html, :js, :json
@@ -35,6 +35,18 @@ class QuestionsController < ApplicationController
   def update
     @question.update(question_params)
     respond_with(@question)
+  end
+
+  def vote_up
+    @question.vote_up
+    current_user.votes.create(question: @question, vote_type: '+1')
+    render :vote
+  end
+
+  def vote_down
+    @question.vote_down
+    current_user.votes.create(question: @question, vote_type: '-1')
+    render :vote
   end
 
   private
