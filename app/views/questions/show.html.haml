@@ -1,7 +1,7 @@
 .question{ data: { author: @question.user == current_user } }
   .votes
     - if can?(:vote_up, @question) 
-      = link_to '', vote_up_question_path(@question), method: :post, remote: true, class: 'vote_up_link'
+      = link_to "", vote_up_question_path(@question), method: :post, remote: true, class: 'vote_up_link'
     - else
       .vote_up
     %span= @question.rating

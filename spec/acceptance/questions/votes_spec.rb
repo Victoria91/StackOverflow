@@ -7,7 +7,8 @@ feature 'vote for a question', %q(
 ) do
 
   given(:user) { create(:user) }
-  given(:question) { create(:question, raiting: 10) }
+  given!(:question) { create(:question, rating: 10) }
+  given(:own_question)  { create(:question, user: user) }
 
   context 'unauthorized' do
     background do
@@ -16,12 +17,12 @@ feature 'vote for a question', %q(
     end
 
     scenario 'the raiting of question is shown' do
-      expect(page).to have_content question.raiting
+      expect(page).to have_content question.rating
     end
 
     scenario 'unauthorized cannot vote' do
-      expect(page).not_to have_selector '.vote_up'
-      expect(page).not_to have_selector '.vote_down'
+      expect(page).not_to have_selector '.vote_up_link'
+      expect(page).not_to have_selector '.vote_down_link'
     end
   end
 
@@ -32,30 +33,31 @@ feature 'vote for a question', %q(
     end
 
     scenario 'author cannot vote' do
-      expect(page).not_to have_selector '.vote_up'
-      expect(page).not_to have_selector '.vote_down'
+      visit question_path(own_question)
+      expect(page).not_to have_selector '.vote_up_link'
+      expect(page).not_to have_selector '.vote_down_link'
     end
 
-    scenario 'vote up' do
-      expect(page).to have_content question.raiting
-      click_on '.vote_up'
-      expect(page).to have_content(question.raiting + 1)
+    scenario 'vote up', js: true do
+      expect(page).to have_content question.rating
+      find('.vote_up_link').click
+      expect(page).to have_content(question.rating + 1)
     end
 
-    scenario 'vote down' do
-      expect(page).to have_content question.raiting
-      click_on '.vote_down'
-      expect(page).to have_content(question.raiting - 1)
+    scenario 'vote down', js: true do
+      expect(page).to have_content question.rating
+      find('.vote_down_link').click
+      expect(page).to have_content(question.rating - 1)
     end
 
-    scenario 'cannot vote up twice' do
-      click_on '.vote_up'
-      expect(page).to have_selector '.vote_up'
+    scenario 'cannot vote up twice', js: true do
+      find('.vote_up_link').click
+      expect(page).to have_selector '.vote_up_link'
     end
 
-    scenario 'cannot vote down twice' do
-      click_on '.vote_down'
-      expect(page).to have_selector '.vote_down'
+    scenario 'cannot vote down twice', js: true do
+      find('.vote_down_link').click
+      expect(page).to have_selector '.vote_down_link'
     end
   end
 
