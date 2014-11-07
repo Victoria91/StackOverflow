@@ -1,0 +1,50 @@
+// Place all the styles related to the Questions controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.edit_question { 
+	display: none;
+}
+
+.question_errors {
+	color: red;
+}
+
+.answer:hover {
+  border: 1px solid #cccccc;
+}
+
+.votes {
+  margin-right: 20px;
+  float: left;
+  text-align: center;
+}
+
+.votes span {
+  display: block;
+  color: #808185;
+  font-weight: normal;
+  font-size: 24px;
+}
+
+.vote_up, .vote_down, .vote_up_link, .vote_down_link{
+  background-image: url('<%= image_path("so_sprites.png") %>');
+  width: 41px;
+  height: 25px;
+}
+
+.vote_up {
+  background-position: 0 -265px;
+}
+
+.vote_down {
+  background-position: 0 -300px;
+}
+
+.vote_up_link {
+  background-position: 0 -235px;
+}
+
+.vote_down_link {
+  background-position: 0 -320px;
+}
