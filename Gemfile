@@ -74,6 +74,7 @@ group :test do
   gem 'faker'
   gem 'selenium-webdriver'
   gem 'database_cleaner'
+  gem 'json_spec'
 end
 # Use unicorn as the app server
 # gem 'unicorn'
