@@ -56,6 +56,8 @@ gem 'omniauth-vkontakte'
 gem 'omniauth-twitter'
 
 gem 'cancancan'
+
+gem 'doorkeeper'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
