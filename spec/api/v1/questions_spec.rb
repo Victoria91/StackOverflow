@@ -27,18 +27,26 @@ describe 'Questions API' do
       end
 
       it 'returns list of questions' do
-        expect(response.body).to have_json_size(5)
+        expect(response.body).to have_json_size(5).at_path("questions")
       end
 
       %w(id title body created_at updated_at).each do |attr|
         it "contains #{attr}" do
-          expect(response.body).to be_json_eql(question.send(attr.to_sym).to_json).at_path("0/#{attr}")
+          expect(response.body).to be_json_eql(question.send(attr.to_sym).to_json).at_path("questions/0/#{attr}")
         end
       end
 
       it 'returns answers' do
-        expect(response.body).to have_json_size(1).at_path("0/answers")
+        expect(response.body).to have_json_size(1).at_path("questions/0/answers")
       end
+
+      %w(id body created_at updated_at).each do |attr|
+        it "contains #{attr}" do
+          expect(response.body).to be_json_eql(answer.send(attr.to_sym).to_json).at_path("questions/0/answers/0/#{attr}")
+        end
+      end
+
+
     end
   end
 end
