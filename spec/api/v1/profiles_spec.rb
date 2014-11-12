@@ -9,7 +9,7 @@ describe 'Profile API' do
       end
 
       it 'returns 401 status if access_token is invalid' do
-        get '/api/v1/profiles/me', format: :json
+        get '/api/v1/profiles/me', format: :json, access_token: '12412412424'
         expect(response.status).to eq(401)
       end
 
