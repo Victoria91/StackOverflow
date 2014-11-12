@@ -5,7 +5,7 @@ class Api::V1::ProfilesController < Api::V1::BaseController
   end
 
   def users
-    @users = User.all
+    @users = User.where.not(id: current_resource_owner.id)
     respond_with @users
   end
   

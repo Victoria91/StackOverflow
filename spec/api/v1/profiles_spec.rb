@@ -27,7 +27,7 @@ describe 'Profile API' do
 
       %w(email id created_at updated_at).each do |attr|
         it "contains #{attr}" do
-          expect(response.body).to be_json_eql(me.send(attr.to_sym).to_json).at_path(attr)
+          expect(response.body).to be_json_eql(me.send(attr.to_sym).to_json).at_path("user/#{attr}")
         end
       end
 
@@ -64,7 +64,7 @@ describe 'Profile API' do
       end
 
       it 'returns list of users' do 
-        expect(response.body).to have_json_size(users.length).at_path("profiles")
+        expect(response.body).to have_json_size(users.length - 1).at_path("profiles")
       end
 
       %w(email id created_at updated_at).each do |attr|
