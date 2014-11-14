@@ -95,4 +95,60 @@ describe 'Questions API' do
       end
     end
   end
+
+  describe 'POST/questions' do
+    context 'unauthorized' do
+      it 'returns 401 status if there is no access_token' do
+        post "/api/v1/questions", format: :json
+        expect(response.status).to eq(401)
+      end
+
+      it 'returns 401 status if access_token is invalid' do
+        post "/api/v1/questions", format: :json, access_token: '123456'
+        expect(response.status).to eq(401)
+      end
+
+    end
+
+    context 'authorized' do
+      let(:user) { create(:user) }
+      let(:access_token) { create(:access_token, resource_owner_id: user.id) }
+
+      context 'with valid attributes' do
+        it 'returns 201 status' do
+          post "/api/v1/questions", format: :json, access_token: access_token.token, question: { title: 'title', body: 'body'}
+          expect(response.status).to eq(201)
+        end
+
+        it 'creates question' do
+          expect{ post "/api/v1/questions", format: :json, access_token: access_token.token, question: { title: 'title', body: 'body'} }.to change(user.questions, :count).by(1)
+        end
+
+        %w(id title body created_at updated_at).each do |attr|
+          it "contains #{attr}" do
+            post "/api/v1/questions", format: :json, access_token: access_token.token, question: { title: 'title', body: 'body'}
+            question = assigns(:question)
+            expect(response.body).to be_json_eql(question.send(attr.to_sym).to_json).at_path("question/#{attr}")
+          end
+        end
+      end
+
+      context 'with invalid attributes' do
+        it 'returns 200 status' do
+          post "/api/v1/questions", format: :json, access_token: access_token.token, question: { body: 'body'}
+          expect(response.status).to eq(422)
+          puts response.body
+        end
+
+        it 'creates question' do
+          expect{ post "/api/v1/questions", format: :json, access_token: access_token.token, question: { body: 'body'} }.not_to change(Question, :count)
+        end
+
+        it 'returns errors' do
+          post "/api/v1/questions", format: :json, access_token: access_token.token, question: { body: 'body'}
+          expect(response.body).to be_json_eql("can't be blank".to_json).at_path("errors/title/0")
+        end
+      end
+    end
+  end
 end
