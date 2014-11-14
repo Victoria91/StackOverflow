@@ -25,7 +25,7 @@ Rails.application.routes.draw do
         get :users, on: :collection
       end
       resources :questions do
-        resources :answers
+        resources :answers, shallow: true
       end
     end
   end
