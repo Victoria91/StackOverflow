@@ -31,7 +31,7 @@ describe 'Profile API' do
         end
       end
 
-      %w(password encrypted_password).each do |attr| 
+      %w(password encrypted_password).each do |attr|
         it "does not contain #{attr}" do
           expect(response.body).to_not have_json_path(attr)
         end
@@ -55,7 +55,7 @@ describe 'Profile API' do
 
     context 'authorized' do
       let!(:users) { create_list(:user, 5) }
-      let(:access_token) { create(:access_token, resource_owner_id: users.last.id ) }
+      let(:access_token) { create(:access_token, resource_owner_id: users.last.id) }
 
       before { get '/api/v1/profiles/users', format: :json, access_token: access_token.token }
 
@@ -63,8 +63,8 @@ describe 'Profile API' do
         expect(response.status).to eq(200)
       end
 
-      it 'returns list of users' do 
-        expect(response.body).to have_json_size(users.length - 1).at_path("profiles")
+      it 'returns list of users' do
+        expect(response.body).to have_json_size(users.length - 1).at_path('profiles')
       end
 
       %w(email id created_at updated_at).each do |attr|
@@ -73,13 +73,13 @@ describe 'Profile API' do
         end
       end
 
-      %w(password encrypted_password).each do |attr| 
+      %w(password encrypted_password).each do |attr|
         it "does not contain #{attr}" do
           expect(response.body).to_not have_json_path("profiles/0/#{attr}")
         end
       end
 
-      it 'does not return an authorized user' do 
+      it 'does not return an authorized user' do
         expect(assigns(:users)).not_to include(users.last)
       end
     end

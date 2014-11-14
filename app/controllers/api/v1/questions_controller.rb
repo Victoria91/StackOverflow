@@ -1,5 +1,5 @@
 class Api::V1::QuestionsController < Api::V1::BaseController
-  
+
   def index
     @questions = Question.all
     respond_with @questions
@@ -16,5 +16,4 @@ class Api::V1::QuestionsController < Api::V1::BaseController
     @question.save
     respond_with @question
   end
-
 end
