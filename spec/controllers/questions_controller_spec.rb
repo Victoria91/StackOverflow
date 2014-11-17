@@ -27,11 +27,11 @@ RSpec.describe QuestionsController do
     sign_in_user
 
     context 'with valid attributes' do
-      it 'creates a new Question object' do
+      xit 'creates a new Question object' do
         expect { post :create, question: FactoryGirl.attributes_for(:question) }.to change(@user.questions, :count).by(1)
       end
 
-      it 'redirects to show a question' do
+      xit 'redirects to show a question' do
         post :create, question: FactoryGirl.attributes_for(:question)
         expect(response).to redirect_to question_path(assigns(:question))
       end
