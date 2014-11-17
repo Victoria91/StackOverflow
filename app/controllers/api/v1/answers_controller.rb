@@ -1,5 +1,6 @@
 class Api::V1::AnswersController < Api::V1::BaseController
   before_action :find_question, only: [:index, :create]
+  authorize_resource
 
   def index
     @answers = @question.answers

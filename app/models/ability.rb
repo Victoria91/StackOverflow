@@ -14,6 +14,7 @@ class Ability
       can :vote, Question do |q|
         q.votes.where(user: user).empty? && q.user != user
       end
+      can [:me, :users], :profile
     end
 
     can :read, :all
