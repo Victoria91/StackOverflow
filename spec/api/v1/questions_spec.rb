@@ -31,7 +31,7 @@ describe 'Questions API' do
         expect(response.body).to be_json_eql(answer.send(attr.to_sym).to_json).at_path("questions/0/answers/0/#{attr}")
       end
     end
-    
+
     def send_request(options = {})
       get '/api/v1/questions', { format: :json }.merge(options)
     end
@@ -44,7 +44,7 @@ describe 'Questions API' do
     let(:success_status) { 200 }
 
     it_behaves_like 'API authenticable'
-    
+
     before { get "/api/v1/questions/#{question.id}", format: :json, access_token: access_token.token }
 
     %w(id title body created_at updated_at).each do |attr|
@@ -68,7 +68,7 @@ describe 'Questions API' do
         expect(response.body).to be_json_eql(attachment.file.url.to_json).at_path('question/attachments/0/file/url')
       end
     end
-    
+
     def send_request(options = {})
       get "/api/v1/questions/#{question.id}", { format: :json }.merge(options)
     end
@@ -88,7 +88,7 @@ describe 'Questions API' do
 
       %w(id title body created_at updated_at).each do |attr|
         it "contains #{attr}" do
-          post '/api/v1/questions', format: :json, access_token: access_token.token, question: { title: 'title', body: 'body'}
+          post '/api/v1/questions', format: :json, access_token: access_token.token, question: { title: 'title', body: 'body' }
           question = assigns(:question)
           expect(response.body).to be_json_eql(question.send(attr.to_sym).to_json).at_path("question/#{attr}")
         end
@@ -112,7 +112,7 @@ describe 'Questions API' do
     end
 
     def send_request(options = {})
-      post "/api/v1/questions", { format: :json, question: { title: 'title', body: 'body'} }.merge(options)
+      post '/api/v1/questions', { format: :json, question: { title: 'title', body: 'body' } }.merge(options)
     end
   end
 end

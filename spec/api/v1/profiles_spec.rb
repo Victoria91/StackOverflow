@@ -6,9 +6,9 @@ describe 'Profile API' do
   describe 'GET/me' do
     let(:me) { create(:user) }
     let(:access_token) { create(:access_token, resource_owner_id: me.id) }
-    
+
     it_behaves_like 'API authenticable'
-      
+
     before { get '/api/v1/profiles/me', format: :json, access_token: access_token.token }
 
     %w(email id created_at updated_at).each do |attr|

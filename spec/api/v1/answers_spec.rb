@@ -33,7 +33,7 @@ describe 'Answers API' do
     let(:success_status) { 200 }
 
     it_behaves_like 'API authenticable'
-    
+
     before { get "/api/v1/answers/#{answers.first.id}", format: :json, access_token: access_token.token }
 
     %w(id body created_at updated_at).each do |attr|
@@ -84,7 +84,7 @@ describe 'Answers API' do
         expect(response.body).to be_json_eql("can't be blank".to_json).at_path('errors/body/0')
       end
     end
-    
+
     def send_request(options = {})
       post "/api/v1/questions/#{question.id}/answers", { format: :json, answer: { body: 'body' } }.merge(options)
     end
