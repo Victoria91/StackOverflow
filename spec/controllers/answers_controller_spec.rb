@@ -1,32 +1,54 @@
 require 'rails_helper'
 
 RSpec.describe AnswersController do
-  let(:question) { FactoryGirl.create(:question) }
+  let(:question) { create(:question) }
 
   describe 'POST #create' do
     context 'authorized' do
       sign_in_user
 
-      it 'creates a new answer related to question' do
-        expect { post :create, answer: FactoryGirl.attributes_for(:answer), question_id: question, format: :json }.to change(question.answers, :count).by(1)
+      context 'with valid attributes' do
+        let(:answer_params) { attributes_for(:answer) }
+
+        it 'creates a new answer related to question' do
+          expect { post :create, answer: answer_params, question_id: question, format: :json }.to change(question.answers, :count).by(1)
+        end
+
+        it 'creates a new answer related to the user' do
+          expect { post :create, answer: answer_params, question_id: question, format: :json }.to change(@user.answers, :count).by(1)
+        end
+
+        it 'response status is 201' do
+          post :create, answer: answer_params, question_id: question, format: :json
+          expect(response.status).to eq(201)
+        end
+
+        it 'publishes to answers channel' do
+          # now = Time.now.utc
+          # allow(Time).to receive(:now) { now }
+          # answer = double(Answer, title: 'answer body')
+          # answer = { id: Answer.last.try(:id).to_i + 1, body: 'answer body', question_id: question.id, created_at: Time.now, updated_at: Time.now, user_id: @user.id, accepted: false }.to_json
+          expect(PrivatePub).to receive(:publish_to).with("/questions/#{question.id}/answers", anything)
+          post :create, answer: answer_params, question_id: question, format: :json
+        end
       end
 
-      it 'creates a new answer related to the user' do
-        expect { post :create, answer: FactoryGirl.attributes_for(:answer), question_id: question, format: :json }.to change(@user.answers, :count).by(1)
-      end
+      context 'with invalid attributes' do
+        let(:answer_params) { attributes_for(:invalid_answer) }
 
-      it 'redirect to answer_path' do
-        post :create, answer: FactoryGirl.attributes_for(:answer, question_id: question), question_id: question, format: :json
-        expect(response.status).to eq(201)
-      end
+        it 'does not create answer' do
+          expect { post :create, answer: answer_params, question_id: question, format: :json }.not_to change(Answer, :count)
+        end
 
-      it 'publishes to answers_channel' do
-        now = Time.now.utc
-        allow(Time).to receive(:now) { now }
-        #answer = double(Answer, title: 'answer body')
-        answer = { id: Answer.last.try(:id).to_i + 1, body: 'answer body', question_id: question.id, created_at: Time.now, updated_at: Time.now, user_id: @user.id, accepted: false }.to_json
-        expect(PrivatePub).to receive(:publish_to).with("/questions/#{question.id}/answers", answer.to_json)
-        post :create, answer: { body: 'answer body' }, question_id: question, format: :json
+        it 'response status is 422' do
+          post :create, answer: answer_params, question_id: question, format: :json
+          expect(response.status).to eq(422)
+        end
+
+        it 'does not publish to answers channel' do
+          expect(PrivatePub).not_to receive(:publish_to)
+          post :create, answer: answer_params, question_id: question, format: :json
+        end
       end
     end
 
@@ -36,39 +58,55 @@ RSpec.describe AnswersController do
     context 'authorized' do
       sign_in_user
       let(:another_user) { create(:user) }
-      let(:answer) { FactoryGirl.create(:answer, question: question, user: @user) }
+      let(:answer) { create(:answer, question: question, user: @user) }
       let(:another_answer) { create(:answer, question: question, user: another_user) }
-      let(:new_answer) { FactoryGirl.build(:answer) }
+      let(:new_answer) { build(:answer) }
 
       context 'own answer' do
-        xit 'updates an answer' do
+        it 'updates an answer' do
           expect { patch :update, question_id: question, id: answer, answer: { body: new_answer.body }, format: :json }.to change { answer.reload.body }.to(new_answer.body)
         end
 
-        xit 'status is success' do
+        it 'status is success' do
           patch :update, question_id: question, id: answer, answer: { body: new_answer.body }, format: :json
           expect(response.status).to eq(204)
+        end
+
+        it 'publishes to answers channel' do
+          answer.update(body: new_answer.body)
+          expect(PrivatePub).to receive(:publish_to).with("/questions/#{question.id}/answers", answer: answer.to_json)
+          patch :update, question_id: question, id: answer, answer: { body: new_answer.body }, format: :json
         end
       end
 
       context 'another_answer' do
-        it 'updates an answer' do
+        it 'not updates an answer' do
           expect { patch :update, question_id: question, id: another_answer, answer: { body: new_answer.body }, format: :json }.not_to change { another_answer.body }
         end
-      end  
+
+        it 'not publishes to answers channel' do
+          expect(PrivatePub).not_to receive(:publish_to)
+          patch :update, question_id: question, id: another_answer, answer: { body: new_answer.body }, format: :json
+        end
+      end
     end
 
     context 'unauthorized' do
-      let(:answer) { FactoryGirl.create(:answer, question: question, user: @user) }
-      let(:new_answer) { FactoryGirl.build(:answer) }
+      let(:answer) { create(:answer, question: question, user: @user) }
+      let(:new_answer) { build(:answer) }
 
-      it 'updates an answer' do
+      it 'not updates an answer' do
         expect { patch :update, question_id: question, id: answer, answer: { body: new_answer.body }, format: :json }.not_to change { answer.reload.body }
       end
 
-      it 'renders update template' do
+      it 'response status is 401' do
         patch :update, question_id: question, id: answer, answer: { body: new_answer.body }, format: :json
         expect(response.status).to eq(401)
+      end
+
+      it 'not publishes to answers channel' do
+        expect(PrivatePub).not_to receive(:publish_to)
+        patch :update, question_id: question, id: answer, answer: { body: new_answer.body }, format: :json
       end
     end
   end
@@ -76,7 +114,7 @@ RSpec.describe AnswersController do
   describe 'DELETE #destroy' do
     context 'authorized' do
       sign_in_user
-      let!(:answer) { FactoryGirl.create(:answer, question: question, user: @user) }
+      let!(:answer) { create(:answer, question: question, user: @user) }
       let!(:another_answer) { create(:answer, question: question, user: create(:user)) }
 
       it 'deletes own answer' do
@@ -94,7 +132,7 @@ RSpec.describe AnswersController do
     end
 
     context 'unauthorized' do
-      let(:answer) { FactoryGirl.create(:answer, question: question, user: @user) }
+      let(:answer) { create(:answer, question: question, user: @user) }
       before { answer }
 
       it 'not deletes answer object' do

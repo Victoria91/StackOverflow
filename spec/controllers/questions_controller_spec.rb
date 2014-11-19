@@ -27,30 +27,44 @@ RSpec.describe QuestionsController do
     sign_in_user
 
     context 'with valid attributes' do
-      xit 'creates a new Question object' do
-        expect { post :create, question: FactoryGirl.attributes_for(:question) }.to change(@user.questions, :count).by(1)
+      let(:question_params) { attributes_for(:question) }
+
+      it 'creates a new Question object' do
+        expect { post :create, question: question_params }.to change(@user.questions, :count).by(1)
       end
 
-      xit 'redirects to show a question' do
-        post :create, question: FactoryGirl.attributes_for(:question)
+      it 'redirects to show a question' do
+        post :create, question: question_params
         expect(response).to redirect_to question_path(assigns(:question))
+      end
+
+      it 'publishes to questions channel' do
+        expect(PrivatePub).to receive(:publish_to).with('/questions', anything)
+        post :create, question: question_params
       end
     end
 
     context 'with invalid attributes' do
+      let(:question_params) { attributes_for(:invalid_question) }
+
       it 'not creates a new Question object' do
-        expect { post :create, question: FactoryGirl.attributes_for(:invalid_question) }.to_not change(Question, :count)
+        expect { post :create, question: question_params }.to_not change(Question, :count)
       end
 
       it 'renders a new view' do
-        post :create, question: FactoryGirl.attributes_for(:invalid_question)
+        post :create, question: question_params
         expect(response).to render_template :new
+      end
+
+      it 'not publishes to questions channel' do
+        expect(PrivatePub).not_to receive(:publish_to)
+        post :create, question: question_params
       end
     end
   end
 
   describe 'GET #show' do
-    subject { FactoryGirl.create(:question) }
+    subject { create(:question) }
     before { get :show, id: subject }
 
     it 'loads a Question object' do
@@ -67,7 +81,7 @@ RSpec.describe QuestionsController do
   end
 
   describe 'GET #index' do
-    let(:questions) { FactoryGirl.create_list(:question, 2) }
+    let(:questions) { create_list(:question, 2) }
     before { get :index }
 
     it 'loads questions to an array' do
@@ -84,7 +98,7 @@ RSpec.describe QuestionsController do
     sign_in_user
 
     context 'own question' do
-      let(:question) { FactoryGirl.create(:question, user: @user) }
+      let(:question) { create(:question, user: @user) }
       before { question }
 
       it 'deletes a question' do
@@ -99,23 +113,21 @@ RSpec.describe QuestionsController do
     end
 
     context 'another question' do
-      let(:another_user) { FactoryGirl.create(:user) }
-      let(:another_question) { FactoryGirl.create(:question, user: another_user) }
-      before { another_question }
+      let(:another_user) { create(:user) }
+      let!(:another_question) { create(:question, user: another_user) }
 
       it 'deletes a question' do
         expect { delete :destroy, id: another_question }.not_to change(Question, :count)
       end
-
     end
   end
 
   describe 'PATCH #update' do
     context 'authorized' do
       sign_in_user
-      let(:question) { FactoryGirl.create(:question, user: @user) }
-      let(:another_user) { FactoryGirl.create(:user) }
-      let(:another_question) { FactoryGirl.create(:question, user: another_user) }
+      let(:question) { create(:question, user: @user) }
+      let(:another_user) { create(:user) }
+      let(:another_question) { create(:question, user: another_user) }
 
       context 'own question' do
         it 'updates a question object' do
@@ -137,7 +149,7 @@ RSpec.describe QuestionsController do
     end
 
     context 'unauthorized' do
-      let(:question) { FactoryGirl.create(:question, user: @user) }
+      let(:question) { create(:question, user: @user) }
 
       it 'not updates a question object' do
         expect { patch :update, id: question, question: { body: 'new body' }, format: :js }.not_to change { question.reload.body }
@@ -147,7 +159,7 @@ RSpec.describe QuestionsController do
   end
 
   describe 'POST #vote_up' do
-    let(:question) { FactoryGirl.create(:question, user: create(:user)) }
+    let(:question) { create(:question, user: create(:user)) }
 
     context 'authorized' do
       sign_in_user
@@ -172,7 +184,7 @@ RSpec.describe QuestionsController do
   end
 
   describe 'POST #vote_down' do
-    let(:question) { FactoryGirl.create(:question, user: create(:user)) }
+    let(:question) { create(:question, user: create(:user)) }
 
     context 'authorized' do
       sign_in_user
