@@ -14,10 +14,13 @@ feature 'subscribe to a question', %q(
     scenario 'cannot subscribe' do
       visit question_path(question)
       expect(page).not_to have_link 'Subscribe'
+      expect(page).not_to have_link 'Unsubscribe'
     end
   end
 
   context 'authorized' do
+    background { login_as user }
+
     scenario 'cannot subscribe to own question' do
       visit question_path(own_question)
       expect(page).not_to have_link 'Subscribe'
@@ -27,6 +30,7 @@ feature 'subscribe to a question', %q(
       visit question_path(question)
       click_link 'Subscribe'
       expect(page).to have_content "You have been successfully subscribed to the question's updates"
+      expect(page).to have_link 'Unsubscribe'
     end
     
     scenario 'cannot subscribe twice' do

@@ -149,7 +149,7 @@ RSpec.describe QuestionsController do
     end
 
     context 'unauthorized' do
-      let(:question) { create(:question, user: @user) }
+      let(:question) { create(:question, user: create(:user)) }
 
       it 'not updates a question object' do
         expect { patch :update, id: question, question: { body: 'new body' }, format: :js }.not_to change { question.reload.body }
@@ -205,6 +205,30 @@ RSpec.describe QuestionsController do
       it 'not changes question rating' do
         expect { post :vote_down, id: question, format: :js }.not_to change { question.reload.rating }
       end
+    end
+  end
+
+  describe 'POST #subscribe' do
+    sign_in_user
+    let(:question) { create(:question, user: create(:user)) }
+
+    it 'creates subscription' do
+      expect { post :subscribe, question: question }.to change(@user.subscriptions.where(question: question), :count).by(1)
+    end
+
+    it 'not creates a subscription if it already exists' do
+      create(:subscription, user: user, question: question)
+      expect { post :subscribe, question: question }.not_to change(@user.subscriptions.where(question: question), :count)
+    end
+  end
+
+  describe 'DELETE #unsubscribe' do
+    sign_in_user
+    let(:question) { create(:question) }
+    let(:subscription) { create(question: question, user: @user) }
+
+    it 'deletes subscription' do
+      expect { delete :unsubscribe, question: question }.to change(@user.subscriptions.where(question: question), :count).by(-1)
     end
   end
 
