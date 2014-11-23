@@ -33,4 +33,9 @@ RSpec.describe Answer do
       expect { answer_one.toggle_accepted }.to change(answer_one.reload, :accepted).to false
     end
   end
+
+  it 'calls AnswerNotifier after create' do
+    expect(AnswerNotifier).to receive(:author).and_call_original
+    question.answers.create(attributes_for(:answer))
+  end
 end

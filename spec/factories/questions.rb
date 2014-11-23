@@ -5,6 +5,7 @@ FactoryGirl.define do
     title { Faker::Lorem.sentence }
     body { Faker::Lorem.paragraph }
     rating { Faker::Number.digit }
+    user { create(:user) }
   end
 
   factory :invalid_question, class: Question do

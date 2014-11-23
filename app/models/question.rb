@@ -4,7 +4,7 @@ class Question < ActiveRecord::Base
   has_many :attachments, as: :attachmentable
   has_many :votes
 
-  validates :title, :body, presence: true
+  validates :title, :body, :user, presence: true
   validates :title, length: { maximum: 255 }
 
   accepts_nested_attributes_for :attachments,

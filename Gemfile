@@ -60,6 +60,8 @@ gem 'cancancan'
 gem 'active_model_serializers'
 
 gem 'doorkeeper'
+
+gem 'delayed_job_active_record'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
