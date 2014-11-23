@@ -8,14 +8,16 @@ class Answer < ActiveRecord::Base
   validates :body, :question, presence: true
 
   after_create :send_email
-  
+
   def toggle_accepted
     @accepted_answer ||= question.accepted_answer
     @accepted_answer.update!(accepted: false) if @accepted_answer && !accepted
     toggle(:accepted).save!
   end
 
+  private
+
   def send_email
-    AnswerNotifier.author(self).deliver
+    AnswerNotifier.delay.author(self)
   end
 end
