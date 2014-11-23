@@ -64,7 +64,7 @@ RSpec.describe Ability do
         end
 
         context 'unsubscribe' do
-          let(:subscription) { create(:subscription, question: question, user: user) }
+          let!(:subscription) { create(:subscription, question: question, user: user) }
 
           it { should be_able_to(:unsubscribe, question) } 
           it { should_not be_able_to(:unsubscribe, create(:question)) }

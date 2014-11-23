@@ -15,6 +15,12 @@ class Ability
         q.votes.where(user: user).empty? && q.user != user
       end
       can [:me, :users], :profile
+      can :subscribe, Question do |q|
+        q.user != user && q.subscriptions.where(user: user).empty?
+      end
+      can :unsubscribe, Question do |q|
+        q.subscriptions.where(user: user).present?
+      end
     end
 
     can :read, :all

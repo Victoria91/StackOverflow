@@ -34,8 +34,17 @@ RSpec.describe Answer do
     end
   end
 
-  it 'calls AnswerNotifier after create' do
-    expect(AnswerNotifier).to receive(:author).and_call_original
-    question.answers.create(attributes_for(:answer))
+  context 'new answer notifications' do
+    let(:subscribed_users) { create_list(:users, 5) }
+    let(:unsubscribed_users) { create_list(:users,3) }
+
+    it 'notifies question author after create' do
+      expect(AnswerNotifier).to receive(:author).and_call_original
+      question.answers.create(attributes_for(:answer))
+    end
+
+    it 'notifies subscribed users'
+    it 'not notifies unsubscribed'
+
   end
 end

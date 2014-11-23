@@ -10,10 +10,11 @@ RSpec.describe Question do
   it { should have_many :votes }
   it { should ensure_length_of(:title).is_at_most(255) }
   it { should accept_nested_attributes_for :attachments }
+  it { should have_many :subscriptions }
 
-  let(:question) { FactoryGirl.create(:question) }
-  let!(:unaccepted_answer) { FactoryGirl.create(:answer, question: question) }
-  let!(:accepted_answer) { FactoryGirl.create(:answer, question: question, accepted: true) }
+  let(:question) { create(:question) }
+  let!(:unaccepted_answer) { create(:answer, question: question) }
+  let!(:accepted_answer) { create(:answer, question: question, accepted: true) }
 
   describe '#accepted_answer' do
     it 'returns an accepted_answer' do
@@ -28,16 +29,16 @@ RSpec.describe Question do
     end
 
   end
- 
+
   describe '#vote_up' do
     it 'increases question rating' do
-      expect{ question.vote_up }.to change{ question.rating }.by(1)
+      expect { question.vote_up }.to change { question.rating }.by(1)
     end
   end
 
   describe '#vote_down' do
     it 'decreases question rating' do
-      expect{ question.vote_down }.to change{ question.rating }.by(-1)
+      expect { question.vote_down }.to change { question.rating }.by(-1)
     end
 
   end

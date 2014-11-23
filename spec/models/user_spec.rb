@@ -4,7 +4,8 @@ RSpec.describe User do
 
   it { should have_many :authorizations }
   it { should have_many :votes }
-  
+  it { should have_many :subscriptions }
+
   describe '.find_for_oauth' do
     let!(:user) { FactoryGirl.create(:user) }
     let(:auth) { OmniAuth::AuthHash.new(provider: 'facebook', uid: '123456') }
