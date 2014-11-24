@@ -15,9 +15,7 @@ class AnswerNotifier < ActionMailer::Base
   #
   #   en.answer_notifier.subscribers.subject
   #
-  def subscribers
-    @greeting = "Hi"
-
+  def subscribers(user, answer)
     mail to: "to@example.org"
   end
 end

@@ -9,6 +9,8 @@ class Answer < ActiveRecord::Base
 
   after_create :send_email
 
+  default_scope { order :created_at }
+
   def toggle_accepted
     @accepted_answer ||= question.accepted_answer
     @accepted_answer.update!(accepted: false) if @accepted_answer && !accepted
@@ -18,6 +20,13 @@ class Answer < ActiveRecord::Base
   private
 
   def send_email
-    AnswerNotifier.delay.author(self)
+    delay.notify_subscribers(self)
+  end
+
+  def notify_subscribers(answer)
+    AnswerNotifier.author(self).deliver
+    answer.question.subscriptions.each do |subscription|
+      AnswerNotifier.subscribers(subscription.user, answer).deliver
+    end
   end
 end

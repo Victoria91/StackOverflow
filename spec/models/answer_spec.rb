@@ -9,12 +9,12 @@ RSpec.describe Answer do
   it { should validate_presence_of :question }
   it { should accept_nested_attributes_for :attachments }
 
-  let!(:question) { FactoryGirl.create(:question) }
-  let!(:answer_one) { FactoryGirl.create(:answer, question: question) }
-  let!(:answer_two) { FactoryGirl.create(:answer, question: question) }
+  let!(:question) { create(:question) }
+  let!(:answer_one) { create(:answer, question: question) }
+  let!(:answer_two) { create(:answer, question: question) }
 
   it 'invalid_answer factory is invalid' do
-    expect(FactoryGirl.build(:invalid_answer)).not_to be_valid
+    expect(build(:invalid_answer)).not_to be_valid
   end
 
   describe '#toggle_accepted' do
@@ -35,16 +35,27 @@ RSpec.describe Answer do
   end
 
   context 'new answer notifications' do
-    let(:subscribed_users) { create_list(:users, 5) }
-    let(:unsubscribed_users) { create_list(:users,3) }
+    let!(:subscriptions) { create_list(:subscription, 5, question: question, user: create(:user) ) }
+    let(:unsubscribed_users) { create_list(:user, 5) }
 
     it 'notifies question author after create' do
       expect(AnswerNotifier).to receive(:author).and_call_original
       question.answers.create(attributes_for(:answer))
     end
 
-    it 'notifies subscribed users'
-    it 'not notifies unsubscribed'
+    it 'notifies subscribed users' do
+      puts question.subscriptions.count
+      subscriptions.each do |subscription|
+        expect(AnswerNotifier).to receive(:subscribers).with(subscription.user, anything).and_call_original
+      end
+      question.answers.create(attributes_for(:answer))
+    end
 
+    it 'not notifies unsubscribed' do
+      unsubscribed_users.each do |user|
+        expect(AnswerNotifier).not_to receive(:subscribers)
+      end
+      question.answers.create(attributes_for(:answer))
+    end
   end
 end
