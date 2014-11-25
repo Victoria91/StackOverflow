@@ -64,6 +64,9 @@ gem 'doorkeeper'
 gem 'delayed_job_active_record'
 
 gem 'whenever', :require => false
+
+gem 'mysql2'
+gem 'thinking-sphinx'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
