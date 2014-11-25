@@ -57,7 +57,7 @@ feature 'vote for a question', %q(
 
     scenario 'cannot vote down twice', js: true do
       find('.vote_down_link').click
-      expect(page).to have_selector '.vote_down_link'
+      expect(page).not_to have_selector '.vote_down_link'
     end
   end
 

@@ -78,7 +78,8 @@ group :test do
   gem 'capybara'
   gem 'capybara-email'
   gem 'faker'
-  gem 'selenium-webdriver'
+  # gem 'selenium-webdriver'
+  gem 'capybara-webkit'
   gem 'database_cleaner'
   gem 'json_spec'
 end
