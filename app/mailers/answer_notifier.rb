@@ -7,6 +7,7 @@ class AnswerNotifier < ActionMailer::Base
   #   en.answer_notifier.author.subject
   #
   def author(answer)
+    @answer = answer
     mail to: answer.question.user.email
   end
 
@@ -16,6 +17,7 @@ class AnswerNotifier < ActionMailer::Base
   #   en.answer_notifier.subscribers.subject
   #
   def subscribers(user, answer)
+    @answer = answer
     mail to: user.email
   end
 end

@@ -58,7 +58,7 @@ feature 'edit question', %q(
     scenario 'edit someone elses question' do
       visit questions_path
       click_link another_question.title
-      expect(page).not_to have_selector '.floatl'
+      expect(page).not_to have_selector '.floatl #edit_question_link'
       expect(page).not_to have_link 'Edit'
     end
   end
@@ -66,7 +66,7 @@ feature 'edit question', %q(
   scenario 'unauthorized is trying to edit' do
     visit questions_path
     click_link question.title
-    expect(page).not_to have_selector '.floatl'
+    expect(page).not_to have_selector '.floatl #edit_question_link'
     expect(page).not_to have_link 'Edit'
   end
 

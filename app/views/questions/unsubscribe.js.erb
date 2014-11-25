@@ -1,4 +1,4 @@
-$('#unsubscribe_question_link').html('<a data-method="post" data-remote="true" href="/questions/<%= @question.id %>/subscribe" rel="nofollow">Subscribe</a>');
+$('#unsubscribe_question_link').html('<a data-method="post" data-remote="true" href="/questions/<%= @question.id %>/subscribe" id="subscribe_question_link" rel="nofollow">Subscribe</a>');
 $('.question').before('<div class="radius label">You have been successfully unsubscribed</div>');
 $('.radius').animate({ opacity: "hide" }, 2000);
 $(document).ready(ready);
