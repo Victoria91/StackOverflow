@@ -13,6 +13,8 @@ Rails.application.routes.draw do
   resources :questions do
     post 'vote_up', on: :member
     post 'vote_down', on: :member
+    post 'subscribe', on: :member
+    delete 'unsubscribe', on: :member
     resources :answers do
       post 'accept', on: :member
     end

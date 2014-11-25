@@ -213,22 +213,22 @@ RSpec.describe QuestionsController do
     let(:question) { create(:question, user: create(:user)) }
 
     it 'creates subscription' do
-      expect { post :subscribe, question: question }.to change(@user.subscriptions.where(question: question), :count).by(1)
+      expect { post :subscribe, id: question, format: :js }.to change(@user.subscriptions.where(question: question), :count).by(1)
     end
 
     it 'not creates a subscription if it already exists' do
-      create(:subscription, user: user, question: question)
-      expect { post :subscribe, question: question }.not_to change(@user.subscriptions.where(question: question), :count)
+      create(:subscription, user: @user, question: question)
+      expect { post :subscribe, id: question, format: :js }.not_to change(@user.subscriptions.where(question: question), :count)
     end
   end
 
   describe 'DELETE #unsubscribe' do
     sign_in_user
     let(:question) { create(:question) }
-    let(:subscription) { create(question: question, user: @user) }
+    let!(:subscription) { create(:subscription, question: question, user: @user) }
 
     it 'deletes subscription' do
-      expect { delete :unsubscribe, question: question }.to change(@user.subscriptions.where(question: question), :count).by(-1)
+      expect { delete :unsubscribe, id: question, format: :js }.to change(@user.subscriptions.where(question: question), :count).by(-1)
     end
   end
 

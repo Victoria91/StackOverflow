@@ -49,6 +49,14 @@ class QuestionsController < ApplicationController
     render :vote
   end
 
+  def subscribe
+    current_user.subscriptions.create(question: @question)
+  end
+
+  def unsubscribe
+    current_user.subscriptions.where(question: @question).first.destroy
+  end
+
   private
 
   def question_params

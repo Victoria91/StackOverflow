@@ -1,0 +1,5 @@
+$('#subscribe_question_link').html('<a data-method="delete" data-remote="true" href="/questions/<%= @question.id %>/unsubscribe" rel="nofollow">Unsubscribe</a>');
+$('.question').before('<div class="success radius label">You have been successfully subscribed to the question\'s updates</div>');
+$('.success').animate({ opacity: "hide" }, 2000);
+$(document).ready(ready);
+$(document).on('page:load',ready);
