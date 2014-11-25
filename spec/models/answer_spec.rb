@@ -44,7 +44,6 @@ RSpec.describe Answer do
     end
 
     xit 'notifies subscribed users' do
-      puts question.subscriptions.count
       subscriptions.each do |subscription|
         expect(AnswerNotifier).to receive(:subscribers).with(subscription.user, anything).and_call_original
       end

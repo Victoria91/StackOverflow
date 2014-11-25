@@ -79,4 +79,14 @@ RSpec.describe User do
 
     end
   end
+
+  describe '.send_daily_digest' do
+    let!(:users) { create_list(:user, 5) }
+
+    it 'sends digest to all users' do
+      users.each { |user| expect(DailyMailer).to receive(:digest).and_call_original }
+      User.send_daily_digest
+    end
+  end
+
 end

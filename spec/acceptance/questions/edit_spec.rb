@@ -6,10 +6,10 @@ feature 'edit question', %q(
   In order to fix it
 ) do
 
-  given(:user) { FactoryGirl.create(:user) }
-  given!(:question) { FactoryGirl.create(:question, user: user) }
-  given(:another_user) { FactoryGirl.create(:user) }
-  given!(:another_question) { FactoryGirl.create(:question, user: another_user) }
+  given(:user) { create(:user) }
+  given!(:question) { create(:question, user: user) }
+  given(:another_user) { create(:user) }
+  given!(:another_question) { create(:question, user: another_user) }
 
   context 'authorized' do
     before { login_as user }
