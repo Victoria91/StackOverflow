@@ -17,3 +17,7 @@
 /public/uploads
 
 config/database.yml
+
+config/*.sphinx.conf
+db/sphinx
+/log/*.pid
