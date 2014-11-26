@@ -14,36 +14,36 @@
   </head>
 
   <body>
-    <div class="icon-bar five-up">
-      <%= link_to  root_path, :class => 'item' do %>
-        <%= image_tag("home.png") %>
-      <% end %>
-      <a class="item">
-        <i class="fi-bookmark"></i>
-      </a>
-      <a class="item">
-        <i class="fi-info"></i>
-      </a>
-      <a class="item">
-        <i class="fi-mail"></i>
-      </a>
-
-      <%= link_to  destroy_user_session_path, :class => 'item', method: :delete do %>
-        <%= image_tag("exit.png") %>
-      <% end %>
-    </div>
+  <nav class="top-bar" data-topbar role="navigation">
+    <ul class="title-area">
+      <li class="name">
+        <h1><a href="#">My Site</a></h1>
+      </li>
+      <section class="top-bar-section">
+      </ul>
+    <!-- Right Nav Section -->
+      <ul class="left">
+        <li class="has-form">
+          <div class="row collapse">
+            <div class="large-8 small-9 columns" >
+              <input type="search" placeholder="Find Stuff" size="100">
+            </div>
+            <div class="large-4 small-3 columns">
+              <a href="#" class="button">Search</a>
+            </div>
+          </div>
+        </li>
+        </ul>
+        <ul class="right">
+        <li class="has-form">
+  <a href="http://foundation.zurb.com/docs" class="alert button">Get Lucky</a>
+</li>
+</ul>
+        </section>
+  
+  </nav>
     
     <div class='row'> 
-
-      <div class="row collapse">
-        <div class="small-10 columns">
-          <input type="search" placeholder="Find questions...">
-        </div>
-        <div class="small-2 columns">
-          <a href="#" class="button postfix">Go</a>
-        </div>
-      </div>
-
       <% if notice %>
         <span class="success radius label"><%= notice %></span>
       <% end %>

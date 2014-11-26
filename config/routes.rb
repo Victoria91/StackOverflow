@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'search/find'
+
   use_doorkeeper
   root 'questions#index'
 
