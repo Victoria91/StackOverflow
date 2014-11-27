@@ -14,34 +14,36 @@
   </head>
 
   <body>
-  <nav class="top-bar" data-topbar role="navigation">
-    <ul class="title-area">
-      <li class="name">
-        <h1><a href="#">My Site</a></h1>
-      </li>
-      <section class="top-bar-section">
-      </ul>
-    <!-- Right Nav Section -->
-      <ul class="left">
-        <li class="has-form">
-          <div class="row collapse">
-            <div class="large-8 small-9 columns" >
-              <input type="search" placeholder="Find Stuff" size="100">
-            </div>
-            <div class="large-4 small-3 columns">
-              <a href="#" class="button">Search</a>
-            </div>
-          </div>
+    <nav class="top-bar" data-topbar role="navigation">
+      <ul class="title-area">
+        <li class="name">
+          <h1><%= link_to 'Home', root_path %></h1>
         </li>
-        </ul>
-        <ul class="right">
-        <li class="has-form">
-  <a href="http://foundation.zurb.com/docs" class="alert button">Get Lucky</a>
-</li>
-</ul>
+      </ul>
+      <section class="top-bar-section">
+        <ul class="left">
+          <%= simple_form_for :search, url: search_find_path, method: :get do |f| %>
+            <li class="has-form">
+              <div class="row collapse">
+                <div class="large-8 small-9 columns" >
+                  <%= f.input :query, as: :search, label: false, placeholder: 'Find questions...', input_html: { size: '40' } %>
+                </div>
+                <div class="large-4 small-3 columns">
+                  <%= f.submit 'Search', class: 'button' %>
+                </div>
+              </div>
+            </li>
+            <% end %>
+          </ul>
+          
+          <ul class="right">
+            <li class="has-form">
+              <%= link_to 'Sign Out', destroy_user_session_path, method: :delete, class: 'alert button' if user_signed_in? %>
+            </li>
+          </ul>
         </section>
-  
-  </nav>
+      </nav>
+
     
     <div class='row'> 
       <% if notice %>

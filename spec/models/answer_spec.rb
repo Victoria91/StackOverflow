@@ -43,7 +43,7 @@ RSpec.describe Answer do
       question.answers.create(attributes_for(:answer))
     end
 
-    xit 'notifies subscribed users' do
+    it 'notifies subscribed users' do
       subscriptions.each do |subscription|
         expect(AnswerNotifier).to receive(:subscribers).with(subscription.user, anything).and_call_original
       end

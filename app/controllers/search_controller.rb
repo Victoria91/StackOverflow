@@ -1,5 +1,5 @@
 class SearchController < ApplicationController
   def find
-    @questions = Question.search params[:search][:query]
+    @questions = Question.search Riddle::Query.escape(params[:search][:query])
   end
 end

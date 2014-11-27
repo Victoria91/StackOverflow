@@ -1,5 +1,9 @@
-Search results for: 
-%i= params[:search][:search]
--@questions.each do |question|
-  %br
-  = link_to question.title, question
+Search results for 
+%i= params[:search][:query]
+%br
+- if @questions.empty?
+  No results
+- else
+  - @questions.each do |question|
+    %br
+    = link_to question.title, question

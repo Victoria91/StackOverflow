@@ -24,9 +24,9 @@ class Answer < ActiveRecord::Base
   end
 
   def notify_subscribers(answer)
-    AnswerNotifier.author(self).deliver
+    AnswerNotifier.delay.author(self)
     answer.question.subscriptions.each do |subscription|
-      AnswerNotifier.subscribers(subscription.user, answer).deliver
+      AnswerNotifier.delay.subscribers(subscription.user, answer)
     end
   end
 end
