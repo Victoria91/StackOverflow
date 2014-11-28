@@ -1,0 +1,11 @@
+<% if @comment.errors.present? %>
+    <% @comment.errors.full_messages.each do |message| %>
+        $('#new_comment_error').html('<%= j message %>');
+    <% end %>
+<% else %>
+  $('.comments').html("<%= j render 'questions/comments'%>");
+  $('.new_comment #comment_body').val('');
+  $('#new_comment_error').html('');
+  $(document).ready(ready);
+  $(document).on('page:load',ready);
+<% end %>

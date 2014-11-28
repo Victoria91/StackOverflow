@@ -1,0 +1,4 @@
+- @question.comments.last(3).each do |comment|
+  %div
+    %div{ id: "#{comment.id}", style: 'float: right' }= comment.body
+    %hr

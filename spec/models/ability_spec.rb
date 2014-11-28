@@ -94,6 +94,10 @@ RSpec.describe Ability do
         it { should_not be_able_to(:accept, create(:answer, question: another_question)) }
       end
     end
+
+    context 'Comment' do
+      it { should be_able_to(:create, Comment) }
+    end
   end
 
 end

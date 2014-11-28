@@ -16,7 +16,7 @@ class Api::V1::AnswersController < Api::V1::BaseController
     @answer = @question.answers.new(params.require(:answer).permit(:body))
     @answer.user = current_resource_owner
     @answer.save
-    respond_with @question, @answer
+    respond_with @answer
   end
 
   def find_question
