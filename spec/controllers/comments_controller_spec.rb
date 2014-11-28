@@ -10,7 +10,7 @@ RSpec.describe CommentsController do
 
         it 'loads question' do
           post :create, comment: { body: 'comment body' }, question_id: question, format: :js
-          expect(assigns(:parrent)).to eq(question)
+          expect(assigns(:parent)).to eq(question)
         end
 
         it 'creates comment related to a question and user' do
@@ -35,7 +35,7 @@ RSpec.describe CommentsController do
 
       xit 'loads Answer' do
         post :create, comment: { body: 'comment body' }, answer_id: answer, format: :js
-        expect(assigns(:parrent)).to eq(answer)
+        expect(assigns(:parent)).to eq(answer)
       end        
     end
   end

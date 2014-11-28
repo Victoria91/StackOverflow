@@ -6,15 +6,14 @@ class CommentsController < ApplicationController
 
   authorize_resource
 
-  def create    
-    @question = @parrent
-    respond_with @comment = @parrent.comments.create(comment_params.merge(user: current_user))
+  def create
+    respond_with @comment = @parent.comments.create(comment_params.merge(user: current_user))
   end
 
   private 
   def load_parrent
-    @parrent = Question.find(params[:question_id]) if params[:question_id] 
-    @parrent ||= Answer.find(params[:answer_id])
+    @parent = Question.find(params[:question_id]) if params[:question_id] 
+    @parent ||= Answer.find(params[:answer_id])
   end 
 
   def comment_params

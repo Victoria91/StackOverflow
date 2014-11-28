@@ -3,7 +3,7 @@
         $('#new_comment_error').html('<%= j message %>');
     <% end %>
 <% else %>
-  $('.comments').html("<%= j render 'questions/comments'%>");
+  $('.comments').html("<%= j render 'questions/comments', parent: @parent %>");
   $('.new_comment #comment_body').val('');
   $('#new_comment_error').html('');
   $(document).ready(ready);
