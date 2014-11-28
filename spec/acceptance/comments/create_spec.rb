@@ -12,6 +12,7 @@ feature 'create comment', %q(
   scenario 'unauthorized cannot create question' do
     visit question_path(question)
     expect(page).not_to have_button 'Create Comment'
+    expect(page).not_to have_button 'leave a comment'
   end
 
   scenario 'authorized can create question', js: true do
