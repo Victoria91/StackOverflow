@@ -64,29 +64,29 @@ RSpec.describe AnswersController do
 
       context 'own answer' do
         it 'updates an answer' do
-          expect { patch :update, question_id: question, id: answer, answer: { body: new_answer.body }, format: :json }.to change { answer.reload.body }.to(new_answer.body)
+          expect { patch :update, id: answer, answer: { body: new_answer.body }, format: :json }.to change { answer.reload.body }.to(new_answer.body)
         end
 
         it 'status is success' do
-          patch :update, question_id: question, id: answer, answer: { body: new_answer.body }, format: :json
+          patch :update, id: answer, answer: { body: new_answer.body }, format: :json
           expect(response.status).to eq(204)
         end
 
         it 'publishes to answers channel' do
           answer.update(body: new_answer.body)
           expect(PrivatePub).to receive(:publish_to).with("/questions/#{question.id}/answers", answer: answer.to_json)
-          patch :update, question_id: question, id: answer, answer: { body: new_answer.body }, format: :json
+          patch :update, id: answer, answer: { body: new_answer.body }, format: :json
         end
       end
 
       context 'another_answer' do
         it 'not updates an answer' do
-          expect { patch :update, question_id: question, id: another_answer, answer: { body: new_answer.body }, format: :json }.not_to change { another_answer.body }
+          expect { patch :update, id: another_answer, answer: { body: new_answer.body }, format: :json }.not_to change { another_answer.body }
         end
 
         it 'not publishes to answers channel' do
           expect(PrivatePub).not_to receive(:publish_to)
-          patch :update, question_id: question, id: another_answer, answer: { body: new_answer.body }, format: :json
+          patch :update, id: another_answer, answer: { body: new_answer.body }, format: :json
         end
       end
     end
@@ -96,17 +96,17 @@ RSpec.describe AnswersController do
       let(:new_answer) { build(:answer) }
 
       it 'not updates an answer' do
-        expect { patch :update, question_id: question, id: answer, answer: { body: new_answer.body }, format: :json }.not_to change { answer.reload.body }
+        expect { patch :update, id: answer, answer: { body: new_answer.body }, format: :json }.not_to change { answer.reload.body }
       end
 
       it 'response status is 401' do
-        patch :update, question_id: question, id: answer, answer: { body: new_answer.body }, format: :json
+        patch :update, id: answer, answer: { body: new_answer.body }, format: :json
         expect(response.status).to eq(401)
       end
 
       it 'not publishes to answers channel' do
         expect(PrivatePub).not_to receive(:publish_to)
-        patch :update, question_id: question, id: answer, answer: { body: new_answer.body }, format: :json
+        patch :update, id: answer, answer: { body: new_answer.body }, format: :json
       end
     end
   end
@@ -118,11 +118,11 @@ RSpec.describe AnswersController do
       let!(:another_answer) { create(:answer, question: question, user: create(:user)) }
 
       it 'deletes own answer' do
-        expect { delete :destroy, question_id: question, id: answer, format: :js }.to change(Answer, :count).by(-1)
+        expect { delete :destroy, id: answer, format: :js }.to change(Answer, :count).by(-1)
       end
 
       it 'NOT deletes another answer' do
-        expect { delete :destroy, question_id: question, id: another_answer, format: :js }.not_to change(question.answers, :count)
+        expect { delete :destroy, id: another_answer, format: :js }.not_to change(question.answers, :count)
       end
 
       it 'renders destroy view' do
@@ -136,11 +136,11 @@ RSpec.describe AnswersController do
       before { answer }
 
       it 'not deletes answer object' do
-        expect { delete :destroy, question_id: question, id: answer, format: :js }.not_to change(question.answers, :count)
+        expect { delete :destroy, id: answer, format: :js }.not_to change(question.answers, :count)
       end
 
       it 'responses 401 status' do
-        delete :destroy, question_id: question, id: answer, format: :js
+        delete :destroy, id: answer, format: :js
         expect(response.status).to eq(401)
       end
 
@@ -150,32 +150,32 @@ RSpec.describe AnswersController do
   describe 'POST #accept' do
     context 'authorized' do
       sign_in_user
-      let!(:question) { FactoryGirl.create(:question, user: @user) }
-      let(:another_question) { FactoryGirl.create(:question, user: FactoryGirl.create(:user)) }
-      let!(:answer) { FactoryGirl.create(:answer, question: question) }
-      let(:another_answer) { FactoryGirl.create(:answer, question: another_question) }
+      let!(:question) { create(:question, user: @user) }
+      let(:another_question) { create(:question, user: create(:user)) }
+      let!(:answer) { create(:answer, question: question) }
+      let(:another_answer) { create(:answer, question: another_question) }
 
       it 'accepts answer' do
-        expect { post :accept, question_id: question, id: answer, format: :js }.to change { answer.reload.accepted }.to true
+        expect { post :accept, id: answer, format: :js }.to change { answer.reload.accepted }.to true
       end
 
       it 'reaccept answer' do
-        accepted_answer = FactoryGirl.create(:answer, question: question, accepted: true)
-        expect { post :accept, question_id: question, id: accepted_answer, format: :js }.to change { accepted_answer.reload.accepted }.to false
+        accepted_answer = create(:answer, question: question, accepted: true)
+        expect { post :accept, id: accepted_answer, format: :js }.to change { accepted_answer.reload.accepted }.to false
       end
 
       it 'not accepted another users question' do
-        expect { post :accept, question_id: another_question, id: another_answer, format: :js }.not_to change { another_answer.reload.accepted }
+        expect { post :accept, id: another_answer, format: :js }.not_to change { another_answer.reload.accepted }
       end
 
     end
 
     context 'unauthorized' do
-      let(:question) { FactoryGirl.create(:question, user: FactoryGirl.create(:user)) }
-      let(:answer) { FactoryGirl.create(:answer, question: question) }
+      let(:question) { create(:question, user: create(:user)) }
+      let(:answer) { create(:answer, question: question) }
 
       it 'not changes accepted state' do
-        expect { post :accept, question_id: question, id: answer, format: :js }.not_to change(answer.reload, :accepted)
+        expect { post :accept, id: answer, format: :js }.not_to change(answer.reload, :accepted)
       end
 
     end

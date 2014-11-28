@@ -1,6 +1,6 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!
-  before_action :find_question
+  before_action :find_question, only: :create
   before_action :find_answer, except: :create
   after_action :publish_to_question_answer_channel, only: [:create, :update]
 
@@ -10,7 +10,7 @@ class AnswersController < ApplicationController
   authorize_resource
 
   def create
-    respond_with(@question, @answer = @question.answers.create(answer_params.merge(user: current_user)))
+    respond_with(@answer = @question.answers.create(answer_params.merge(user: current_user)))
   end
 
   def update
@@ -29,7 +29,7 @@ class AnswersController < ApplicationController
   private
 
   def publish_to_question_answer_channel
-    PrivatePub.publish_to "/questions/#{@question.id}/answers", answer: @answer.to_json if @answer.valid?
+    PrivatePub.publish_to "/questions/#{@answer.question.id}/answers", answer: @answer.to_json if @answer.valid?
   end
 
   def answer_params

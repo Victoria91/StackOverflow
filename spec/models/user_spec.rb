@@ -5,6 +5,7 @@ RSpec.describe User do
   it { should have_many :authorizations }
   it { should have_many :votes }
   it { should have_many :subscriptions }
+  it { should have_many :comments }
 
   describe '.find_for_oauth' do
     let!(:user) { FactoryGirl.create(:user) }

@@ -6,19 +6,18 @@ feature 'accept answer', %q(
   In order to focus on its use
 ) do
 
-  given(:user) { FactoryGirl.create(:user) }
-  given(:another_user) { FactoryGirl.create(:user) }
-  given(:question) { FactoryGirl.create(:question, user: user) }
-  given(:another_question) { FactoryGirl.create(:question, user: another_user) }
-  given(:answer) { FactoryGirl.create(:answer, question: question, user: another_user) }
-  given(:accepted_answer) { FactoryGirl.create(:answer, question: question, accepted: true) }
+  given(:user) { create(:user) }
+  given(:another_user) { create(:user) }
+  given!(:question) { create(:question, user: user) }
+  given(:another_question) { create(:question, user: another_user) }
+  given!(:answer) { create(:answer, question: question, user: another_user) }
+  given(:accepted_answer) { create(:answer, question: question, accepted: true) }
 
   context 'authorized' do
     before { login_as user }
 
     context 'own question' do
       scenario 'accept answer', js: true do
-        answer
         visit question_path(question)
         expect(page).not_to have_selector '.accepted'
         find("#accept_answer_#{answer.id}").click

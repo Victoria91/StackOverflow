@@ -4,6 +4,7 @@ class Question < ActiveRecord::Base
   has_many :attachments, as: :attachmentable
   has_many :votes
   has_many :subscriptions
+  has_many :comments, as: :commentable
 
   validates :title, :body, :user, presence: true
   validates :title, length: { maximum: 255 }

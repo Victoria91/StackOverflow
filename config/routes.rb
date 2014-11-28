@@ -4,7 +4,6 @@ Rails.application.routes.draw do
   use_doorkeeper
   root 'questions#index'
 
-
   devise_for :users, controllers: { omniauth_callbacks: 'omniauth_callbacks' }
   devise_scope :user do
     post 'confirm_auth', to: 'authorizations#confirm_auth'
@@ -12,12 +11,16 @@ Rails.application.routes.draw do
 
   get '/authorizations', to: 'authorizations#show'
 
-  resources :questions do
+  concern :commentable do
+    resources :comments
+  end
+
+  resources :questions, concerns: :commentable, shallow: true do
     post 'vote_up', on: :member
     post 'vote_down', on: :member
     post 'subscribe', on: :member
     delete 'unsubscribe', on: :member
-    resources :answers do
+    resources :answers, concerns: :commentable, shallow: true do
       post 'accept', on: :member
     end
   end
