@@ -25,13 +25,12 @@ feature 'recover password', %q(
     current_email.click_link 'Change my password'
     fill_in 'New password', with: 'newpassword2'
     fill_in 'Confirm your new password', with: 'newpassword2'
-    click_link 'Exit'
+    click_button 'Change my password'
+    click_link 'Sign Out'
     click_link 'Sign in'
     user.reload
     fill_in 'Email', with: user.email
-    fill_in 'Password', with: user.password
-  # fill_in 'Password', with: 'newpassword2'
-  # save_and_open_page
+    fill_in 'Password', with: 'newpassword2'
     click_on 'Sign in'
     expect(page).to have_content(/success/i)
   end
