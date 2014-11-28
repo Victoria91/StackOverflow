@@ -33,9 +33,28 @@ RSpec.describe CommentsController do
     context 'Answer' do
       let(:answer) { create(:answer, question: question) }
 
-      xit 'loads Answer' do
-        post :create, comment: { body: 'comment body' }, answer_id: answer, format: :js
-        expect(assigns(:parent)).to eq(answer)
+      context 'authorized' do
+        sign_in_user
+
+        it 'loads answer' do
+          post :create, comment: { body: 'comment body' }, answer_id: answer, format: :js
+          expect(assigns(:parent)).to eq(answer)
+        end
+
+        it 'creates comment related to a question and user' do
+          expect { post :create, comment: { body: 'comment body' }, answer_id: answer, format: :js }.to change(answer.comments.where(user: @user), :count).by(1)
+        end
+
+        it 'renders create template' do
+          post :create, comment: { body: 'comment body' }, answer_id: answer, format: :js
+          expect(response).to render_template :create
+        end
+      end
+
+      context 'unauthorized' do
+        it 'not create comment' do
+          expect { post :create, comment: { body: 'comment body' }, answer_id: answer, format: :js }.not_to change(Comment, :count)
+        end
       end
     end
   end

@@ -1,6 +1,7 @@
 <% if @comment.errors.present? %>
     <% @comment.errors.full_messages.each do |message| %>
-        $('#new_comment_error').html('<%= j message %>');
+      $('.comments').after('<div id="new_comment_error"></div>');
+      $('#new_comment_error').html('<%= j message %>').animate({ opacity: 'hide'});
     <% end %>
 <% else %>
   $('.comments').html("<%= j render 'questions/comments', parent: @parent %>");

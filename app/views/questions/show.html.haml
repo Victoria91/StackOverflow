@@ -41,6 +41,7 @@
 
 .comments
   = render 'comments', parent: @question
+%div{ id: 'new_comment_error' }
 - if can?(:create, Comment)
   = simple_form_for [@question, @question.comments.build], remote: true do |f|
     = f.input :body, label: 'Your comment:'

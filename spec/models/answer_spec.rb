@@ -6,6 +6,7 @@ RSpec.describe Answer do
   it { should belong_to :question }
   it { should belong_to :user }
   it { should have_many :attachments }
+  it { should have_many :comments }
   it { should validate_presence_of :question }
   it { should accept_nested_attributes_for :attachments }
 
