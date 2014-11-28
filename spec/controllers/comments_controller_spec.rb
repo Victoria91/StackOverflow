@@ -1,4 +1,4 @@
-require 'rails_helper' 
+require 'rails_helper'
 
 RSpec.describe CommentsController do
   describe 'POST #create' do
@@ -14,9 +14,9 @@ RSpec.describe CommentsController do
         end
 
         it 'creates comment related to a question and user' do
-          expect{ post :create, comment: { body: 'comment body' }, question_id: question, format: :js }.to change( question.comments.where(user: @user), :count).by(1)
+          expect { post :create, comment: { body: 'comment body' }, question_id: question, format: :js }.to change(question.comments.where(user: @user), :count).by(1)
         end
-        
+
         it 'renders create template' do
           post :create, comment: { body: 'comment body' }, question_id: question, format: :js
           expect(response).to render_template :create
@@ -25,7 +25,7 @@ RSpec.describe CommentsController do
 
       context 'unauthorized' do
         it 'not create comment' do
-          expect{ post :create, comment: { body: 'comment body' }, question_id: question, format: :js }.not_to change(Comment, :count)
+          expect { post :create, comment: { body: 'comment body' }, question_id: question, format: :js }.not_to change(Comment, :count)
         end
       end
     end
@@ -36,8 +36,8 @@ RSpec.describe CommentsController do
       xit 'loads Answer' do
         post :create, comment: { body: 'comment body' }, answer_id: answer, format: :js
         expect(assigns(:parent)).to eq(answer)
-      end        
+      end
     end
   end
-  
+
 end

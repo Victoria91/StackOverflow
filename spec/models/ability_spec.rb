@@ -49,7 +49,7 @@ RSpec.describe Ability do
           it { should_not be_able_to(:vote, question) }
         end
       end
-      
+
       context 'subscription' do
         let!(:own_question) { create(:question, user: user) }
         let(:question) { create(:question, user: another_user) }
@@ -66,7 +66,7 @@ RSpec.describe Ability do
         context 'unsubscribe' do
           let!(:subscription) { create(:subscription, question: question, user: user) }
 
-          it { should be_able_to(:unsubscribe, question) } 
+          it { should be_able_to(:unsubscribe, question) }
           it { should_not be_able_to(:unsubscribe, create(:question)) }
         end
       end
