@@ -4,7 +4,9 @@
       $('#new_comment_error').html('<%= j message %>').animate({ opacity: 'hide'});
     <% end %>
 <% else %>
-  $('.comments').html("<%= j render 'questions/comments', parent: @parent %>");
+  var parentSelector = '<%= @parent.is_a?(Question) ? ".question" : "##{@parent.id}" %>';
+  $(parentSelector + ' .comments').html("<%= j render 'questions/comments', parent: @parent %>");
+  $('#comment_answer_'+'<%= @parent.id %>').hide();
   $('.new_comment #comment_body').val('');
   $('#new_comment_error').html('');
   $(document).ready(ready);

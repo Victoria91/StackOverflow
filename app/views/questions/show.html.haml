@@ -11,6 +11,13 @@
       .vote_down
   %h2= @question.title
   %h3= @question.body
+  .comments
+    = render 'comments', parent: @question
+  %div{ id: 'new_comment_error' }
+  - if can?(:create, Comment)
+    = simple_form_for [@question, @question.comments.build], remote: true do |f|
+      = f.input :body, label: 'Your comment:'
+      = f.button :submit
 .attachments
   = render 'attachments'
 
@@ -38,14 +45,6 @@
 - if can?(:unsubscribe, @question)
   .floatl= link_to 'Unsubscribe', unsubscribe_question_path(@question), method: :delete, remote: true, id: 'unsubscribe_question_link'
 %br
-
-.comments
-  = render 'comments', parent: @question
-%div{ id: 'new_comment_error' }
-- if can?(:create, Comment)
-  = simple_form_for [@question, @question.comments.build], remote: true do |f|
-    = f.input :body, label: 'Your comment:'
-    = f.button :submit
 
 .answers{ data: { question_id: @question.id } }
   = render 'answers'

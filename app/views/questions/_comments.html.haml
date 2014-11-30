@@ -1,4 +1,5 @@
-- parent.comments.last(3).each do |comment|
-  %div
+- if parent.comments.exists?
+  - parent.comments.last(3).each_with_index do |comment, index|
     %div{ id: "#{comment.id}", style: 'float: right' }= comment.body
-    %hr
+    - if index < 2
+      %hr 

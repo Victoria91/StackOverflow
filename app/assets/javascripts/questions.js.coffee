@@ -7,7 +7,7 @@ ready = ->
   questionId = $('.answers').data('questionId')
   question_author = $('.question').data('author')
 
-  $(document).on 'click', '.editable_answer', (e) ->
+  $(document).on 'click', '.answer', (e) ->
     $(this).hide()
     answer_id = $(this).data('answerId')
     $("#accept_answer_" + answer_id).hide()
@@ -21,11 +21,11 @@ ready = ->
     $('.editable_answer').show()
     $("#accept_answer_" + answer_id).show()
 
-  $(document).on 'mouseover', '.editable_answer', (e) ->
+  $(document).on 'mouseover', '.answer', (e) ->
     answer_id = $(this).data('answerId')
     $("#accept_answer_" + answer_id).animate({ opacity: "hide" }, "slow");
 
-  $(document).on 'mouseout', '.editable_answer', (e) ->
+  $(document).on 'mouseout', '.answer', (e) ->
     answer_id = $(this).data('answerId')
     $("#accept_answer_" + answer_id).animate({ opacity: "show" }, "slow");
 
@@ -37,6 +37,11 @@ ready = ->
     e.preventDefault()
     $('.question_errors').html('')
     $("#edit_question_form").hide()
+
+  $(document).on 'click', '.show_comment_form', (e) ->
+    e.preventDefault()
+    answer_id = $(this).data('answerId')
+    $("#comment_answer_" + answer_id).show()
 
   $('.editable_answer_form').bind 'ajax:error', (e, xhr, status, error) ->
     answer_id = $(this).data('answerId')
@@ -67,7 +72,7 @@ ready = ->
         $('#' + answer.id).append('<div class="answer" id="answer_text_"'+ answer.id+'>'+ answer.body+'</div>')
     else
       $("#answer_text_" + answer.id).html(answer.body)
-      $('.editable_answer').show()
+      $('.answer').show()
       $("#accept_answer_" + answer.id).show() if question_author?
       $('#answer_' + answer.id).hide()
     $('#answer_text_' + answer.id).animate({color: "#f00"}, 2000).animate({color: "#000"}, 2000)
