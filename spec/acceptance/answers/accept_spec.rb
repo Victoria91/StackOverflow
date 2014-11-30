@@ -10,7 +10,7 @@ feature 'accept answer', %q(
   given(:another_user) { create(:user) }
   given!(:question) { create(:question, user: user) }
   given(:another_question) { create(:question, user: another_user) }
-  given!(:answer) { create(:answer, question: question, user: another_user) }
+  given(:answer) { create(:answer, question: question, user: another_user) }
   given(:accepted_answer) { create(:answer, question: question, accepted: true) }
 
   context 'authorized' do
@@ -18,6 +18,7 @@ feature 'accept answer', %q(
 
     context 'own question' do
       scenario 'accept answer', js: true do
+        answer
         visit question_path(question)
         expect(page).not_to have_selector '.accepted'
         find("#accept_answer_#{answer.id}").click
@@ -31,12 +32,29 @@ feature 'accept answer', %q(
         find('.accepted').click
         expect(page).not_to have_selector '.accepted'
       end
-    end
 
-    scenario 'on another question' do
-      visit question_path(another_question)
-      expect(page).not_to have_selector '.accept'
+      context 'after creating new answer #PrivatePub templates' do
+        scenario 'accepting and reaccepting answer', js: true do
+          visit question_path(question)
+          create_answer
+          expect(page).not_to have_selector '.accepted'
+          find('.accept').click
+          expect(page).to have_selector '.accepted'
+          find('.accepted').click
+          expect(page).not_to have_selector '.accepted'
+        end
+
+        def create_answer 
+          fill_in 'answer[body]', with: 'some strange text'
+          click_on 'Create Answer'
+        end
+      end
     end
+  end
+  
+  scenario 'on another question' do
+    visit question_path(another_question)
+    expect(page).not_to have_selector '.accept'
   end
 
   scenario 'unauthorized' do

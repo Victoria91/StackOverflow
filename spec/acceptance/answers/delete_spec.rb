@@ -24,6 +24,19 @@ feature 'delete answer', %q(
       end
     end
 
+    scenario 'delete own answer right after creating #PrivatePub templates', js: true do
+      within '.answers' do #delete the previous answer
+        find("#delete_answer_#{answer.id}_link").click
+        expect(page).not_to have_content answer.body
+      end
+      fill_in 'answer[body]', with: 'some strange text'
+      click_on 'Create Answer'
+      within '.answers' do
+        click_link 'Delete'
+        expect(page).not_to have_content answer.body
+      end
+    end
+
     scenario 'user cannot delete another answer', js: true do
       within '.answers' do
         expect(page).not_to have_selector "#delete_answer_#{another_answer.id}_link"
