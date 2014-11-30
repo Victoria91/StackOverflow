@@ -44,14 +44,14 @@ feature 'accept answer', %q(
           expect(page).not_to have_selector '.accepted'
         end
 
-        def create_answer 
+        def create_answer
           fill_in 'answer[body]', with: 'some strange text'
           click_on 'Create Answer'
         end
       end
     end
   end
-  
+
   scenario 'on another question' do
     visit question_path(another_question)
     expect(page).not_to have_selector '.accept'

@@ -5,11 +5,11 @@ feature 'delete answer', %q(
   I want to delete question
 ) do
 
-  given(:user) { FactoryGirl.create(:user) }
-  given(:another_user) { FactoryGirl.create(:user) }
-  given(:question) { FactoryGirl.create(:question, user: user) }
-  given!(:answer) { FactoryGirl.create(:answer, question: question, user: user) }
-  given!(:another_answer) { FactoryGirl.create(:answer, question: question, user: another_user) }
+  given(:user) { create(:user) }
+  given(:another_user) { create(:user) }
+  given(:question) { create(:question, user: user) }
+  given!(:answer) { create(:answer, question: question, user: user) }
+  given!(:another_answer) { create(:answer, question: question, user: another_user) }
 
   context 'authorized' do
     background do
@@ -25,7 +25,7 @@ feature 'delete answer', %q(
     end
 
     scenario 'delete own answer right after creating #PrivatePub templates', js: true do
-      within '.answers' do #delete the previous answer
+      within '.answers' do # delete the previous answer
         find("#delete_answer_#{answer.id}_link").click
         expect(page).not_to have_content answer.body
       end
@@ -33,7 +33,7 @@ feature 'delete answer', %q(
       click_on 'Create Answer'
       within '.answers' do
         click_link 'Delete'
-        expect(page).not_to have_content answer.body
+        expect(page).not_to have_content 'some strange text'
       end
     end
 

@@ -13,10 +13,10 @@ feature 'editing_answer', %q(
   given!(:another_answer) { FactoryGirl.create(:answer, user: another_user, question: question) }
 
   context 'authorized' do
-    before { login_as user }
+    background { login_as user }
 
     context 'edit own answer' do
-      before do
+      background do
         visit question_path(question)
         find('.editable_answer', text: answer.body).click
       end
@@ -76,7 +76,7 @@ feature 'editing_answer', %q(
         within '.answers' do
           expect(page).to have_content 'new answer'
           expect(page).not_to have_selector 'textarea'
-          expect(page).not_to have_content answer.body
+          expect(page).not_to have_content 'Updated Answer'
           expect(page).not_to have_selector '.alert'
         end
       end
