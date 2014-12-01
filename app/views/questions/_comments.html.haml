@@ -1,7 +1,7 @@
 - if parent.comments.exists?
   %i{ style: 'float: right'} comments:
   %br
-  - parent.comments.persisted.last(3).each_with_index do |comment, index|
+  - parent.comments.persisted.last(3).each do |comment|
     %div{ id: "#{comment.id}", style: 'float: right' }= comment.body
     - if comment != parent.comments.persisted.last
       %hr{ style: "border-top: dotted 1px #dddddd;" }
