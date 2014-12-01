@@ -1,14 +1,24 @@
+var parent = '<%= @parent.is_a?(Question) ? "question" : "answer" %>';
+var parentSelector = '<%= @parent.is_a?(Question) ? ".question" : "##{@parent.id}" %>';
 <% if @comment.errors.present? %>
     <% @comment.errors.full_messages.each do |message| %>
-      $('.comments').after('<div id="new_comment_error"></div>');
-      $('#new_comment_error').html('<%= j message %>').animate({ opacity: 'hide'});
+      if (parent === "question") {
+        $('.attachments').after('<div id="new_comment_error"></div>');
+        $('#new_comment_error').html('<%= j message %>').animate({ opacity: 'hide'});
+      } else {
+        $('#comment_answer_'+'<%= @parent.id %>').before('<div id="new_comment_error"></div>');
+        $('#'+'<%= @parent.id %>'+' #new_comment_error').html('<%= j message %>').animate({ opacity: 'hide'});
+      }
     <% end %>
 <% else %>
-  var parentSelector = '<%= @parent.is_a?(Question) ? ".question" : "##{@parent.id}" %>';
   $(parentSelector + ' .comments').html("<%= j render 'questions/comments', parent: @parent %>");
   $('#comment_answer_'+'<%= @parent.id %>').hide();
-  $('.new_comment #comment_body').val('');
+  if (parent === "question") {
+    $('.new_comment #comment_body').val('');
+  } else {
+    $(parentSelector + ' #comment_body').val('');
+  }
   $('#new_comment_error').html('');
-  $(document).ready(ready);
-  $(document).on('page:load',ready);
 <% end %>
+$(document).ready(ready);
+$(document).on('page:load',ready);

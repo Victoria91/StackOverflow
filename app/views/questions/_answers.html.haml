@@ -30,8 +30,6 @@
         = f.button :submit, class: 'tiny'
         = f.button :submit, 'Cancel', class: 'alert tiny', data: { answer_id: answer.id }
     %br
-    - if answer.comments.exists?
-      %i{ style: 'float: right'} comments:
-      %br
-      .comments
+    .comments
+      - if answer.comments.exists?
         = render 'comments', parent: answer

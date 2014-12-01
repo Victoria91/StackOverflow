@@ -3,4 +3,6 @@ class Comment < ActiveRecord::Base
   belongs_to :user
 
   validates :body, presence: true
+
+  scope :persisted, -> { where "id IS NOT NULL" }
 end

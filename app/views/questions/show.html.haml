@@ -1,4 +1,4 @@
-.question{ data: { author: @question.user == current_user } }
+.question{ data: { author: @question.user == current_user, signed_in: user_signed_in? } }
   .votes
     - if can?(:vote_up, @question) 
       = link_to "", vote_up_question_path(@question), method: :post, remote: true, class: 'vote_up_link'
@@ -11,15 +11,26 @@
       .vote_down
   %h2= @question.title
   %h3= @question.body
+
+  - if can?(:update, @question)
+    .floatl
+      = link_to 'Edit', '', id: 'edit_question_link' 
+      = link_to 'Delete', question_path(@question), method: :delete, id: 'delete_question_link', data: { confirm: 'sure?' }
+
+  - if can?(:subscribe, @question)
+    .floatl= link_to 'Subscribe', subscribe_question_path(@question), method: :post, remote: true, id: 'subscribe_question_link'
+  - if can?(:unsubscribe, @question)
+    .floatl= link_to 'Unsubscribe', unsubscribe_question_path(@question), method: :delete, remote: true, id: 'unsubscribe_question_link'
+  %br
+
   .comments
     = render 'comments', parent: @question
-  %div{ id: 'new_comment_error' }
+  .attachments
+    = render 'attachments'
   - if can?(:create, Comment)
     = simple_form_for [@question, @question.comments.build], remote: true do |f|
       = f.input :body, label: 'Your comment:'
       = f.button :submit
-.attachments
-  = render 'attachments'
 
 - if can?(:update, @question)
   .question_errors
@@ -36,20 +47,12 @@
     = f.button :submit 
 
     = f.button :submit, 'Cancel', class: 'alert', id: 'cancel_question_edit'
-  .floatl
-    = link_to 'Edit', '', id: 'edit_question_link' 
-    = link_to 'Delete', question_path(@question), method: :delete, id: 'delete_question_link', data: { confirm: 'sure?' }
-
-- if can?(:subscribe, @question)
-  .floatl= link_to 'Subscribe', subscribe_question_path(@question), method: :post, remote: true, id: 'subscribe_question_link'
-- if can?(:unsubscribe, @question)
-  .floatl= link_to 'Unsubscribe', unsubscribe_question_path(@question), method: :delete, remote: true, id: 'unsubscribe_question_link'
-%br
 
 .answers{ data: { question_id: @question.id } }
   = render 'answers'
 
 - if can?(:create, Answer)
+  %br
   = simple_form_for [@question, @answer], remote: true, data: { type: :json } do |f|
     = f.input :body, label: 'Your answer:' 
     = f.button :submit 

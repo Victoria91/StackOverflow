@@ -6,6 +6,8 @@ ready = ->
 
   questionId = $('.answers').data('questionId')
   question_author = $('.question').data('author')
+  signed_in = $('.question').data('signedIn')
+  # alert signed_in?
 
   $(document).on 'click', '.answer', (e) ->
     $(this).hide()
@@ -17,13 +19,14 @@ ready = ->
   $(document).on 'click', '.alert', (e) ->
     e.preventDefault()
     answer_id = $(this).data('answerId')
+    $("#comment_answer_" + answer_id).hide()
     $("#answer_" + answer_id).hide()
-    $('.editable_answer').show()
+    $('.answer').show()
     $("#accept_answer_" + answer_id).show()
 
   $(document).on 'mouseover', '.answer', (e) ->
     answer_id = $(this).data('answerId')
-    $("#accept_answer_" + answer_id).animate({ opacity: "hide" }, "slow");
+    $("#accept_answer_" + answer_id).hide()
 
   $(document).on 'mouseout', '.answer', (e) ->
     answer_id = $(this).data('answerId')
@@ -56,20 +59,29 @@ ready = ->
     $.each errors, (index, value) ->
       $('#new_answer_error').append(index + ' ' + value).animate({ opacity: "hide" }, "slow");
 
+  is_answer_author = (answer_field, answer)  -> 
+    answer_field.val() == answer.body
+
   PrivatePub.subscribe "/questions/" + questionId + "/answers", (data, channel) ->
     answer = $.parseJSON(data['answer'])
     if (answer.created_at == answer.updated_at)
-      answer_field = $('.new_answer #answer_body') 
       $('.answers').append('<div id="' + answer.id + '"></div>')
       $('#' + answer.id).append('<hr>')
       if question_author?
         $('#' + answer.id).append(HandlebarsTemplates["accept"](answer))
-      if answer_field.val() == answer.body
+      if is_answer_author?($('.new_answer #answer_body'), answer)
         $('.new_answer #answer_body').val('')  
         $('#' + answer.id).append(HandlebarsTemplates["answer"](answer))
         $('#' + answer.id).append(HandlebarsTemplates["answer_form"](answer))
-      else 
-        $('#' + answer.id).append('<div class="answer" id="answer_text_"'+ answer.id+'>'+ answer.body+'</div>')
+        $('#' + answer.id).append(HandlebarsTemplates["comment_form"](answer))
+        $('#' + answer.id).append('<br><div class="comments"></div>')
+      else if signed_in?
+        $('#' + answer.id).append('<div id="' + answer.id + '">'+ answer.body+'</div>')
+        $('#' + answer.id).append(HandlebarsTemplates["create_comment_link"](answer))
+        $('#' + answer.id).append(HandlebarsTemplates["comment_form"](answer))
+        $('#' + answer.id).append('<br><div class="comments"></div>')
+      else
+        $('#' + answer.id).append('<div id="answer_text_"'+ answer.id+'>'+ answer.body+'</div>')
     else
       $("#answer_text_" + answer.id).html(answer.body)
       $('.answer').show()
