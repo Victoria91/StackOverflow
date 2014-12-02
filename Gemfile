@@ -66,7 +66,12 @@ gem 'delayed_job_active_record'
 gem 'whenever', :require => false
 
 gem 'mysql2'
+
 gem 'thinking-sphinx'
+
+gem 'dotenv'
+
+gem 'dotenv-deployment', require: 'dotenv/deployment'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
