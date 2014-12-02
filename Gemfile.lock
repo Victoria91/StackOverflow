@@ -174,6 +174,7 @@ GEM
     jwt (1.0.0)
     launchy (2.4.2)
       addressable (~> 2.3)
+    libv8 (3.16.14.7)
     mail (2.6.1)
       mime-types (>= 1.16, < 3)
     middleware (0.1.0)
@@ -241,6 +242,7 @@ GEM
     rake (10.3.2)
     rdoc (4.1.2)
       json (~> 1.4)
+    ref (1.0.5)
     remotipart (1.2.1)
     riddle (1.5.11)
     rspec (3.1.0)
@@ -291,6 +293,9 @@ GEM
       colorize
       net-scp (>= 1.1.2)
       net-ssh (>= 2.8.0)
+    therubyracer (0.12.1)
+      libv8 (~> 3.16.14.0)
+      ref
     thin (1.6.3)
       daemons (~> 1.0, >= 1.0.9)
       eventmachine (~> 1.0)
@@ -368,6 +373,7 @@ DEPENDENCIES
   shoulda-matchers
   simple_form
   spring
+  therubyracer
   thin
   thinking-sphinx
   turbolinks
