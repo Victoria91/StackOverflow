@@ -19,6 +19,6 @@ var parentSelector = '<%= @parent.is_a?(Question) ? ".question" : "##{@parent.id
     $(parentSelector + ' #comment_body').val('');
   }
   $('#new_comment_error').html('');
+  $(document).ready(ready);
+  $(document).on('page:load',ready);
 <% end %>
-$(document).ready(ready);
-$(document).on('page:load',ready);

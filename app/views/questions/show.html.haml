@@ -39,10 +39,10 @@
     = f.input :body 
     
     %p Attachments:
-    = f.simple_fields_for :attachments, @question.attachments.build, wrapper: false do |a|
+    = f.simple_fields_for :attachments, @question.attachments.build do |a|
       = a.input :file
       = a.link_to_remove 'Remove this attachment'
-      %p= f.link_to_add 'Add an attachment', :attachments, data: { target: "#tasks" }  
+    %p= f.link_to_add 'Add an attachment', :attachments
 
     = f.button :submit 
 

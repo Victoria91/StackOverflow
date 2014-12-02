@@ -6,6 +6,6 @@
   = f.simple_fields_for :attachments, @question.attachments.build do |a|
     = a.input :file
     = a.link_to_remove 'Remove this attachment'
-    %p= f.link_to_add 'Add an attachment', :attachments
+  %p= f.link_to_add 'Add an attachment', :attachments
 
   = f.button :submit 

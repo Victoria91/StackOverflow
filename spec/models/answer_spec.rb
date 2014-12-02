@@ -44,7 +44,7 @@ RSpec.describe Answer do
     end
 
     it 'notifies subscribed users' do
-      subscriptions.each do |subscription|
+      question.reload.subscriptions.each do |subscription|
         expect(AnswerNotifier).to receive(:subscribers).with(subscription.user, anything).and_call_original
       end
       question.answers.create(attributes_for(:answer))

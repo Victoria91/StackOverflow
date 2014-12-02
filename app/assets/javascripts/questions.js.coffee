@@ -62,6 +62,11 @@ ready = ->
   is_answer_author = (answer_field, answer)  -> 
     answer_field.val() == answer.body
 
+  add_comment_staff = ->
+    $('#' + answer.id).append(HandlebarsTemplates["answer_form"](answer))
+    $('#' + answer.id).append(HandlebarsTemplates["comment_form"](answer))
+    $('#' + answer.id).append('<br><div class="comments"></div>')
+
   PrivatePub.subscribe "/questions/" + questionId + "/answers", (data, channel) ->
     answer = $.parseJSON(data['answer'])
     if (answer.created_at == answer.updated_at)
@@ -73,13 +78,10 @@ ready = ->
         $('.new_answer #answer_body').val('')  
         $('#' + answer.id).append(HandlebarsTemplates["answer"](answer))
         $('#' + answer.id).append(HandlebarsTemplates["answer_form"](answer))
-        $('#' + answer.id).append(HandlebarsTemplates["comment_form"](answer))
-        $('#' + answer.id).append('<br><div class="comments"></div>')
+        add_comment_staff
       else if signed_in?
         $('#' + answer.id).append('<div id="' + answer.id + '">'+ answer.body+'</div>')
-        $('#' + answer.id).append(HandlebarsTemplates["create_comment_link"](answer))
-        $('#' + answer.id).append(HandlebarsTemplates["comment_form"](answer))
-        $('#' + answer.id).append('<br><div class="comments"></div>')
+        add_comment_staff
       else
         $('#' + answer.id).append('<div id="answer_text_"'+ answer.id+'>'+ answer.body+'</div>')
     else

@@ -64,7 +64,7 @@ feature 'editing_answer', %q(
         visit question_path(question)
         fill_in 'Your answer', with: 'Updated Answer'
         click_on 'Create Answer'
-        find('.editable_answer', text: 'Updated Answer').click
+        find('.answer', text: 'Updated Answer').click
       end
 
       scenario 'editing own answer with valid attributes', js: true do

@@ -8,7 +8,7 @@ feature 'create comment', %q(
 
   let(:user) { create(:user) }
   let(:question) { create(:question) }
-  let(:answer) { create(:answer, question: question) }
+  let!(:answer) { create(:answer, question: question) }
 
   scenario 'unauthorized cannot create comment' do
     visit question_path(question)
@@ -25,16 +25,18 @@ feature 'create comment', %q(
     scenario 'leave comment on question', js: true do
       fill_in 'Your comment:', with: 'my comment'
       click_on 'Create Comment'
-      within '.comments' do
+      within '.question .comments' do
         expect(page).to have_content 'my comment'
       end
     end
 
     scenario 'leave comment on answer', js: true do
-      find(".comment_answer_#{answer.id}").click
-      fill_in 'Your comment:', with: 'my comment'
-      click_on 'Create Comment'
-      within ".answer_#{answer.id}_comments" do
+      find("#leave_comment_answer_#{answer.id}_link").click
+      within ".answers" do
+        fill_in 'Your comment:', with: 'my comment'
+        click_on 'Create Comment'
+      end
+      within ".answers .comments" do
         expect(page).to have_content 'my comment'
       end
     end
