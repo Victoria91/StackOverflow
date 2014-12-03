@@ -1,0 +1,5 @@
+production:
+  pid_file: /home/deployer/stackunderflow/shared/tmp/pids/searchd.pid
+  indices_locaiton: /home/deployer/stackunderflow/shared/db/sphinx
+  configuration_file: /home/deployer/stackunderflow/shared/production.sphinx.conf
+  binlog_path: /home/deployer/stackunderflow/shared/binlog
