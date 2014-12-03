@@ -1,3 +1,10 @@
+development:
+  mysql41: 9312
+test:
+  mysql41: 9313
+production:
+  mysql41: 9312
+
 production:
   pid_file: /home/deployer/qna/shared/tmp/pids/searchd.pid
   indices_locaiton: /home/deployer/qna/shared/db/sphinx
