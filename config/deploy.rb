@@ -1,4 +1,7 @@
 # config valid only for current version of Capistrano
+require 'delayed/recipes'
+set :delayed_job_command, 'bin/delayed_job'
+
 lock '3.3.3'
 
 set :application, 'qna'
@@ -68,3 +71,4 @@ end
 
 after 'deploy:restart', 'private_pub:restart'
 after 'deploy:restart', 'thinking_sphinx:restart'
+after 'deploy:restart', 'delayed_job:restart'
