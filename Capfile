@@ -9,7 +9,6 @@ require 'capistrano/bundler'
 require 'capistrano/rails'
 require 'whenever/capistrano'
 require 'thinking_sphinx/capistrano'
-
 # Include tasks from other gems included in your Gemfile
 #
 # For documentation on these, see for example:
