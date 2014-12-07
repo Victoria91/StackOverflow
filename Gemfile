@@ -74,6 +74,8 @@ gem 'dotenv'
 gem 'dotenv-deployment', require: 'dotenv/deployment'
 
 gem 'therubyracer'
+
+gem 'unicorn'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
@@ -82,6 +84,7 @@ group :development do
   gem 'capistrano-bundler', require: false
   gem 'capistrano-rails', require: false
   gem 'capistrano-rvm', require: false
+  gem 'capistrano3-unicorn', require: false
 end
 
 group :test, :development do
