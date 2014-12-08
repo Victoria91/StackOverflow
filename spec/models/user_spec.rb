@@ -2,13 +2,13 @@ require 'rails_helper'
 
 RSpec.describe User do
 
-  it { should have_many :authorizations }
-  it { should have_many :votes }
-  it { should have_many :subscriptions }
+  it { should have_many(:authorizations).dependent(:destroy) }
+  it { should have_many(:votes).dependent(:destroy) }
+  it { should have_many(:subscriptions).dependent(:destroy) }
   it { should have_many :comments }
 
   describe '.find_for_oauth' do
-    let!(:user) { FactoryGirl.create(:user) }
+    let!(:user) { create(:user) }
     let(:auth) { OmniAuth::AuthHash.new(provider: 'facebook', uid: '123456') }
 
     context 'user already has authorization' do

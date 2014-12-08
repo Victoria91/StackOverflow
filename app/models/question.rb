@@ -1,10 +1,10 @@
 class Question < ActiveRecord::Base
-  has_many :answers
+  has_many :answers, dependent: :destroy
   belongs_to :user
-  has_many :attachments, as: :attachmentable
-  has_many :votes
-  has_many :subscriptions
-  has_many :comments, as: :commentable
+  has_many :attachments, as: :attachmentable, dependent: :destroy
+  has_many :votes, dependent: :destroy
+  has_many :subscriptions, dependent: :destroy
+  has_many :comments, as: :commentable, dependent: :destroy
 
   validates :title, :body, :user, presence: true
   validates :title, length: { maximum: 255 }
