@@ -1,8 +1,8 @@
 class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
-  devise :database_authenticatable, :registerable, :recoverable, 
-         :rememberable, :trackable, :validatable, :omniauthable, 
+  devise :database_authenticatable, :registerable, :recoverable,
+         :rememberable, :trackable, :validatable, :omniauthable,
          omniauth_providers: [:facebook, :vkontakte, :twitter]
 
   has_many :questions
@@ -11,7 +11,7 @@ class User < ActiveRecord::Base
   has_many :votes, dependent: :destroy
   has_many :subscriptions, dependent: :destroy
   has_many :comments
-  
+
   def self.find_for_oauth(auth)
     authorization = Authorization.where(provider: auth.provider, uid: auth.uid.to_s).first
     return authorization.user if authorization

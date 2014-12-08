@@ -52,7 +52,7 @@ RSpec.describe User do
         it 'creates new user' do
           expect { User.find_for_oauth(auth) }.to change(User, :count).by(1)
         end
-        
+
         it 'returns new user' do
           expect(User.find_for_oauth(auth)).to be_a(User)
         end

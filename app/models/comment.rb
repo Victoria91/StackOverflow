@@ -4,5 +4,5 @@ class Comment < ActiveRecord::Base
 
   validates :body, presence: true
 
-  scope :persisted, -> { where "id IS NOT NULL" }
+  scope :persisted, -> { where 'id IS NOT NULL' }
 end
