@@ -11,15 +11,20 @@ class AuthorizationsController < ApplicationController
   end
 
   def show
-    if params[:token] == session[:token]
+    if session[:token].present? && params[:token] == session[:token]
       @user = User.where(email: session[:email]).first
       @user.authorizations.create(uid: session[:uid], provider: session[:provider])
+      reset_session
       sign_in @user
       flash[:notice] = 'Your email address has been successfully confirmed. Your are now signed in with Twitter account'
     else
       flash[:notice] = 'Invalid confirmation. Try to sign up one more time'
     end
     redirect_to root_path
+  end
+
+  def new
+    @user = User.new
   end
 
   private

@@ -115,4 +115,4 @@ end
 
 after 'deploy:restart', 'private_pub:restart'
 after 'deploy:restart', 'thinking_sphinx:restart'
-after "deploy:restart", "delayed_job:restart"
+after 'deploy:restart', 'delayed_job:restart'

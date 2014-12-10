@@ -10,6 +10,8 @@ Rails.application.routes.draw do
   end
 
   get '/authorizations', to: 'authorizations#show'
+  get '/authorizations/new'
+
 
   concern :commentable do
     resources :comments

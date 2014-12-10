@@ -14,10 +14,9 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
       sign_in_and_redirect @user, event: :authentication
       set_flash_message(:notice, :success, kind: 'Twitter') if is_navigational_format?
     else
-      @user = User.new
       session[:uid] = request.env['omniauth.auth'].uid 
       session[:provider] = request.env['omniauth.auth'].provider 
-      render 'authorizations/new'
+      redirect_to authorizations_new_path
     end
   end
 
