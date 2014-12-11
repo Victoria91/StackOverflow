@@ -8,7 +8,7 @@ class AnswerNotifier < ActionMailer::Base
   #
   def author(answer)
     @answer = answer
-    mail to: answer.question.user.email
+    mail(to: answer.question.user.email, subject: 'New answer on your question')
   end
 
   # Subject can be set in your I18n file at config/locales/en.yml
@@ -18,6 +18,6 @@ class AnswerNotifier < ActionMailer::Base
   #
   def subscribers(user, answer)
     @answer = answer
-    mail to: user.email
+    mail(to: user.email, subject: 'New asnwer to a question you\'ve subscribed'
   end
 end
