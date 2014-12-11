@@ -1,5 +1,5 @@
 class DailyMailer < ActionMailer::Base
-  default from: "from@example.com"
+  default from: "so@qna.com"
 
   def digest(user)
     mail to: user.email
