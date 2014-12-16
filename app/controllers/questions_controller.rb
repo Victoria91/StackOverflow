@@ -57,6 +57,11 @@ class QuestionsController < ApplicationController
     current_user.subscriptions.where(question: @question).first.destroy
   end
 
+  def cancel_notifications
+    @question.update(notifications: false)
+    redirect_to @question, notice: 'You have successfully unsubscribed on notifications about new answers'
+  end
+
   private
 
   def question_params

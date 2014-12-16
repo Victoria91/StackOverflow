@@ -22,6 +22,7 @@ Rails.application.routes.draw do
     post 'vote_down', on: :member
     post 'subscribe', on: :member
     delete 'unsubscribe', on: :member
+    get 'cancel_notifications', on: :member
     resources :answers, concerns: :commentable, shallow: true do
       post 'accept', on: :member
     end

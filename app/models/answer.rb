@@ -21,7 +21,7 @@ class Answer < ActiveRecord::Base
   private
 
   def send_email
-    delay.notify_subscribers
+    notify_subscribers
   end
 
   def notify_subscribers
