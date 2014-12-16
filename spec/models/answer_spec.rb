@@ -45,7 +45,7 @@ RSpec.describe Answer do
     end
 
     it 'notifies question author after create if he is subscribed' do
-      expect(AnswerNotifier).to receive(:author).and_call_original
+      expect(AnswerNotifier).not_to receive(:author).and_call_original
       question_without_notifications.answers.create(attributes_for(:answer))
     end
 

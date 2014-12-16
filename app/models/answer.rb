@@ -25,7 +25,7 @@ class Answer < ActiveRecord::Base
   end
 
   def notify_subscribers
-    AnswerNotifier.author(self).deliver
+    AnswerNotifier.author(self).deliver if question.notifications
     self.question.subscriptions.each do |subscription|
       AnswerNotifier.subscribers(subscription.user, self).deliver
     end
