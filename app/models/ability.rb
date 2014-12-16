@@ -21,6 +21,9 @@ class Ability
       can :unsubscribe, Question do |q|
         q.subscriptions.where(user: user).present?
       end
+      can :cancel_notifications, Question do |q|
+        q.notifications && q.user == user
+      end
     end
 
     can :read, :all

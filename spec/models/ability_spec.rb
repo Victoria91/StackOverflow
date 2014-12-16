@@ -70,6 +70,14 @@ RSpec.describe Ability do
           it { should_not be_able_to(:unsubscribe, create(:question)) }
         end
       end
+
+      context 'author notifications' do
+        let(:question) { create(:question, user: user) }
+        let(:another_question) { create(:question, user: create(:user)) }
+
+        it { should be_able_to(:cancel_notifications, question) }
+        it { should_not be_able_to(:cancel_notifications, another_question) }
+      end
     end
 
     context 'Answer' do
