@@ -2,5 +2,5 @@ Hello!
 
 Here are new questions on today!
 <% Question.all.each do |question| %>
-  <%= link_to question_path(question) if question.created_at.today? %>
+  <%= link_to question.title, question_url(question) if question.created_at.today? %>
 <% end %>

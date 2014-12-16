@@ -44,4 +44,21 @@ RSpec.describe Question do
 
   end
 
+  describe '.created_today' do
+    let(:yesterday_questions) { create_list(:question, 5, created_at: Time.now - 1.day) }
+    let(:today_questions) { create_list(:question, 5) }
+
+    it 'contains today_questions' do
+      questions = Question.created_today
+    end
+
+    it 'not contains yesterday questions' do
+      questions = Question.created_today
+      yesterday_questions.each do |question|
+        expect(questions).not_to include(question)
+      end
+    end
+
+  end
+
 end

@@ -13,6 +13,8 @@ class Question < ActiveRecord::Base
                                 reject_if: proc { |attributes| attributes['file'].blank? },
                                 allow_destroy: true
 
+  scope :created_today, -> { where(created_at > Time.now.beginning_of_day) }
+
   def accepted_answer
     answers.find_by(accepted: true)
   end
