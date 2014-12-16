@@ -21,13 +21,13 @@ class Answer < ActiveRecord::Base
   private
 
   def send_email
-    delay.notify_subscribers(self)
+    delay.notify_subscribers
   end
 
-  def notify_subscribers(answer)
+  def notify_subscribers
     AnswerNotifier.author(self).deliver
-    answer.question.subscriptions.each do |subscription|
-      AnswerNotifier.subscribers(subscription.user, answer).deliver
+    self.question.subscriptions.each do |subscription|
+      AnswerNotifier.subscribers(subscription.user, self).deliver
     end
   end
 end

@@ -35,12 +35,18 @@ RSpec.describe Answer do
   end
 
   context 'new answer notifications' do
-    let!(:subscriptions) { create_list(:subscription, 5, question: question, user: create(:user) ) }
+    let!(:subscriptions) { create_list(:subscription, 5, question: question, user: create(:user)) }
     let(:unsubscribed_users) { create_list(:user, 5) }
+    let(:question_without_notifications) { create(:question, notifications: false) }
 
-    it 'notifies question author after create' do
+    it 'notifies question author after create if he is subscribed' do
       expect(AnswerNotifier).to receive(:author).and_call_original
       question.answers.create(attributes_for(:answer))
+    end
+
+    it 'notifies question author after create if he is subscribed' do
+      expect(AnswerNotifier).to receive(:author).and_call_original
+      question_without_notifications.answers.create(attributes_for(:answer))
     end
 
     it 'notifies subscribed users' do
@@ -52,7 +58,7 @@ RSpec.describe Answer do
 
     it 'not notifies unsubscribed' do
       unsubscribed_users.each do |user|
-        expect(AnswerNotifier).not_to receive(:subscribers)
+        expect(AnswerNotifier).not_to receive(:subscribers).with(user, anything)
       end
       question.answers.create(attributes_for(:answer))
     end

@@ -18,6 +18,6 @@ class AnswerNotifier < ActionMailer::Base
   #
   def subscribers(user, answer)
     @answer = answer
-    mail(to: user.email, subject: 'New asnwer to a question you\'ve subscribed')
+    mail(to: user.email, subject: 'New answer to a question you\'ve subscribed')
   end
 end

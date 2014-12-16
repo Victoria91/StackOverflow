@@ -232,4 +232,36 @@ RSpec.describe QuestionsController do
     end
   end
 
+  describe 'POST #cancel_notifications' do
+
+    context 'authorized' do
+      sign_in_user
+      let(:question) { create(:question, user: @user) }
+      let(:another_question) { create(:question, user: create(:user)) }
+
+      xit 'redirects to a question_path' do
+        get :cancel_notifications, id: question
+        expect(response).to redirect_to question_path(question)
+      end
+
+      xit 'changes notifications state' do
+        expect { get :cancel_notifications, id: question }.to change(question.reload.notifications).to(false)
+      end
+
+      xit 'not changes notifications state for another question' do
+        expect { get :cancel_notifications, id: another_question }.not_to change(question.reload.notifications)
+      end
+    end
+
+    context 'unauthorized' do
+      let(:question) { create(:question, user: create(:user)) }
+
+      xit 'not changes notifications state' do
+        expect { get :cancel_notifications, id: question }.to change(question.reload.notifications).to(false)
+      end
+
+    end
+
+  end
+ 
 end
