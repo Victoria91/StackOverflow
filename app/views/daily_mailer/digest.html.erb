@@ -1,6 +1,6 @@
 Hello!
 
 Here are new questions on today!
-<% Question.all.each do |question| %>
-  <%= link_to question.title, question_url(question) if question.created_at.today? %>
+<% Question.created_today.each do |question| %>
+  <%= link_to question.title, question_url(question) %>
 <% end %>

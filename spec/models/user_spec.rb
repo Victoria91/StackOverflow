@@ -82,11 +82,24 @@ RSpec.describe User do
   end
 
   describe '.send_daily_digest' do
-    let!(:users) { create_list(:user, 5) }
+    let!(:users) { create_list(:user, 4) }
 
-    it 'sends digest to all users' do
-      users.each { |user| expect(DailyMailer).to receive(:digest).and_call_original }
-      User.send_daily_digest
+    context 'new questions exist' do
+      let!(:questions) { create_list(:question, 5, user: users.last) }
+
+      it 'sends digest to all users' do
+        users.each do |user| 
+          expect(DailyMailer).to receive(:digest).with(user).and_call_original 
+        end
+        User.send_daily_digest
+      end
+    end
+
+    context 'no new questions' do
+      it 'not sends digest if there were no new questions' do
+        expect(DailyMailer).not_to receive(:digest)
+        User.send_daily_digest
+      end
     end
   end
 
