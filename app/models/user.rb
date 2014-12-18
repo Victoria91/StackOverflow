@@ -30,7 +30,7 @@ class User < ActiveRecord::Base
 
   def self.send_daily_digest
     if Question.created_today.present?
-      User.find_each.each do |user|
+      find_each.each do |user|
         DailyMailer.delay.digest(user) 
       end
     end

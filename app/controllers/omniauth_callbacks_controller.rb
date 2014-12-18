@@ -26,9 +26,6 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
   end
 
   def soc_net_sign_in(kind)
-    if @user.persisted?
-      sign_in_and_redirect @user, event: :authentication
-      set_flash_message(:notice, :success, kind: kind) if is_navigational_format?
-    end
+    render json: request.env['omniauth.auth']
   end
 end

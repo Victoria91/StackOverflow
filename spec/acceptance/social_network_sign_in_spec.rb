@@ -16,12 +16,14 @@ feature 'sign in with social network', %q(
       click_on 'Facebook'
       expect(page).to have_content('Successfully authenticated from Facebook account.')
       expect(page).to have_link 'Ask your question'
+      expect(page).to have_selector('img')
     end
 
     scenario 'sign in with vkontakte' do
       click_on 'Vkontakte'
       expect(page).to have_content('Successfully authenticated from Vkontakte account.')
       expect(page).to have_link 'Ask your question'
+      expect(page).to have_selector('img')
     end
 
     scenario 'sign in with twitter' do
