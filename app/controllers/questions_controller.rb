@@ -1,11 +1,11 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
-  before_action :find_question, except: [:index, :new, :create]
+  before_action :find_question, except: [:index, :new, :create, :digest_unsubscribe]
   after_action :publish_to_questions_chanel, only: :create
 
   respond_to :html, :js, :json
 
-  authorize_resource
+  #authorize_resource
 
   def new
     respond_with(@question = Question.new)
@@ -60,6 +60,11 @@ class QuestionsController < ApplicationController
   def cancel_notifications
     @question.update(notifications: false)
     redirect_to @question, notice: 'You have successfully unsubscribed on notifications about new answers'
+  end
+
+  def digest_unsubscribe
+    current_user.update(digest: false)
+    redirect_to root_path, notice: 'You have successfully unsubscribed on daily digest'
   end
 
   private

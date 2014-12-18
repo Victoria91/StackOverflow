@@ -264,12 +264,13 @@ RSpec.describe QuestionsController do
 
   end
 
-  describe '#digest_unsubscribe' do
+  describe 'GET #digest_unsubscribe' do
     context 'authorized' do
       sign_in_user
 
       it 'changes digest state' do
-        expect { get :digest_unsubscribe }.to change { user.reload.digest }.to false
+        puts @user.digest
+        expect { get :digest_unsubscribe }.to change { @user.reload.digest }.to(false)
       end 
     end
 
