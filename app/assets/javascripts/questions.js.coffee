@@ -63,7 +63,6 @@ ready = ->
     answer_field.val() == answer.body
 
   add_comment_staff = (answer) ->
-    # alert id
     $('#' + answer.id).append(HandlebarsTemplates["comment_form"](answer))
     $('#' + answer.id).append('<br><div class="comments"></div>')
 
