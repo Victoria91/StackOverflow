@@ -94,11 +94,11 @@ RSpec.describe User do
   end
 
   describe '.send_daily_digest' do
-    let!(:subscribed_users) { create_list(:user, 4) }
-    let!(:unsubscribed_users) { create_list(:user, 4, digest: false) }
+    let(:subscribed_users) { create_list(:user, 4) }
+    let(:unsubscribed_users) { create_list(:user, 4, digest: false) }
 
     context 'new questions exist' do
-      let!(:questions) { create_list(:question, 5, user: users.last) }
+      let!(:questions) { create_list(:question, 5, user: unsubscribed_users.last) }
 
       it 'sends digest to all subscribed users' do
         subscribed_users.each do |user|
@@ -123,4 +123,22 @@ RSpec.describe User do
     end
   end
 
+  describe '.subscribed' do
+    let!(:subscribed_users) { create_list(:user, 5) }
+    let!(:unsubscribed_users) { create_list(:user, 5, digest: false) }
+
+    it 'contains subscribed' do
+      users = User.subscribed
+      subscribed_users.each do |user|
+        expect(users).to include(user)
+      end
+    end
+
+    it 'not contains subscribed' do
+      users = User.subscribed
+      unsubscribed_users.each do |user|
+        expect(users).not_to include(user)
+      end
+    end
+  end
 end

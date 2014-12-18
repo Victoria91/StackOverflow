@@ -12,6 +12,8 @@ class User < ActiveRecord::Base
   has_many :subscriptions, dependent: :destroy
   has_many :comments
 
+  scope :subscribed, -> { where(digest: true) }
+
   def self.find_for_oauth(auth)
     authorization = Authorization.where(provider: auth.provider, uid: auth.uid.to_s).first
     return authorization.user if authorization
@@ -30,7 +32,7 @@ class User < ActiveRecord::Base
 
   def self.send_daily_digest
     if Question.created_today.present?
-      find_each.each do |user|
+      User.subscribed.each do |user|
         DailyMailer.delay.digest(user) 
       end
     end
