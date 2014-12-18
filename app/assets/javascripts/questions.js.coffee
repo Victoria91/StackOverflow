@@ -62,8 +62,8 @@ ready = ->
   is_answer_author = (answer_field, answer)  -> 
     answer_field.val() == answer.body
 
-  add_comment_staff = ->
-    $('#' + answer.id).append(HandlebarsTemplates["answer_form"](answer))
+  add_comment_staff = (answer) ->
+    # alert id
     $('#' + answer.id).append(HandlebarsTemplates["comment_form"](answer))
     $('#' + answer.id).append('<br><div class="comments"></div>')
 
@@ -74,14 +74,15 @@ ready = ->
       $('#' + answer.id).append('<hr>')
       if question_author?
         $('#' + answer.id).append(HandlebarsTemplates["accept"](answer))
+        # add_comment_staff()
       if is_answer_author?($('.new_answer #answer_body'), answer)
         $('.new_answer #answer_body').val('')  
         $('#' + answer.id).append(HandlebarsTemplates["answer"](answer))
         $('#' + answer.id).append(HandlebarsTemplates["answer_form"](answer))
-        add_comment_staff
+        add_comment_staff(answer)
       else if signed_in?
         $('#' + answer.id).append('<div id="' + answer.id + '">'+ answer.body+'</div>')
-        add_comment_staff
+        add_comment_staff(answer)
       else
         $('#' + answer.id).append('<div id="answer_text_"'+ answer.id+'>'+ answer.body+'</div>')
     else

@@ -13,7 +13,7 @@
 #   rake "some:great:rake:task"
 # end
 #
-every 1.day do
+every 1.day, at: '9:00 pm' do
   runner "User.send_daily_digest"
 end
 
