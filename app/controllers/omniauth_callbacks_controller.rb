@@ -1,5 +1,6 @@
 class OmniauthCallbacksController < Devise::OmniauthCallbacksController
   before_action :find_user_for_oauth, except: :create_user
+  after_action :set_avatar_in_flash
 
   def facebook
     soc_net_sign_in('Facebook')
@@ -13,9 +14,11 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     if @user
       sign_in_and_redirect @user, event: :authentication
       set_flash_message(:notice, :success, kind: 'Twitter') if is_navigational_format?
+      flash[:avatar] = request.env['omniauth.auth'].info[:image]
     else
       session[:uid] = request.env['omniauth.auth'].uid 
       session[:provider] = request.env['omniauth.auth'].provider 
+      session[:avatar_url] = request.env['omniauth.auth'].info[:image]
       redirect_to authorizations_new_path
     end
   end
@@ -26,6 +29,13 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
   end
 
   def soc_net_sign_in(kind)
-    render json: request.env['omniauth.auth']
+    if @user.persisted?
+      sign_in_and_redirect @user, event: :authentication
+      set_flash_message(:notice, :success, kind: kind) if is_navigational_format?
+    end
+  end
+
+  def set_avatar_in_flash
+    flash[:avatar] = request.env['omniauth.auth'].info[:image] if @user
   end
 end

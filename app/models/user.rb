@@ -23,7 +23,7 @@ class User < ActiveRecord::Base
         password = Devise.friendly_token[0, 20]
         user = User.create!(email: email, password: password, password_confirmation: password)
       end
-      user.authorizations.create(uid: auth.uid, provider: auth.provider)
+      user.authorizations.create(uid: auth.uid, provider: auth.provider, avatar_url: auth.info[:image])
     end
     user
   end

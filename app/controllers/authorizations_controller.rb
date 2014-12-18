@@ -13,7 +13,7 @@ class AuthorizationsController < ApplicationController
   def show
     if session[:token].present? && params[:token] == session[:token]
       @user = User.where(email: session[:email]).first
-      @user.authorizations.create(uid: session[:uid], provider: session[:provider])
+      @user.authorizations.create(uid: session[:uid], provider: session[:provider], avatar_url: session[:avatar_url])
       reset_session
       sign_in @user
       flash[:notice] = 'Your email address has been successfully confirmed. Your are now signed in with Twitter account'
