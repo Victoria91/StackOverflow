@@ -5,3 +5,5 @@ Here are new questions on today!
 <% Question.created_today.each do |question| %>
   <%= link_to question.title, question_url(question) %><br/>
 <% end %>
+
+To unsubscribe on daily digest <%= link_to 'click here.', digest_unsubscribe_profile_url %>

@@ -4,6 +4,10 @@ Rails.application.routes.draw do
   use_doorkeeper
   root 'questions#index'
 
+  resource :profile do
+    get :digest_unsubscribe
+  end
+
   devise_for :users, controllers: { omniauth_callbacks: 'omniauth_callbacks' }
   devise_scope :user do
     post 'confirm_auth', to: 'authorizations#confirm_auth'
@@ -23,7 +27,6 @@ Rails.application.routes.draw do
     post 'subscribe', on: :member
     delete 'unsubscribe', on: :member
     get 'cancel_notifications', on: :member
-    get 'digest_unsubscribe', on: :collection
     resources :answers, concerns: :commentable, shallow: true do
       post 'accept', on: :member
     end
