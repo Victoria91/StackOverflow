@@ -3,23 +3,23 @@ require 'rails_helper'
 RSpec.describe AuthorizationsController do
   describe 'POST #confirm_auth' do
     context 'with valid email' do
-      let(:email) { FactoryGirl.build(:user).email }
+      let(:email) { build(:user).email }
       context 'user already exists' do
-        let!(:user) { FactoryGirl.create(:user) }
+        let!(:user) { create(:user) }
 
         it 'not creates user' do
-          expect { post :confirm_auth, user: { email: user.email } }.not_to change(User,:count)
+          expect { post :confirm_auth, user: { email: user.email } }.not_to change(User, :count)
         end
       end
 
       context 'user does not exist' do
         it 'creates user' do
-          expect { post :confirm_auth, user: { email: email } }.to change(User,:count).by(1)
+          expect { post :confirm_auth, user: { email: email } }.to change(User, :count).by(1)
         end
       end
 
       it 'sets an email in session' do
-        expect { post :confirm_auth, user: { email: email } }.to change { session[:email] }.to(email)
+        expect { post :confirm_auth, user: { email: email } }.to change { session['devise.email'] }.to(email)
       end
 
       it 'sends email' do
@@ -44,16 +44,17 @@ RSpec.describe AuthorizationsController do
   describe 'GET #show' do
     let!(:user) { FactoryGirl.create(:user) }
     before do
-      session[:token] = 'token'
-      session[:email] = user.email
+      session['devise.token'] = 'token'
+      session['devise.email'] = user.email
+      session['devise.provider_data'] =  OmniAuth::AuthHash.new(provider: 'facebook', uid: '123456', info: { email: 'newuser@mail.com', image: 'http://provider.com/picture' })
     end
 
     context 'with correct token' do
       it 'creates authorization' do
-        expect { get :show, token: session[:token] }.to change(user.authorizations, :count).by(1)
+        expect { get :show, token: session['devise.token'] }.to change(user.reload.authorizations, :count).by(1)
       end
       it 'signs in user' do
-        expect { get :show, token: session[:token] }.to change { user.reload.sign_in_count }.by(1)
+        expect { get :show, token: session['devise.token'] }.to change { user.reload.sign_in_count }.by(1)
       end
     end
 
@@ -65,7 +66,7 @@ RSpec.describe AuthorizationsController do
         expect { get :show, token: 'invalid_token' }.not_to change(user.authorizations, :count)
       end
     end
-    
+
   end
 
 end

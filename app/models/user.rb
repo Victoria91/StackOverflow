@@ -25,17 +25,21 @@ class User < ActiveRecord::Base
         password = Devise.friendly_token[0, 20]
         user = User.create!(email: email, password: password, password_confirmation: password)
       end
-      user.authorizations.create(uid: auth.uid, provider: auth.provider, avatar_url: auth.info[:image])
+      user.create_authorization(auth)
     end
+
     user
   end
 
   def self.send_daily_digest
     if Question.created_today.present?
-      User.subscribed.each do |user|
-        DailyMailer.delay.digest(user) 
+      subscribed.each do |user|
+        DailyMailer.delay.digest(user)
       end
     end
   end
 
+  def create_authorization(auth)
+    authorizations.create(uid: auth.uid, provider: auth.provider, avatar_url: auth.info[:image])
+  end
 end

@@ -102,7 +102,7 @@ RSpec.describe User do
 
       it 'sends digest to all subscribed users' do
         subscribed_users.each do |user|
-          expect(DailyMailer).to receive(:digest).with(user).and_call_original 
+          expect(DailyMailer).to receive(:digest).with(user).and_call_original
         end
         User.send_daily_digest
       end
@@ -140,5 +140,25 @@ RSpec.describe User do
         expect(users).not_to include(user)
       end
     end
+  end
+
+  describe '#create_authorization' do
+    let!(:auth) { OmniAuth::AuthHash.new(provider: 'facebook', uid: '123456', info: { email: user.email, image: 'http://provider.com/picture' }) }
+    let(:user) { create(:user) }
+
+    before { user.create_authorization(auth) }
+
+    it 'creates authorization with a given provider' do
+      expect(user.authorizations.first.uid).to eq(auth.uid)
+    end
+
+    it 'creates authorization with a given uid' do
+      expect(user.authorizations.first.provider).to eq(auth.provider)
+    end
+
+    it 'creates authorization with a given avatar_url' do
+      expect(user.authorizations.first.avatar_url).to eq(auth.info[:image])
+    end
+
   end
 end
