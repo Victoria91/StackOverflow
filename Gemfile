@@ -98,6 +98,7 @@ group :test do
   gem 'capybara'
   gem 'capybara-email'
   gem 'faker'
+  gem "codeclimate-test-reporter", require: nil
   # gem 'selenium-webdriver'
   gem 'capybara-webkit'
   gem 'database_cleaner'
