@@ -5,7 +5,7 @@ class Question < ActiveRecord::Base
   has_many :votes, dependent: :destroy
   has_many :subscriptions, dependent: :destroy
   has_many :comments, as: :commentable, dependent: :destroy
-  has_many :question_tags
+  has_many :question_tags, dependent: :destroy
   has_many :tags, through: :question_tags
 
   validates :title, :body, :user, presence: true
