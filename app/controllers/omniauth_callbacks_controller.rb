@@ -1,5 +1,5 @@
 class OmniauthCallbacksController < Devise::OmniauthCallbacksController
-  before_action :find_user_for_oauth, except: :create_user
+  before_action :find_user_for_oauth
   after_action :set_avatar_in_flash
 
   def facebook
