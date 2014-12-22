@@ -96,5 +96,11 @@ ready = ->
     $('.questions').append('<p><a href="questions/'+question.id+'" id="question_' + question.id + '">' + question.title + '</a></p>')
     $('#question_' + question.id).animate({color: "#f00"}, 2000).animate({color: "#0078a0"}, 2000)
 
+  $ ->
+    $('.chosen-select').chosen
+      allow_single_deselect: true
+      no_results_text: 'No results matched'
+      width: '200px'
+
 $(document).ready(ready)
 $(document).on('page:load',ready)

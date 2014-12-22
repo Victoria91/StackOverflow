@@ -65,7 +65,7 @@ class QuestionsController < ApplicationController
   private
 
   def question_params
-    params[:question].permit(:title, :body, attachments_attributes: [:file, :id, :_destroy])
+    params[:question].permit(:title, :body, tag_ids: [], attachments_attributes: [:file, :id, :_destroy])
   end
 
   def find_question

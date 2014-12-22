@@ -38,6 +38,11 @@
     = f.input :title 
     = f.input :body 
     
+    = f.association :tags, 
+                    collection: Tag.all,
+                    include_blank: true,
+                    input_html: { class: 'chosen-select' }
+ 
     %p Attachments:
     = f.simple_fields_for :attachments, @question.attachments.build do |a|
       = a.input :file

@@ -74,7 +74,13 @@ GEM
       activesupport (>= 3.2.0)
       json (>= 1.7)
       mime-types (>= 1.16)
+    chosen-rails (1.2.0)
+      coffee-rails (>= 3.2)
+      compass-rails (>= 1.1.2)
+      railties (>= 3.0)
+      sass-rails (>= 3.2)
     chronic (0.10.2)
+    chunky_png (1.3.3)
     codeclimate-test-reporter (0.4.3)
       simplecov (>= 0.7.1, < 1.0.0)
     coffee-rails (4.0.1)
@@ -85,6 +91,12 @@ GEM
       execjs
     coffee-script-source (1.8.0)
     colorize (0.7.3)
+    compass (0.12.7)
+      chunky_png (~> 1.2)
+      fssm (>= 0.2.7)
+      sass (~> 3.2.19)
+    compass-rails (2.0.0)
+      compass (>= 0.12.2)
     cookiejar (0.3.2)
     daemons (1.1.9)
     database_cleaner (1.3.0)
@@ -140,6 +152,7 @@ GEM
     foundation-rails (5.4.5.0)
       railties (>= 3.1.0)
       sass (>= 3.2.0)
+    fssm (0.2.10)
     haml (4.0.5)
       tilt
     haml-rails (0.5.3)
@@ -356,6 +369,7 @@ DEPENDENCIES
   capybara-email
   capybara-webkit
   carrierwave
+  chosen-rails
   codeclimate-test-reporter
   coffee-rails (~> 4.0.0)
   database_cleaner

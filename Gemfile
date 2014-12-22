@@ -76,6 +76,8 @@ gem 'dotenv-deployment', require: 'dotenv/deployment'
 gem 'therubyracer'
 
 gem 'unicorn'
+
+gem 'chosen-rails'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
