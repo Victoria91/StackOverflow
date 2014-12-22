@@ -12,6 +12,8 @@ RSpec.describe Question do
   it { should ensure_length_of(:title).is_at_most(255) }
   it { should accept_nested_attributes_for :attachments }
   it { should have_many(:subscriptions).dependent(:destroy) }
+  it { should have_many(:question_tags) }
+  it { should have_many(:tags).through(:question_tags) }
 
   let(:question) { create(:question) }
   let!(:unaccepted_answer) { create(:answer, question: question) }
