@@ -12,6 +12,9 @@
   %h2= @question.title
   %h3= @question.body
 
+  .tags
+    = render 'tags'
+
   - if can?(:update, @question)
     .floatl
       = link_to 'Edit', '', id: 'edit_question_link' 

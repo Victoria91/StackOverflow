@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 feature 'adding tags', %q(
-  As an "User"
+  As a "User"
   I want to add tag to my question
   In order to link it with a category
 ) do
@@ -18,6 +18,9 @@ feature 'adding tags', %q(
     fill_in 'Body', with: 'new question body'
     select tag.name, from: 'Tags'
     click_on 'Create Question'
+    within '.tags' do
+      expect(page).to have_content tag.name
+    end
   end
 
   scenario 'add tag to an existed question', js: true do
@@ -25,21 +28,20 @@ feature 'adding tags', %q(
     click_link 'Edit'
     fill_in 'Title', with: 'new question title'
     fill_in 'Body', with: 'new question body'
-        save_and_open_page
-    select_from_chosen(tag.name, from: 'Tags' )
+        #save_and_open_page
+    #select_from_chosen(tag.name, from: 'Tags' )
     # fill_in 'Tags', with: tag.name
-    # select tag.name, from: 'Tags'
+    #enable_element('question_tag_ids')
+    select_from_chosen('question_tag_ids', tag.name)
     click_on 'Update Question'
+    #save_and_open_page
+    within '.tags' do
+      expect(page).to have_content tag.name
+    end
   end
 
- # def select_from_chosen(selector, name)
-  #  page.execute_script "jQuery('#{selector}').click();"
-  #  page.execute_script "jQuery(\".chzn-results .active-result:contains('#{name}')\").click();"
-  #end
-
-  def select_from_chosen(item_text, options)
-    field = find_field(options[:from])
-    option_value = page.evaluate_script("$(\"##{field[:id]} option:contains('#{item_text}')\").val()")
-    page.execute_script("$('##{field[:id]}').val('#{option_value}')")
+  def select_from_chosen(selector, name)
+    page.execute_script "jQuery('#{selector}').click();"
+    page.execute_script "jQuery(\".chzn-results .active-result:contains('#{name}')\").click();"
   end
 end
