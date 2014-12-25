@@ -22,13 +22,7 @@ namespace :seed do
   desc "Run a task on a remote server."
   # run like: cap staging rake:invoke task=a_certain_task  
   task :default do
-    on roles(:app) do
-      within current_path do
-        with rails_env: fetch(:rails_env) do
-          run("cd #{deploy_to}/current; /usr/bin/env bundle exec rake db:seed")
-        end
-      end
-    end
+    run("cd #{deploy_to}/current; /usr/bin/env bundle exec rake db:seed RAILS_ENV=#{rails_env}")
   end
 end
 
