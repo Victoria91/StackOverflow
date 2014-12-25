@@ -32,7 +32,7 @@ RSpec.configure do |config|
   config.extend ControllerMacros, type: :controller
   config.include Warden::Test::Helpers, type: :feature
 
-  #Capybara.javascript_driver = :webkit
+  Capybara.javascript_driver = :webkit
   
   config.before(:all) do
     Warden.test_mode!
