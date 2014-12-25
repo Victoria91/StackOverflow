@@ -18,12 +18,15 @@ set :rvm_map_bins, fetch(:rvm_map_bins, []).push('bin/delayed_job')
 # Default value for keep_releases is 5
 # set :keep_releases, 5
 
-namespace :seed do
-  desc "Run a task on a remote server."
-  # run like: cap staging rake:invoke task=a_certain_task  
-  task :default do
-    run("cd #{deploy_to}/current; /usr/bin/env bundle exec rake db:seed RAILS_ENV=#{rails_env}")
+task :seed do
+ puts "\n=== Seeding Database ===\n"
+ on primary :db do
+  within current_path do
+    with rails_env: fetch(:stage) do
+      execute :rake, 'db:seed'
+    end
   end
+ end
 end
 
 
