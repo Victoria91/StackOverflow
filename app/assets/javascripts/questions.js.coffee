@@ -35,6 +35,8 @@ ready = ->
   $(document).on 'click', '#edit_question_link', (e) ->
     e.preventDefault()
     $("#edit_question_form").show()
+    $(".comments").hide()
+    $("#new_comment").hide()
 
   $(document).on 'click', '#cancel_question_edit', (e) ->
     e.preventDefault()

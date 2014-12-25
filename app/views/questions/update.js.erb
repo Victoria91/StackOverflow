@@ -9,6 +9,8 @@ $('.question_errors').html('');
 	$('.question h3').html('<%= j @question.body %>');
   $('.attachments').html('<%= j render 'attachments' %>')
   $('.tags').html('<%= j render 'tags' %>')
+  $(".comments").show();
+  $("#new_comment").show();
 	$('.edit_question').hide();
 	$(document).ready(ready);
 	$(document).on('page:load',ready);
