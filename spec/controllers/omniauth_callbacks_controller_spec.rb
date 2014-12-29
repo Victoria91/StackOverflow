@@ -28,4 +28,20 @@ RSpec.describe OmniauthCallbacksController do
     it 'sends email'
   end
 
+  describe 'provider returns an email' do
+    context 'user alredy exists' do
+      let!(:user) { create(:user) }
+      it 'creates a user' do
+        expect { post '/users/auth/facebook', provider: 'facebook', "user"=>{"email" => user.email, "authorizations_attributes"=>{"0"=>{"uid"=>"2846765163", "provider"=>"twitter"}}} }.not_to change(User, :count)
+      end
+
+      it 'logins user'
+    end
+
+    context 'user does not exist' do
+      it 'not create user'
+      it 'logins user'
+    end
+  end
+
 end
