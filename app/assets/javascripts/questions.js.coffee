@@ -70,7 +70,7 @@ ready = ->
 
   PrivatePub.subscribe "/questions/" + questionId + "/answers", (data, channel) ->
     answer = $.parseJSON(data['answer'])
-    if (answer.created_at == answer.updated_at)
+    unless $('#' + answer.id).length
       $('.answers').append('<div id="' + answer.id + '"></div>')
       $('#' + answer.id).append('<hr>')
       if question_author?

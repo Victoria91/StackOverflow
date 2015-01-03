@@ -14,7 +14,7 @@ class AnswersController < ApplicationController
   end
 
   def update
-    @answer.update(answer_params)
+    @answer.update_attributes(answer_params)
     respond_with(@answer)
   end
 
