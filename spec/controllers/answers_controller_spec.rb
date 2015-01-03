@@ -24,11 +24,9 @@ RSpec.describe AnswersController do
         end
 
         it 'publishes to answers channel' do
-          # now = Time.now.utc
-          # allow(Time).to receive(:now) { now }
-          # answer = double(Answer, title: 'answer body')
-          # answer = { id: Answer.last.try(:id).to_i + 1, body: 'answer body', question_id: question.id, created_at: Time.now, updated_at: Time.now, user_id: @user.id, accepted: false }.to_json
-          expect(PrivatePub).to receive(:publish_to).with("/questions/#{question.id}/answers", anything)
+          answer = create(:answer, question: question)
+          allow(Answer).to receive(:new) { answer }
+          expect(PrivatePub).to receive(:publish_to).with("/questions/#{question.id}/answers", answer: answer.to_json)
           post :create, answer: answer_params, question_id: question, format: :json
         end
       end

@@ -39,7 +39,9 @@ RSpec.describe QuestionsController do
       end
 
       it 'publishes to questions channel' do
-        expect(PrivatePub).to receive(:publish_to).with('/questions', anything)
+        question = create(:question, user: @user)
+        allow(Question).to receive(:new) { question }
+        expect(PrivatePub).to receive(:publish_to).with('/questions', question: question.to_json)
         post :create, question: question_params
       end
     end
@@ -245,11 +247,11 @@ RSpec.describe QuestionsController do
       end
 
       it 'changes notifications state' do
-        expect { get :cancel_notifications, id: question }.to change{ question.reload.notifications }.to(false)
+        expect { get :cancel_notifications, id: question }.to change { question.reload.notifications }.to(false)
       end
 
       it 'not changes notifications state for another question' do
-        expect { get :cancel_notifications, id: another_question }.not_to change{ question.reload.notifications }
+        expect { get :cancel_notifications, id: another_question }.not_to change { question.reload.notifications }
       end
     end
 
@@ -257,10 +259,10 @@ RSpec.describe QuestionsController do
       let(:question) { create(:question, user: create(:user)) }
 
       it 'not changes notifications state' do
-        expect { get :cancel_notifications, id: question }.not_to change{ question.reload.notifications }
+        expect { get :cancel_notifications, id: question }.not_to change { question.reload.notifications }
       end
     end
 
   end
- 
+
 end
