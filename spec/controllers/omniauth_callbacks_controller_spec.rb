@@ -1,46 +1,67 @@
 require 'rails_helper'
 
 RSpec.describe OmniauthCallbacksController do
+  before { @request.env['devise.mapping'] = Devise.mappings[:user] }
 
-  describe 'POST #create_user' do
-    before { @request.env["devise.mapping"] = Devise.mappings[:user] }
+  context 'provider does not return an email' do
+    context 'user with an authorization exists' do
+      let(:provider) { :twitter }
 
-    context 'user with email alredy exists' do
-      let!(:user) { create(:user) }
+      it_behaves_like 'Provider returning email'
+    end
 
-      # {}"user"=>{"email"=>"vi4ka_91@mail.ru", "authorizations_attributes"=>{"0"=>{"uid"=>"2846765163", "provider"=>"twitter"}}},
-      xit 'does not create user' do
-        expect { post :create_user, "user"=>{"email" => user.email, "authorizations_attributes"=>{"0"=>{"uid"=>"2846765163", "provider"=>"twitter"}}} }.not_to change(User, :count)
+    context 'user with an authorization does not exist' do
+      before do
+        stub_env_for_omniauth
+        get :twitter
       end
 
-      xit 'creates authorization' do
-        expect { post :create_user, "user"=>{"email" => user.email, "authorizations_attributes"=>{"0"=>{"uid"=>"2846765163", "provider"=>"twitter"}}} }.to change(user.authorizations, :count).by(1)
+      it 'sets data from provider to session' do
+        expect(session['devise.provider_data']).to eq(stub_env_for_omniauth)
+      end
+
+      it 'redirects to authorizations_new_path' do
+        expect(response).to redirect_to(authorizations_new_path)
       end
     end
 
-    context 'user with email does not exist' do
-      xit 'creates authorization' do
-        expect { post :create_user, "user"=>{"email" => 'newuser@mail.ru', "authorizations_attributes"=>{"0"=>{"uid"=>"2846765163", "provider"=>"twitter"}}} }.to change(Authorization, :count).by(1)
-      end
+    def stub_env_for_omniauth
+      request.env['omniauth.auth'] = OmniAuth::AuthHash.new(
+        'provider' => 'twitter',
+        'uid' => '123456',
+        'info' => {
+          'name' => 'mockuser',
+          'image' => 'mock_user_thumbnail_url'
+        }
+      )
     end
-
-    it 'creates authorization'
-    it 'sends email'
   end
 
-  describe 'provider returns an email' do
-    context 'user alredy exists' do
-      let!(:user) { create(:user) }
-      it 'creates a user' do
-        expect { post '/users/auth/facebook', provider: 'facebook', "user"=>{"email" => user.email, "authorizations_attributes"=>{"0"=>{"uid"=>"2846765163", "provider"=>"twitter"}}} }.not_to change(User, :count)
-      end
+  context 'provider returns an email' do
+    let(:user) { create(:user) }
 
-      it 'logins user'
+    describe '#facebook' do
+      let(:provider) { :facebook }
+
+      it_behaves_like 'Provider returning email'
     end
 
-    context 'user does not exist' do
-      it 'not create user'
-      it 'logins user'
+    describe '#vkontakte' do
+      let(:provider) { :vkontakte }
+
+      it_behaves_like 'Provider returning email'
+    end
+
+    def stub_env_for_omniauth
+      request.env['omniauth.auth'] = OmniAuth::AuthHash.new(
+        'provider' => 'facebook',
+        'uid' => '123456',
+        'info' => {
+          'name' => 'mockuser',
+          'image' => 'mock_user_thumbnail_url',
+          'email' => 'mail@mail.ru'
+        }
+      )
     end
   end
 

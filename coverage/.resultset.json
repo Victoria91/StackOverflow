@@ -1,14 +1,14 @@
 {
   "RSpec": {
     "coverage": {
-      "/home/vbykova/StackOverflow/config/environment.rb": [
+      "/home/user/StackOverflow/config/environment.rb": [
         null,
         1,
         null,
         null,
         1
       ],
-      "/home/vbykova/StackOverflow/config/application.rb": [
+      "/home/user/StackOverflow/config/application.rb": [
         1,
         null,
         1,
@@ -44,13 +44,13 @@
         null,
         null
       ],
-      "/home/vbykova/StackOverflow/config/boot.rb": [
+      "/home/user/StackOverflow/config/boot.rb": [
         null,
         1,
         null,
         1
       ],
-      "/home/vbykova/StackOverflow/config/environments/test.rb": [
+      "/home/user/StackOverflow/config/environments/test.rb": [
         1,
         null,
         null,
@@ -94,7 +94,7 @@
         1,
         null
       ],
-      "/home/vbykova/StackOverflow/config/initializers/assets.rb": [
+      "/home/user/StackOverflow/config/initializers/assets.rb": [
         null,
         null,
         null,
@@ -104,7 +104,7 @@
         null,
         null
       ],
-      "/home/vbykova/StackOverflow/config/initializers/backtrace_silencers.rb": [
+      "/home/user/StackOverflow/config/initializers/backtrace_silencers.rb": [
         null,
         null,
         null,
@@ -113,12 +113,12 @@
         null,
         null
       ],
-      "/home/vbykova/StackOverflow/config/initializers/cookies_serializer.rb": [
+      "/home/user/StackOverflow/config/initializers/cookies_serializer.rb": [
         null,
         null,
         1
       ],
-      "/home/vbykova/StackOverflow/config/initializers/devise.rb": [
+      "/home/user/StackOverflow/config/initializers/devise.rb": [
         null,
         null,
         1,
@@ -383,7 +383,7 @@
         null,
         null
       ],
-      "/home/vbykova/StackOverflow/config/initializers/doorkeeper.rb": [
+      "/home/user/StackOverflow/config/initializers/doorkeeper.rb": [
         1,
         null,
         null,
@@ -474,13 +474,13 @@
         null,
         null
       ],
-      "/home/vbykova/StackOverflow/config/initializers/filter_parameter_logging.rb": [
+      "/home/user/StackOverflow/config/initializers/filter_parameter_logging.rb": [
         null,
         null,
         null,
         1
       ],
-      "/home/vbykova/StackOverflow/config/initializers/inflections.rb": [
+      "/home/user/StackOverflow/config/initializers/inflections.rb": [
         null,
         null,
         null,
@@ -498,18 +498,18 @@
         null,
         null
       ],
-      "/home/vbykova/StackOverflow/config/initializers/mime_types.rb": [
+      "/home/user/StackOverflow/config/initializers/mime_types.rb": [
         null,
         null,
         null,
         null
       ],
-      "/home/vbykova/StackOverflow/config/initializers/session_store.rb": [
+      "/home/user/StackOverflow/config/initializers/session_store.rb": [
         null,
         null,
         1
       ],
-      "/home/vbykova/StackOverflow/config/initializers/simple_form.rb": [
+      "/home/user/StackOverflow/config/initializers/simple_form.rb": [
         null,
         1,
         null,
@@ -656,7 +656,7 @@
         null,
         null
       ],
-      "/home/vbykova/StackOverflow/config/initializers/simple_form_foundation.rb": [
+      "/home/user/StackOverflow/config/initializers/simple_form_foundation.rb": [
         null,
         1,
         1,
@@ -684,7 +684,7 @@
         1,
         null
       ],
-      "/home/vbykova/StackOverflow/config/initializers/wrap_parameters.rb": [
+      "/home/user/StackOverflow/config/initializers/wrap_parameters.rb": [
         null,
         null,
         null,
@@ -700,7 +700,7 @@
         null,
         null
       ],
-      "/home/vbykova/StackOverflow/app/models/answer.rb": [
+      "/home/user/StackOverflow/app/models/answer.rb": [
         1,
         1,
         1,
@@ -713,7 +713,7 @@
         null,
         1,
         null,
-        928,
+        926,
         null,
         1,
         11,
@@ -724,18 +724,20 @@
         1,
         null,
         1,
-        316,
+        320,
         null,
         null,
         1,
-        316,
-        316,
+        320,
+        320,
         5,
         null,
         null,
         null
       ],
-      "/home/vbykova/StackOverflow/app/models/question.rb": [
+      "/home/user/StackOverflow/app/models/question.rb": [
+        1,
+        1,
         1,
         1,
         1,
@@ -748,7 +750,7 @@
         1,
         null,
         1,
-        5,
+        7,
         null,
         null,
         10,
@@ -766,7 +768,7 @@
         null,
         null
       ],
-      "/home/vbykova/StackOverflow/config/routes.rb": [
+      "/home/user/StackOverflow/config/routes.rb": [
         1,
         1,
         null,
@@ -870,7 +872,7 @@
         null,
         null
       ],
-      "/home/vbykova/StackOverflow/app/models/user.rb": [
+      "/home/user/StackOverflow/app/models/user.rb": [
         1,
         null,
         null,
@@ -917,35 +919,35 @@
         null,
         null
       ],
-      "/home/vbykova/StackOverflow/app/helpers/answers_helper.rb": [
+      "/home/user/StackOverflow/app/helpers/answers_helper.rb": [
         1,
         null
       ],
-      "/home/vbykova/StackOverflow/app/helpers/application_helper.rb": [
+      "/home/user/StackOverflow/app/helpers/application_helper.rb": [
         1,
         null
       ],
-      "/home/vbykova/StackOverflow/app/helpers/authorizations_helper.rb": [
+      "/home/user/StackOverflow/app/helpers/authorizations_helper.rb": [
         1,
         null
       ],
-      "/home/vbykova/StackOverflow/app/helpers/comments_helper.rb": [
+      "/home/user/StackOverflow/app/helpers/comments_helper.rb": [
         1,
         null
       ],
-      "/home/vbykova/StackOverflow/app/helpers/profiles_helper.rb": [
+      "/home/user/StackOverflow/app/helpers/profiles_helper.rb": [
         1,
         null
       ],
-      "/home/vbykova/StackOverflow/app/helpers/questions_helper.rb": [
+      "/home/user/StackOverflow/app/helpers/questions_helper.rb": [
         1,
         null
       ],
-      "/home/vbykova/StackOverflow/app/helpers/search_helper.rb": [
+      "/home/user/StackOverflow/app/helpers/search_helper.rb": [
         1,
         null
       ],
-      "/home/vbykova/StackOverflow/app/controllers/answers_controller.rb": [
+      "/home/user/StackOverflow/app/controllers/answers_controller.rb": [
         1,
         1,
         1,
@@ -962,12 +964,12 @@
         null,
         null,
         1,
-        7,
-        7,
+        6,
+        6,
         null,
         null,
         1,
-        5,
+        4,
         null,
         null,
         1,
@@ -977,15 +979,15 @@
         1,
         null,
         1,
-        21,
+        20,
         null,
         null,
         1,
-        21,
+        20,
         null,
         null,
         1,
-        22,
+        20,
         null,
         null,
         1,
@@ -993,7 +995,7 @@
         null,
         null
       ],
-      "/home/vbykova/StackOverflow/app/controllers/application_controller.rb": [
+      "/home/user/StackOverflow/app/controllers/application_controller.rb": [
         1,
         null,
         null,
@@ -1004,7 +1006,7 @@
         null,
         null
       ],
-      "/home/vbykova/StackOverflow/app/controllers/authorizations_controller.rb": [
+      "/home/user/StackOverflow/app/controllers/authorizations_controller.rb": [
         1,
         1,
         7,
@@ -1047,7 +1049,7 @@
         null,
         null
       ],
-      "/home/vbykova/StackOverflow/app/controllers/comments_controller.rb": [
+      "/home/user/StackOverflow/app/controllers/comments_controller.rb": [
         1,
         1,
         1,
@@ -1072,7 +1074,7 @@
         null,
         null
       ],
-      "/home/vbykova/StackOverflow/app/controllers/omniauth_callbacks_controller.rb": [
+      "/home/user/StackOverflow/app/controllers/omniauth_callbacks_controller.rb": [
         1,
         1,
         1,
@@ -1113,7 +1115,7 @@
         null,
         null
       ],
-      "/home/vbykova/StackOverflow/app/controllers/profiles_controller.rb": [
+      "/home/user/StackOverflow/app/controllers/profiles_controller.rb": [
         1,
         1,
         null,
@@ -1123,7 +1125,7 @@
         null,
         null
       ],
-      "/home/vbykova/StackOverflow/app/controllers/questions_controller.rb": [
+      "/home/user/StackOverflow/app/controllers/questions_controller.rb": [
         1,
         1,
         1,
@@ -1134,7 +1136,7 @@
         1,
         null,
         1,
-        5,
+        6,
         null,
         null,
         1,
@@ -1142,15 +1144,15 @@
         null,
         null,
         1,
-        8,
-        8,
-        8,
-        8,
+        9,
+        9,
+        9,
+        9,
         null,
         null,
         1,
-        54,
-        54,
+        53,
+        53,
         null,
         null,
         1,
@@ -1159,8 +1161,8 @@
         null,
         null,
         1,
-        5,
-        5,
+        6,
+        6,
         null,
         null,
         1,
@@ -1191,26 +1193,26 @@
         1,
         null,
         1,
-        13,
+        15,
         null,
         null,
         1,
-        82,
+        81,
         null,
         null,
         1,
-        8,
+        9,
         null,
         null
       ],
-      "/home/vbykova/StackOverflow/app/controllers/search_controller.rb": [
+      "/home/user/StackOverflow/app/controllers/search_controller.rb": [
         1,
         1,
         1,
         null,
         null
       ],
-      "/home/vbykova/StackOverflow/app/mailers/answer_notifier.rb": [
+      "/home/user/StackOverflow/app/mailers/answer_notifier.rb": [
         1,
         1,
         null,
@@ -1220,8 +1222,8 @@
         null,
         null,
         1,
-        315,
-        315,
+        319,
+        319,
         null,
         null,
         null,
@@ -1230,23 +1232,23 @@
         null,
         null,
         1,
-        5,
-        5,
-        null,
-        null
-      ],
-      "/home/vbykova/StackOverflow/app/mailers/confirmer.rb": [
-        1,
-        1,
-        null,
-        1,
-        5,
         5,
         5,
         null,
         null
       ],
-      "/home/vbykova/StackOverflow/app/mailers/daily_mailer.rb": [
+      "/home/user/StackOverflow/app/mailers/confirmer.rb": [
+        1,
+        1,
+        null,
+        1,
+        5,
+        5,
+        5,
+        null,
+        null
+      ],
+      "/home/user/StackOverflow/app/mailers/daily_mailer.rb": [
         1,
         1,
         null,
@@ -1255,7 +1257,7 @@
         null,
         null
       ],
-      "/home/vbykova/StackOverflow/app/models/ability.rb": [
+      "/home/user/StackOverflow/app/models/ability.rb": [
         1,
         1,
         1,
@@ -1270,14 +1272,14 @@
         248,
         248,
         248,
-        88,
+        86,
         null,
         248,
         248,
-        44,
+        43,
         null,
         248,
-        42,
+        41,
         null,
         248,
         5,
@@ -1288,14 +1290,14 @@
         null,
         null
       ],
-      "/home/vbykova/StackOverflow/app/models/attachment.rb": [
+      "/home/user/StackOverflow/app/models/attachment.rb": [
         1,
         1,
         null,
         1,
         null
       ],
-      "/home/vbykova/StackOverflow/app/uploaders/file_uploader.rb": [
+      "/home/user/StackOverflow/app/uploaders/file_uploader.rb": [
         null,
         null,
         1,
@@ -1311,7 +1313,7 @@
         null,
         null,
         1,
-        30,
+        29,
         null,
         null,
         null,
@@ -1348,12 +1350,12 @@
         null,
         null
       ],
-      "/home/vbykova/StackOverflow/app/models/authorization.rb": [
+      "/home/user/StackOverflow/app/models/authorization.rb": [
         1,
         1,
         null
       ],
-      "/home/vbykova/StackOverflow/app/models/comment.rb": [
+      "/home/user/StackOverflow/app/models/comment.rb": [
         1,
         1,
         1,
@@ -1363,19 +1365,34 @@
         5,
         null
       ],
-      "/home/vbykova/StackOverflow/app/models/subscription.rb": [
+      "/home/user/StackOverflow/app/models/question_tag.rb": [
         1,
         1,
         1,
         null
       ],
-      "/home/vbykova/StackOverflow/app/models/vote.rb": [
+      "/home/user/StackOverflow/app/models/subscription.rb": [
         1,
         1,
         1,
         null
       ],
-      "/home/vbykova/StackOverflow/app/indices/questions_index.rb": [
+      "/home/user/StackOverflow/app/models/tag.rb": [
+        1,
+        1,
+        1,
+        null,
+        1,
+        1,
+        null
+      ],
+      "/home/user/StackOverflow/app/models/vote.rb": [
+        1,
+        1,
+        1,
+        null
+      ],
+      "/home/user/StackOverflow/app/indices/questions_index.rb": [
         1,
         null,
         0,
@@ -1386,12 +1403,48 @@
         0,
         null
       ],
-      "/home/vbykova/StackOverflow/app/serializers/answer_serializer.rb": [
+      "/home/user/StackOverflow/app/controllers/api/v1/profiles_controller.rb": [
+        1,
+        1,
+        null,
+        1,
+        11,
+        null,
+        null,
+        1,
+        11,
+        11,
+        null,
+        null,
+        null
+      ],
+      "/home/user/StackOverflow/app/controllers/api/v1/base_controller.rb": [
+        1,
+        1,
+        null,
+        1,
+        null,
+        1,
+        1,
+        131,
+        null,
+        null,
+        1,
+        89,
+        null,
+        null
+      ],
+      "/home/user/StackOverflow/app/serializers/user_serializer.rb": [
         1,
         1,
         null
       ],
-      "/home/vbykova/StackOverflow/app/controllers/api/v1/answers_controller.rb": [
+      "/home/user/StackOverflow/app/serializers/answer_serializer.rb": [
+        1,
+        1,
+        null
+      ],
+      "/home/user/StackOverflow/app/controllers/api/v1/answers_controller.rb": [
         1,
         1,
         1,
@@ -1418,23 +1471,7 @@
         null,
         null
       ],
-      "/home/vbykova/StackOverflow/app/controllers/api/v1/base_controller.rb": [
-        1,
-        1,
-        null,
-        1,
-        null,
-        1,
-        1,
-        131,
-        null,
-        null,
-        1,
-        89,
-        null,
-        null
-      ],
-      "/home/vbykova/StackOverflow/app/controllers/api/v1/questions_controller.rb": [
+      "/home/user/StackOverflow/app/controllers/api/v1/questions_controller.rb": [
         1,
         1,
         null,
@@ -1456,34 +1493,14 @@
         null,
         null
       ],
-      "/home/vbykova/StackOverflow/app/serializers/question_serializer.rb": [
+      "/home/user/StackOverflow/app/serializers/question_serializer.rb": [
         1,
         1,
         null,
-        1,
-        null
-      ],
-      "/home/vbykova/StackOverflow/app/controllers/api/v1/profiles_controller.rb": [
-        1,
-        1,
-        null,
-        1,
-        11,
-        null,
-        null,
-        1,
-        11,
-        11,
-        null,
-        null,
-        null
-      ],
-      "/home/vbykova/StackOverflow/app/serializers/user_serializer.rb": [
-        1,
         1,
         null
       ]
     },
-    "timestamp": 1418994514
+    "timestamp": 1419885103
   }
 }

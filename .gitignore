@@ -22,3 +22,5 @@ config/private_pub.yml
 config/*.sphinx.conf
 db/sphinx
 /log/*.pid
+
+/coverage
