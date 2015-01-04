@@ -35,13 +35,14 @@ ready = ->
   $(document).on 'click', '#edit_question_link', (e) ->
     e.preventDefault()
     $("#edit_question_form").show()
-    $(".comments").hide()
+    $(".question .comments").hide()
     $("#new_comment").hide()
 
   $(document).on 'click', '#cancel_question_edit', (e) ->
     e.preventDefault()
     $('.question_errors').html('')
     $("#edit_question_form").hide()
+    $(".question .comments").show()
 
   $(document).on 'click', '.show_comment_form', (e) ->
     e.preventDefault()
@@ -52,6 +53,15 @@ ready = ->
     e.preventDefault()
     parent_id = $(this).data('parentId')
     $("#comments_" + parent_id).show()
+    $(this).hide()
+    $(this).next().hide()
+
+  $(document).on 'click', '.hide_comments', (e) ->
+    e.preventDefault()
+    parent_id = $(this).data('parentId')
+    $("#comments_" + parent_id).hide()
+    $('#show_comments_link_' + parent_id).show()
+    $('#show_comments_link_' + parent_id).next().show()
 
   $('.editable_answer_form').bind 'ajax:error', (e, xhr, status, error) ->
     answer_id = $(this).data('answerId')
