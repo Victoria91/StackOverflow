@@ -83,17 +83,34 @@ RSpec.describe QuestionsController do
   end
 
   describe 'GET #index' do
-    let(:questions) { create_list(:question, 2) }
-    before { get :index }
+    let!(:questions) { create_list(:question, 5) }
 
-    it 'loads questions to an array' do
-      expect(assigns(:questions)).to match_array(questions)
+    context 'no tags required' do
+      before { get :index }
+
+      it 'loads questions to an array' do
+        expect(assigns(:questions)).to match_array(questions)
+      end
+
+      it 'renders index template' do
+        expect(response).to render_template :index
+      end
     end
 
-    it 'renders index view' do
-      expect(response).to render_template :index
-    end
+    context 'tags required' do
+      let(:tag) { create(:tag) }
+      
+      it 'returns questions with the required tag' do
+        tag.questions << questions.last(2)
+        get :index, tag: tag.name
+        expect(assigns(:questions)).to eq(tag.questions)
+      end
 
+      it 'renders index template' do
+        get :index, tag: tag.name
+        expect(response).to render_template :index
+      end
+    end
   end
 
   describe 'DELETE #destroy' do

@@ -1,3 +1,2 @@
 - @question.tags.each do |tag|
-  %a{ class: 'button secondary tiny'}
-    = tag.name
+  = link_to tag.name, questions_path(tag: tag.name), class: 'button secondary tiny'

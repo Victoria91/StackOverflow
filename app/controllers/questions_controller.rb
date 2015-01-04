@@ -12,7 +12,9 @@ class QuestionsController < ApplicationController
   end
 
   def index
-    respond_with(@questions = Question.all)
+    tag =  Tag.find_by_name(params[:tag])
+    @questions = tag ? tag.questions : Question.all
+    respond_with(@questions)
   end
 
   def create
