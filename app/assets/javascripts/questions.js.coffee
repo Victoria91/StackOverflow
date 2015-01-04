@@ -48,6 +48,11 @@ ready = ->
     answer_id = $(this).data('answerId')
     $("#comment_answer_" + answer_id).show()
 
+  $(document).on 'click', '.show_comments', (e) ->
+    e.preventDefault()
+    parent_id = $(this).data('parentId')
+    $("#comments_" + parent_id).show()
+
   $('.editable_answer_form').bind 'ajax:error', (e, xhr, status, error) ->
     answer_id = $(this).data('answerId')
     $('#answer_errors_'+answer_id).html('')

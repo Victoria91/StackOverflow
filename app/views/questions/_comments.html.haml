@@ -1,7 +1,14 @@
 - if parent.comments.exists?
   %i{ style: 'float: right'} comments:
   %br
+  - if parent.comments.persisted.count > 3
+    .hidden_comments{id: "comments_#{parent.class}_#{parent.id}"}
+      -parent.comments.first(parent.comments.count - 3).each do |comment|
+        %div{ id: "comment_#{comment.id}", style: 'float: right' }= comment.body
+        %hr{ style: "border-top: dotted 1px #dddddd;" }
+    = link_to 'Show all', '', class: "show_comments", data: { parent_id: "#{parent.class}_#{parent.id}" }
+    %br
   - parent.comments.persisted.last(3).each do |comment|
-    %div{ id: "#{comment.id}", style: 'float: right' }= comment.body
+    %div{ id: "comment_#{comment.id}", style: 'float: right' }= comment.body
     - if comment != parent.comments.persisted.last
       %hr{ style: "border-top: dotted 1px #dddddd;" }
