@@ -14,11 +14,11 @@
         .votes
           %span{ class: 'vote_count' }
             %strong= q.rating
-            votes
+            .votes_title= 'vote'.pluralize(q.answers.count)
         .answers
-          %span{ class: 'answer_count' }
+          .answer_count
             %strong= q.answers.count
-          answers
+          = 'answer'.pluralize(q.answers.count)
       .summary
         %h3= link_to q.title, question_path(q), id: "question_#{q.id}"
         .title
