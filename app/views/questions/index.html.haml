@@ -5,10 +5,28 @@
   in order to ask, answer questions and not only 
   %br
 
-= link_to 'Ask your question', new_question_path, class: 'button small radius' if can?(:create, Question)
+= link_to 'Ask your question', new_question_path if can?(:create, Question)
 
 .questions
   -@questions.each do |q| 
-    %p= link_to q.title, question_path(q), id: "question_#{q.id}"
+    .question_summary{ id: "question_summary_#{q.id}" }
+      .statistic
+        .votes
+          %span{ class: 'vote_count' }
+            %strong= q.rating
+            votes
+        .answers
+          %span{ class: 'answer_count' }
+            %strong= q.answers.count
+          answers
+      .summary
+        %h3= link_to q.title, question_path(q), id: "question_#{q.id}"
+        .title
+          = truncate(q.body, length: 120)
+        - q.tags.each do |tag|
+          = link_to tag.name, questions_path(tag: tag.name), class: 'button secondary tiny'
+        .asked_time
+          %div= q.created_at.strftime("%B %d, %Y, %A")
+          .avatar= image_tag(q.user.try(:authorizations).try(:last).try(:avatar_url))
 
 = subscribe_to '/questions'

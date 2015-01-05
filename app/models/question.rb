@@ -17,6 +17,8 @@ class Question < ActiveRecord::Base
 
   scope :created_today, -> { where('created_at > ?', Time.now.beginning_of_day) }
 
+  default_scope { order 'created_at DESC'}
+
   def accepted_answer
     answers.find_by(accepted: true)
   end
