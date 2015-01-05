@@ -27,6 +27,6 @@
           = link_to tag.name, questions_path(tag: tag.name), class: 'button secondary tiny'
         .asked_time
           %div= q.created_at.strftime("%B %d, %Y, %A")
-          .avatar= image_tag(q.user.try(:authorizations).try(:last).try(:avatar_url))
+          .avatar= user_info(q.user)
 
 = subscribe_to '/questions'
