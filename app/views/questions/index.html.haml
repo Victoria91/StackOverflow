@@ -14,7 +14,7 @@
         .votes
           %span{ class: 'vote_count' }
             %strong= q.rating
-            .votes_title= 'vote'.pluralize(q.answers.count)
+            .votes_title= 'vote'.pluralize(q.rating)
         .answers
           .answer_count
             %strong= q.answers.count

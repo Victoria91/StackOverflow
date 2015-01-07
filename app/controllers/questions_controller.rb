@@ -40,13 +40,11 @@ class QuestionsController < ApplicationController
   end
 
   def vote_up
-    @question.vote_up
     current_user.votes.create(question: @question, vote_type: '+1')
     render :vote
   end
 
   def vote_down
-    @question.vote_down
     current_user.votes.create(question: @question, vote_type: '-1')
     render :vote
   end
