@@ -10,6 +10,10 @@
   display: none;
 }
 
-.show_comments, .hide_comments {
+.show_comments, .hide_comments, .comment_mark, .comment {
  float: right; 
+}
+
+.comments hr{
+  border-top: dotted 1px #dddddd;
 }
