@@ -4,7 +4,7 @@ describe 'Questions API' do
   describe 'GET/index' do
     let(:access_token) { create(:access_token) }
     let!(:questions) { create_list(:question, 5) }
-    let(:question) { questions.first }
+    let(:question) { questions.last }
     let!(:answer) { create(:answer, question: question) }
     let(:success_status) { 200 }
 
