@@ -9,7 +9,8 @@ class Question < ActiveRecord::Base
   has_many :tags, through: :question_tags
 
   validates :title, :body, :user, presence: true
-  validates :title, length: { maximum: 255 }
+  validates :title, length: { maximum: 255, minimum: 10 }, uniqueness: { with: true, message: 'Looks like this question has already been asked! Try to search for it', case_sensitive: false  }
+  validates :body, length: { in: 10..1000 }
 
   accepts_nested_attributes_for :attachments,
                                 reject_if: proc { |attributes| attributes['file'].blank? },

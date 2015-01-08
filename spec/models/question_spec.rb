@@ -10,10 +10,14 @@ RSpec.describe Question do
   it { should have_many(:votes).dependent(:destroy) }
   it { should have_many(:comments).dependent(:destroy) }
   it { should ensure_length_of(:title).is_at_most(255) }
+  it { should ensure_length_of(:title).is_at_least(10) }
+  it { should ensure_length_of(:body).is_at_least(10) }
+  it { should ensure_length_of(:body).is_at_most(1000) }
   it { should accept_nested_attributes_for :attachments }
   it { should have_many(:subscriptions).dependent(:destroy) }
   it { should have_many(:question_tags).dependent(:destroy) }
   it { should have_many(:tags).through(:question_tags) }
+  it { should validate_uniqueness_of(:title).with_message('Looks like this question has already been asked! Try to search for it') }
 
   let(:question) { create(:question) }
   let!(:unaccepted_answer) { create(:answer, question: question) }
