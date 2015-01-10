@@ -23,6 +23,29 @@ RSpec.describe Question do
   let!(:unaccepted_answer) { create(:answer, question: question) }
   let!(:accepted_answer) { create(:answer, question: question, accepted: true) }
 
+  describe '#tags_inclusion validation' do
+    context 'when Tag.count < 5' do
+      let!(:tags) { create_list(:tag, 3) }
+
+      it 'is valid' do
+        question = Question.new(attributes_for(:question))
+        question.tags << tags
+        expect(question).to be_valid
+      end
+    end
+
+    context 'when Tag.count > 5' do
+      let!(:tags) { create_list(:tag, 8) }
+
+      it 'is invalid' do
+        question = Question.new(attributes_for(:question))
+        question.tags << tags
+        question.save
+        expect(question.errors[:tags]).to eq(['Omg! Can\'t beleive your answer responds to all tags at once! Some of them are redundant for sure :)'])
+      end
+    end
+  end
+
   describe '#accepted_answer' do
     it 'returns an accepted_answer' do
       answer = question.accepted_answer
@@ -58,7 +81,7 @@ RSpec.describe Question do
       questions = Question.created_today
       today_questions.each do |question|
         expect(questions).to include(question)
-      end      
+      end
     end
 
     it 'not contains yesterday questions' do
