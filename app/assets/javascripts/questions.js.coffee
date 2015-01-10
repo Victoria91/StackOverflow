@@ -74,7 +74,7 @@ ready = ->
     $('.answers').after('<div class="answer_errors" id="new_answer_error"></div>');
     errors = $.parseJSON(xhr.responseText)['errors']
     $.each errors, (index, value) ->
-      $('#new_answer_error').append(index + ' ' + value).animate({ opacity: "hide" }, "slow");
+      $('#new_answer_error').append(value).animate({ opacity: "hide" }, 5000);
 
   is_answer_author = (answer_field, answer)  -> 
     answer_field.val() == answer.body
