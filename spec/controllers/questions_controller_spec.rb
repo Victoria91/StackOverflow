@@ -150,7 +150,7 @@ RSpec.describe QuestionsController do
 
       context 'own question' do
         it 'updates a question object' do
-          expect { patch :update, id: question, question: { body: 'new body' }, format: :js }.to change { question.reload.body }.to 'new body'
+          expect { patch :update, id: question, question: { body: 'new question body' }, format: :js }.to change { question.reload.body }.to 'new question body'
         end
       end
 
