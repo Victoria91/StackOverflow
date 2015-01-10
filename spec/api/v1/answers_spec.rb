@@ -38,7 +38,7 @@ describe 'Answers API' do
 
     %w(id body created_at updated_at).each do |attr|
       it "contains #{attr}" do
-        expect(response.body).to be_json_eql(answer.send(attr.to_sym).to_json).at_path ("answer/#{attr}")
+        expect(response.body).to be_json_eql(answer.send(attr.to_sym).to_json).at_path("answer/#{attr}")
       end
     end
 
@@ -81,7 +81,7 @@ describe 'Answers API' do
 
       it 'returns errors' do
         post "/api/v1/questions/#{question.id}/answers", format: :json, access_token: access_token.token, answer: { body: '' }
-        expect(response.body).to be_json_eql("can't be blank".to_json).at_path('errors/body/0')
+        expect(response.body).to be_json_eql('Please type an answer'.to_json).at_path('errors/body/0')
       end
     end
 

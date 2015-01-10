@@ -83,12 +83,12 @@ describe 'Questions API' do
 
     context 'with valid attributes' do
       it 'creates question' do
-        expect { post '/api/v1/questions', format: :json, access_token: access_token.token, question: { title: 'title', body: 'body' } }.to change(user.questions, :count).by(1)
+        expect { post '/api/v1/questions', format: :json, access_token: access_token.token, question: { title: 'question\'s title', body: 'question\'s body' } }.to change(user.questions, :count).by(1)
       end
 
       %w(id title body created_at updated_at).each do |attr|
         it "contains #{attr}" do
-          post '/api/v1/questions', format: :json, access_token: access_token.token, question: { title: 'title', body: 'body' }
+          post '/api/v1/questions', format: :json, access_token: access_token.token, question: { title: 'question\'s title', body: 'question\'s body' }
           question = assigns(:question)
           expect(response.body).to be_json_eql(question.send(attr.to_sym).to_json).at_path("question/#{attr}")
         end
@@ -112,7 +112,7 @@ describe 'Questions API' do
     end
 
     def send_request(options = {})
-      post '/api/v1/questions', { format: :json, question: { title: 'title', body: 'body' } }.merge(options)
+      post '/api/v1/questions', { format: :json, question: { title: 'question\'s title', body: 'question\'s body' } }.merge(options)
     end
   end
 end
