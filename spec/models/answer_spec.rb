@@ -1,13 +1,14 @@
 require 'rails_helper'
 
 RSpec.describe Answer do
-  it { should validate_presence_of :body }
   it { should belong_to :question }
   it { should belong_to :user }
   it { should have_many(:attachments).dependent(:destroy) }
   it { should have_many(:comments).dependent(:destroy) }
   it { should validate_presence_of :question }
+  it { should validate_presence_of(:body).with_message('Please type an answer') }
   it { should accept_nested_attributes_for :attachments }
+  it { should validate_uniqueness_of(:body).with_message('Thank you, but this answer has already been given :)').scoped_to(:question_id) }
 
   let!(:question) { create(:question) }
   let!(:answer_one) { create(:answer, question: question) }

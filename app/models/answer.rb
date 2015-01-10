@@ -4,9 +4,14 @@ class Answer < ActiveRecord::Base
   has_many :attachments, as: :attachmentable, dependent: :destroy
   has_many :comments, as: :commentable, dependent: :destroy
 
-  accepts_nested_attributes_for :attachments
+  validates :body, uniqueness: { scope: :question, message: 'Thank you, but this answer has already been given :)',
+                                 case_sensitive: false }
+  validates :question, presence: true
+  validates :body, presence: { message: 'Please type an answer' }
 
-  validates :body, :question, presence: true
+  before_validation :strip_spaces
+
+  accepts_nested_attributes_for :attachments
 
   after_create :send_email
 
@@ -26,8 +31,12 @@ class Answer < ActiveRecord::Base
 
   def notify_subscribers
     AnswerNotifier.author(self).deliver if question.notifications
-    self.question.subscriptions.each do |subscription|
+    question.subscriptions.each do |subscription|
       AnswerNotifier.subscribers(subscription.user, self).deliver
     end
+  end
+
+  def strip_spaces
+    body.to_s.strip!
   end
 end
