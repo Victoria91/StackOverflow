@@ -9,7 +9,7 @@ class Answer < ActiveRecord::Base
   validates :question, presence: true
   validates :body, presence: { message: 'Please type an answer' }
 
-  before_validation :strip_spaces
+  before_validation :cut_spaces
 
   accepts_nested_attributes_for :attachments
 
@@ -36,7 +36,7 @@ class Answer < ActiveRecord::Base
     end
   end
 
-  def strip_spaces
-    body.to_s.strip!
+  def cut_spaces
+    body.to_s.squish!
   end
 end
