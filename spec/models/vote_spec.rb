@@ -9,12 +9,12 @@ RSpec.describe Vote do
 
     it 'calls #vote_up on question after vote up' do
       expect(question).to receive(:vote_up)
-      Vote.create(question: question, vote_type: '+1')
+      Vote.create(voteable: question, vote_type: '+1')
     end
 
     it 'calls #vote_down on question after vote down' do
       expect(question).to receive(:vote_down)
-      Vote.create(question: question, vote_type: '-1')
+      Vote.create(voteable: question, vote_type: '-1')
     end
   end
 end

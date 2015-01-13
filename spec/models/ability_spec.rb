@@ -39,7 +39,7 @@ RSpec.describe Ability do
           end
 
           context 'second time' do
-            let!(:vote) { create(:vote, question: question, user: another_user) }
+            let!(:vote) { create(:vote, voteable: question, user: another_user) }
 
             it { should_not be_able_to(:vote, question) }
           end
