@@ -4,7 +4,8 @@ RSpec.describe VotesController do
   let(:answer) { create(:answer, question: create(:question)) }
   let(:unauthorized_status) { 401 }
 
-  describe 'POST #vote_up' do 
+  describe 'POST #vote_up' do
+    let(:request) { post :vote_up, answer_id: answer }
     it_behaves_like 'Authentication-requireable'
     
     sign_in_user
@@ -15,8 +16,13 @@ RSpec.describe VotesController do
   end
 
   describe 'POST #vote_down' do
+    let(:request) { post :vote_down, answer_id: answer }
     it_behaves_like 'Authentication-requireable'
 
-    it 'creates vote'
+    sign_in_user
+
+    it 'creates vote' do
+      expect{ post :vote_down, answer_id: answer }.to change{ @user.votes.where(vote_type: '-1').count }.by(1)
+    end
   end
 end
