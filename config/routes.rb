@@ -17,17 +17,23 @@ Rails.application.routes.draw do
   get '/authorizations/new'
 
 
+
   concern :commentable do
     resources :comments
   end
 
-  resources :questions, concerns: :commentable, shallow: true do
-    post 'vote_up', on: :member
-    post 'vote_down', on: :member
+  concern :voteable do
+    resources :votes do
+      post 'vote_up', on: :collection
+      post 'vote_down', on: :collection
+    end
+  end
+
+  resources :questions, concerns: [:commentable, :voteable], shallow: true do
     post 'subscribe', on: :member
     delete 'unsubscribe', on: :member
     get 'cancel_notifications', on: :member
-    resources :answers, concerns: :commentable, shallow: true do
+    resources :answers, concerns: [:commentable, :voteable], shallow: true do
       post 'accept', on: :member
     end
   end

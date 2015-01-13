@@ -1,6 +1,7 @@
+#require 'vote_module'
+
 class Question < ActiveRecord::Base
-  require_relative 'vote_module'
-  include VoteStaff
+#  include VoteStaff
 
   has_many :answers, dependent: :destroy
   belongs_to :user

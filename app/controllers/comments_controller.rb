@@ -1,6 +1,6 @@
 class CommentsController < ApplicationController
   before_action :authenticate_user!
-  before_action :load_parrent
+  before_action :load_parent
 
   respond_to :js
 
@@ -12,7 +12,7 @@ class CommentsController < ApplicationController
 
   private
 
-  def load_parrent
+  def load_parent
     @parent = Question.find(params[:question_id]) if params[:question_id]
     @parent ||= Answer.find(params[:answer_id])
   end 

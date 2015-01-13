@@ -1,5 +1,6 @@
+require "#{Rails.root}/lib/votes_module.rb"
+
 class Answer < ActiveRecord::Base
-  require_relative 'vote_module'
   include VoteStaff
 
   belongs_to :question
