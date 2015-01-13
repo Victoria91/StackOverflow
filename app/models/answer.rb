@@ -1,4 +1,7 @@
 class Answer < ActiveRecord::Base
+  require_relative 'vote_module'
+  include VoteStaff
+
   belongs_to :question
   belongs_to :user
   has_many :attachments, as: :attachmentable, dependent: :destroy

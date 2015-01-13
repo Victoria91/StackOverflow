@@ -1,4 +1,7 @@
 class Question < ActiveRecord::Base
+  require_relative 'vote_module'
+  include VoteStaff
+
   has_many :answers, dependent: :destroy
   belongs_to :user
   has_many :attachments, as: :attachmentable, dependent: :destroy
@@ -25,14 +28,6 @@ class Question < ActiveRecord::Base
 
   def accepted_answer
     answers.find_by(accepted: true)
-  end
-
-  def vote_up
-    update(rating: rating + 1)
-  end
-
-  def vote_down
-    update(rating: rating - 1)
   end
 
   def tags_inclusion
