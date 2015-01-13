@@ -39,7 +39,7 @@ RSpec.describe Ability do
           end
 
           context 'second time' do
-            let!(:vote) { create(:vote, voteable: question, user: another_user) }
+            let!(:vote) { create(:vote, voteable: question, user: user) }
 
             it { should_not be_able_to(:vote, question) }
           end
@@ -100,6 +100,25 @@ RSpec.describe Ability do
       context '#accept' do
         it { should be_able_to(:accept, create(:answer, question: question)) }
         it { should_not be_able_to(:accept, create(:answer, question: another_question)) }
+      end
+
+      context 'votes' do
+        context 'on another answer' do
+
+          context 'first time' do
+            it { should be_able_to(:vote, another_answer) }
+          end
+
+          context 'second time' do
+            let!(:vote) { create(:vote, voteable: another_answer, user: user) }
+
+            it { should_not be_able_to(:vote, another_answer) }
+          end
+        end
+
+        context 'on own answer' do
+          it { should_not be_able_to(:vote, answer) }
+        end
       end
     end
 
