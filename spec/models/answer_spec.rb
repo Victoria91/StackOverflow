@@ -5,7 +5,7 @@ RSpec.describe Answer do
   it { should belong_to :user }
   it { should have_many(:attachments).dependent(:destroy) }
   it { should have_many(:comments).dependent(:destroy) }
-  it { should have_many(:votes) }
+  it { should have_many(:votes).dependent(:destroy) }
   it { should validate_presence_of :question }
   it { should validate_presence_of(:body).with_message('Please type an answer') }
   it { should accept_nested_attributes_for :attachments }
@@ -14,6 +14,8 @@ RSpec.describe Answer do
   let!(:question) { create(:question) }
   let!(:answer_one) { create(:answer, question: question) }
   let!(:answer_two) { create(:answer, question: question) }
+
+  it_behaves_like 'Votable'
 
   it 'invalid_answer factory is invalid' do
     expect(build(:invalid_answer)).not_to be_valid
