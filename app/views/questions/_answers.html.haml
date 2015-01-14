@@ -1,10 +1,20 @@
 - @question.answers.all.each do |answer|
   %div{ id: "#{answer.id}"}
     %hr
-    - if can?(:accept, answer) 
-      = link_to '', accept_answer_path(answer), method: :post, remote: true, class: answer.accepted? ? 'accepted' : 'accept', title: 'click to accept', id: "accept_answer_#{answer.id}"
-    - elsif answer.accepted?
-      .accepted
+    .votes
+      - if can?(:vote_up, answer) 
+        %div= link_to "", vote_up_answer_votes_path(answer), method: :post, remote: true, class: 'vote_up_link'
+      - else
+        .vote_up
+      %span= answer.rating
+      - if can?(:vote_down, answer) 
+        %div= link_to '', vote_down_answer_votes_path(answer), method: :post, remote: true, class: 'vote_down_link'
+      - else
+        .vote_down
+      - if can?(:accept, answer) 
+        = link_to '', accept_answer_path(answer), method: :post, remote: true, class: answer.accepted? ? 'accepted' : 'accept', title: 'click to accept', id: "accept_answer_#{answer.id}"
+      - elsif answer.accepted?
+        .accepted
     - if can?(:update, answer) 
       %i Your answer
       %br

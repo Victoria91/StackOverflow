@@ -35,31 +35,31 @@ feature 'vote for an answer', %q(
       end
     end
 
-    scenario 'vote up for another question' do
-      within "##{another_answer.id}" do
+    scenario 'vote up for another question', js: true do
+      within "#" + another_answer.id.to_s do
         expect(page).to have_content answer.rating
         find('.vote_up_link').click
         expect(page).to have_content answer.rating + 1
       end
     end
 
-    scenario 'vote down for another question' do
-      within "##{another_answer.id}" do
+    scenario 'vote down for another question', js: true do
+      within "#" + another_answer.id.to_s do
         expect(page).to have_content answer.rating
         find('.vote_down_link').click
         expect(page).to have_content answer.rating - 1
       end
     end
 
-    scenario 'cannot vote up twice' do
-      within "##{another_answer.id}" do
+    scenario 'cannot vote up twice', js: true do
+      within "#" + another_answer.id.to_s do
         find('.vote_up_link').click
         expect(page).not_to have_selector '.vote_up_link'
       end
     end
     
-    scenario 'cannot vote down twice' do
-      within "##{another_answer.id}" do
+    scenario 'cannot vote down twice', js: true do
+      within "#" + another_answer.id.to_s do
         find('.vote_down_link').click
         expect(page).not_to have_selector '.vote_down_link'
       end

@@ -14,10 +14,13 @@
   border: 1px solid #cccccc;
 }
 
-.question .votes {
-  margin-right: 20px;
-  float: left;
-  text-align: center;
+.question, .answers {
+  .votes {
+    margin-right: 20px;
+    float: left;
+    text-align: center;
+    overflow: hidden;
+  }
 }
 
 .votes span {
@@ -36,6 +39,7 @@
   background-position: 0 -265px;
   width: 41px;
   height: 25px;
+
 }
 
 .vote_down {
@@ -47,14 +51,14 @@
 .vote_up_link {
   float: left;
   background-position: 0 -234px;
-  width: 39px;
+  width: 37px;
   height: 25px;
 }
 
 .vote_down_link {
   float: left;
   background-position: 0 -327px;
-  width: 39px;
+  width: 37px;
   height: 25px;
 }
 

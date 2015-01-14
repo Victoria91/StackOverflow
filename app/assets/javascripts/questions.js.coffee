@@ -89,14 +89,16 @@ ready = ->
       $('.answers').append('<div id="' + answer.id + '"></div>')
       $('#' + answer.id).append('<hr>')
       if question_author?
-        $('#' + answer.id).append(HandlebarsTemplates["accept"](answer))
+        $('#' + answer.id).append(HandlebarsTemplates["vote_for_answer"](answer)) unless is_answer_author?($('.new_answer #answer_body'), answer)
         # add_comment_staff()
       if is_answer_author?($('.new_answer #answer_body'), answer)
         $('.new_answer #answer_body').val('')  
+        $('#' + answer.id).append(HandlebarsTemplates["inactive_vote"](answer))
         $('#' + answer.id).append(HandlebarsTemplates["answer"](answer))
         $('#' + answer.id).append(HandlebarsTemplates["answer_form"](answer))
         add_comment_staff(answer)
-      else if signed_in?
+      else if signed_in? and not question_author?
+        $('#' + answer.id).append(HandlebarsTemplates["vote"](answer))
         $('#' + answer.id).append('<div id="' + answer.id + '">'+ answer.body+'</div>')
         add_comment_staff(answer)
       else
