@@ -4,14 +4,16 @@ class VotesController < ApplicationController
 
   respond_to :js
 
-  authorize_resource
-
   def vote_up
-    current_user.votes.create(voteable: @parent, vote_type: '+1')
+    authorize! :vote_up, @parent
+    @parent.vote_up(current_user)
+    render 'vote'
   end
 
   def vote_down
-
+    authorize! :vote_down, @parent
+    @parent.vote_down(current_user)
+    render 'vote'
   end
 
   private

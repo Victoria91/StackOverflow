@@ -177,56 +177,6 @@ RSpec.describe QuestionsController do
     end
   end
 
-  describe 'POST #vote_up' do
-    let(:question) { create(:question, user: create(:user)) }
-
-    context 'authorized' do
-      sign_in_user
-      it 'increases vote rating on own question' do
-        expect { post :vote_up, id: question, format: :js }.to change { question.reload.rating }.by(1)
-      end
-
-      it 'not increases vote rating on another_question question' do
-        expect { post :vote_up, id: create(:question, user: @user), format: :js }.not_to change { question.reload.rating }
-      end
-
-      it 'creates a new user vote on question with value up' do
-        expect { post :vote_up, id: question, format: :js }.to change { @user.votes.where(vote_type: '+1').count }.by(1)
-      end
-    end
-
-    context 'unauthorized' do
-      it 'not changes question rating' do
-        expect { post :vote_up, id: question, format: :js }.not_to change { question.reload.rating }
-      end
-    end
-  end
-
-  describe 'POST #vote_down' do
-    let(:question) { create(:question, user: create(:user)) }
-
-    context 'authorized' do
-      sign_in_user
-      it 'decreases vote rating on own question' do
-        expect { post :vote_down, id: question, format: :js }.to change { question.reload.rating }.by(-1)
-      end
-
-      it 'not decreases vote rating on another_question question' do
-        expect { post :vote_down, id: create(:question, user: @user), format: :js }.not_to change { question.reload.rating }
-      end
-
-      it 'creates a new user vote on question with value down' do
-        expect { post :vote_down, id: question, format: :js }.to change { @user.votes.where(vote_type: '-1').count }.by(1)
-      end
-    end
-
-    context 'unauthorized' do
-      it 'not changes question rating' do
-        expect { post :vote_down, id: question, format: :js }.not_to change { question.reload.rating }
-      end
-    end
-  end
-
   describe 'POST #subscribe' do
     sign_in_user
     let(:question) { create(:question, user: create(:user)) }
