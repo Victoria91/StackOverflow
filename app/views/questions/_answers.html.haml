@@ -1,5 +1,5 @@
 - @question.answers.all.each do |answer|
-  %div{ id: "#{answer.id}"}
+  %div{ id: "answer_#{answer.id}"}
     %hr
     .votes
       - if can?(:vote_up, answer) 
@@ -24,7 +24,7 @@
           - if can?(:create, Comment)
             = link_to 'comment ', '', id: "leave_comment_answer_#{answer.id}_link", class: 'show_comment_form', data: { answer_id: answer.id }
           = link_to 'Delete', answer, method: :delete, remote: true, id: "delete_answer_#{answer.id}_link"
-        = simple_form_for [answer], remote: true, html: { id: "answer_#{answer.id}", class: "editable_answer_form" }, data: { type: :json, answer_id: answer.id } do |f|
+        = simple_form_for [answer], remote: true, html: { id: "answer_form_#{answer.id}", class: "editable_answer_form" }, data: { type: :json, answer_id: answer.id } do |f|
           .answer_errors{ id: "answer_errors_#{answer.id}" }
           = f.input :body, label: false
           = f.button :submit, class: 'tiny'

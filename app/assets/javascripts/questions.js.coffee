@@ -13,14 +13,14 @@ ready = ->
     $(this).hide()
     answer_id = $(this).data('answerId')
     $("#accept_answer_" + answer_id).hide()
-    $("#answer_"+answer_id).show()
+    $("#answer_form_"+answer_id).show()
     $('#answer_errors_' + answer_id).html('')
 
   $(document).on 'click', '.alert', (e) ->
     e.preventDefault()
     answer_id = $(this).data('answerId')
     $("#comment_answer_" + answer_id).hide()
-    $("#answer_" + answer_id).hide()
+    $("#answer_form_" + answer_id).hide()
     $('.answer').show()
     $("#accept_answer_" + answer_id).show()
 
@@ -68,7 +68,7 @@ ready = ->
     $('#answer_errors_'+answer_id).html('')
     errors = $.parseJSON(xhr.responseText)['errors']
     $.each errors, (index, value) ->
-      $('#answer_errors_'+answer_id).append(index + ' ' + value)
+      $('#answer_errors_'+answer_id).append(value)
 
   $('.new_answer').bind 'ajax:error', (e, xhr, status, error) ->
     $('.answers').after('<div class="answer_errors" id="new_answer_error"></div>');
@@ -80,34 +80,34 @@ ready = ->
     answer_field.val() == answer.body
 
   add_comment_staff = (answer) ->
-    $('#' + answer.id).append(HandlebarsTemplates["comment_form"](answer))
-    $('#' + answer.id).append('<br><div class="comments"></div>')
+    $('#answer_' + answer.id).append(HandlebarsTemplates["comment_form"](answer))
+    $('#answer_' + answer.id).append('<br><div class="comments"></div>')
 
   PrivatePub.subscribe "/questions/" + questionId + "/answers", (data, channel) ->
     answer = $.parseJSON(data['answer'])
-    unless $('#' + answer.id).length
-      $('.answers').append('<div id="' + answer.id + '"></div>')
-      $('#' + answer.id).append('<hr>')
+    unless $('#answer_' + answer.id).length
+      $('.answers').append('<div id="answer_' + answer.id + '"></div>')
+      $('#answer_' + answer.id).append('<hr>')
       if question_author?
-        $('#' + answer.id).append(HandlebarsTemplates["vote_for_answer"](answer)) unless is_answer_author?($('.new_answer #answer_body'), answer)
+        $('#answer_' + answer.id).append(HandlebarsTemplates["vote_for_answer"](answer)) unless is_answer_author?($('.new_answer #answer_body'), answer)
         # add_comment_staff()
       if is_answer_author?($('.new_answer #answer_body'), answer)
         $('.new_answer #answer_body').val('')  
-        $('#' + answer.id).append(HandlebarsTemplates["inactive_vote"](answer))
-        $('#' + answer.id).append(HandlebarsTemplates["answer"](answer))
-        $('#' + answer.id).append(HandlebarsTemplates["answer_form"](answer))
+        $('#answer_' + answer.id).append(HandlebarsTemplates["inactive_vote"](answer))
+        $('#answer_' + answer.id).append(HandlebarsTemplates["answer"](answer))
+        $('#answer_' + answer.id).append(HandlebarsTemplates["answer_form"](answer))
         add_comment_staff(answer)
       else if signed_in? and not question_author?
-        $('#' + answer.id).append(HandlebarsTemplates["vote"](answer))
-        $('#' + answer.id).append('<div id="' + answer.id + '">'+ answer.body+'</div>')
+        $('#answer_' + answer.id).append(HandlebarsTemplates["vote"](answer))
+        $('#answer_' + answer.id).append('<div id="' + answer.id + '">'+ answer.body+'</div>')
         add_comment_staff(answer)
       else
-        $('#' + answer.id).append('<div id="answer_text_"'+ answer.id+'>'+ answer.body+'</div>')
+        $('#answer_' + answer.id).append('<div id="answer_text_"'+ answer.id+'>'+ answer.body+'</div>')
     else
       $("#answer_text_" + answer.id).html(answer.body)
       $('.answer').show()
       $("#accept_answer_" + answer.id).show() if question_author?
-      $('#answer_' + answer.id).hide()
+      $('#answer_form_' + answer.id).hide()
     $('#answer_text_' + answer.id).animate({color: "#f00"}, 2000).animate({color: "#000"}, 2000)
 
   PrivatePub.subscribe "/questions", (data, channel) ->

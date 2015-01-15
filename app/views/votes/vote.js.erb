@@ -1,4 +1,4 @@
-var parent_selector = '<%= @parent.is_a?(Question) ? '.question' : "##{@parent.id}" %>';
+var parent_selector = '<%= @parent.is_a?(Question) ? '.question' : "#answer_#{@parent.id}" %>';
 $(parent_selector +' .votes span').html(<%= @parent.rating %>);
 $(parent_selector +' .vote_up_link').remove();
 $(parent_selector +' .votes span').before('<div class="vote_up"></div>')
