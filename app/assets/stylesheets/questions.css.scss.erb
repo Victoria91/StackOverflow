@@ -16,22 +16,20 @@
 
 .question, .answers {
   .votes {
+    width: 41px;
     margin-right: 20px;
     float: left;
     text-align: center;
-    overflow: hidden;
   }
 }
 
 .votes span {
-  display: block;
   color: #808185;
   font-weight: normal;
   font-size: 24px;
 }
 
 .vote_up, .vote_down, .vote_up_link, .vote_down_link {
-  background-position: 0 -560px;
   background-image: url('<%= image_path("so_sprites.png") %>');
 }
 
@@ -39,7 +37,6 @@
   background-position: 0 -265px;
   width: 41px;
   height: 25px;
-
 }
 
 .vote_down {
@@ -56,7 +53,7 @@
 }
 
 .vote_down_link {
-  float: left;
+float: left;
   background-position: 0 -327px;
   width: 37px;
   height: 25px;
@@ -67,7 +64,6 @@
   margin: 0 15px 0 7px;
   padding: 4px 7px 6px 7px;
   width: 86px;
-  float: left;
   text-align: center;
 }
 
@@ -93,4 +89,8 @@
 .error {
   font-size: 24px;
   font-weight: 600;
+}
+
+.clear {
+  clear: both;
 }
