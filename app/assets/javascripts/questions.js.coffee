@@ -101,8 +101,9 @@ ready = ->
         $('#answer_' + answer.id).append('<hr>')
         if question_author?
           $('#answer_' + answer.id).append(HandlebarsTemplates["vote_for_answer"](answer))
+          $('#answer_' + answer.id).append('<div id="' + answer.id + '">'+ answer.body+'</div><br/>')
           # add_comment_staff()
-        else if signed_in? and not question_author?
+        else if signed_in?
           $('#answer_' + answer.id).append(HandlebarsTemplates["vote"](answer))
           $('#answer_' + answer.id).append('<div id="' + answer.id + '">'+ answer.body+'</div>')
           add_comment_staff(answer)
