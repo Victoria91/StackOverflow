@@ -45,16 +45,18 @@
     </nav>
 
     
-    <div class='row'> 
-      <% if flash[:avatar] %>
-        <br/>
-        <%= image_tag(flash[:avatar]) %>
-      <% end %>
-      <% if notice %>
-        <span class="success radius label"><%= notice %></span>
-      <% end %>
-      <p class='alert'><%= alert %></p>
-      <%= yield %>
+    <div class='main'>
+      <div class='row' data-user-id='<%= "#{current_user.id if user_signed_in?}" %>'> 
+        <% if flash[:avatar] %>
+          <br/>
+          <%= image_tag(flash[:avatar]) %>
+        <% end %>
+        <% if notice %>
+          <span class="success radius label"><%= notice %></span>
+        <% end %>
+        <p class='alert'><%= alert %></p>
+        <%= yield %>
+      </div>
     </div>
 
   </body>
