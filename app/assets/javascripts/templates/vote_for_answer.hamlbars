@@ -1,0 +1,8 @@
+.votes
+  %a{ class: "vote_up_link", data: { method: "post", remote:"true" }, href: "/answers/{{id}}/votes/vote_up", rel: "nofollow"}
+  .clear{ style: "clear:both" }
+  %span
+    0
+  %a{ class: "vote_down_link", data: { method: "post", remote: "true" }, href: "/answers/{{id}}/votes/vote_down", rel: "nofollow" }
+  .clear{ style: "clear:both"}
+  %a{ class: "accept", data: { method: "post", remote: "true" }, href: "/answers/{{id}}/accept", id: "accept_answer_{{id}}", rel: "nofollow", title: "click to accept", style: "display: block;" }

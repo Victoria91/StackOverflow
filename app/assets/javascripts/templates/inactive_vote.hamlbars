@@ -1,0 +1,7 @@
+.votes
+  .vote_up
+  .clear{ style: 'clear:both' }
+    %span
+      0
+  .vote_down
+  .clear{ style: 'clear:both' }
