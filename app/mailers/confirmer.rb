@@ -4,6 +4,6 @@ class Confirmer < ActionMailer::Base
   def confirm_account(recepient, token)
     @account = recepient
     @token = token
-    mail(to: recepient.email)
+    mail(to: recepient)
   end
 end

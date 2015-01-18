@@ -1,14 +1,8 @@
 <h3>Please enter your email. It is necessary to be linked with your account.</h3>
 
-<%= simple_form_for(@user, url: confirm_auth_path) do |f| %>
-  <%= f.error_notification %>
-  <%= f.full_error :confirmation_token %>
-  <div class="form-inputs">
-    <%= f.input :email, required: true, autofocus: true %>
-  </div>
-
+<%= form_tag(confirm_auth_path) do -%>
+  <%= text_field_tag :email %>
   <div class="form-actions">
-    <%= f.button :submit, "Send confirmation instructions" %>
+    <%= submit_tag "Send confirmation instructions", class: 'button' %>
   </div>
 <% end %>
-

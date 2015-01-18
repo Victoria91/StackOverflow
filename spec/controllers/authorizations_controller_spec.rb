@@ -8,22 +8,22 @@ RSpec.describe AuthorizationsController do
         let!(:user) { create(:user) }
 
         it 'not creates user' do
-          expect { post :confirm_auth, user: { email: user.email } }.not_to change(User, :count)
+          expect { post :confirm_auth, email: user.email }.not_to change(User, :count)
         end
       end
 
       context 'user does not exist' do
         it 'creates user' do
-          expect { post :confirm_auth, user: { email: email } }.to change(User, :count).by(1)
+          expect { post :confirm_auth, email: email }.not_to change(User, :count)
         end
       end
 
       it 'sets an email in session' do
-        expect { post :confirm_auth, user: { email: email } }.to change { session['devise.email'] }.to(email)
+        expect { post :confirm_auth, email: email }.to change { session['devise.email'] }.to(email)
       end
 
       it 'sends email' do
-        expect { post :confirm_auth, user: { email: email } }.to change { ActionMailer::Base.deliveries.count }.by(1)
+        expect { post :confirm_auth, email: email }.to change { ActionMailer::Base.deliveries.count }.by(1)
       end
     end
 
