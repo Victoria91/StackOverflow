@@ -87,6 +87,7 @@ RSpec.describe User do
           user = User.find_for_oauth(auth)
           expect(user.authorizations.first.avatar_url).to eq(auth.info[:image])
         end
+        
 
       end
 
