@@ -144,22 +144,45 @@ RSpec.describe User do
   end
 
   describe '#create_authorization' do
-    let!(:auth) { OmniAuth::AuthHash.new(provider: 'facebook', uid: '123456', info: { email: user.email, image: 'http://provider.com/picture' }) }
+    let!(:auth) { OmniAuth::AuthHash.new(provider: 'facebook', uid: '123456', info: { image: 'http://provider.com/picture' }) }
     let(:user) { create(:user) }
 
     before { user.create_authorization(auth) }
 
-    it 'creates authorization with a given provider' do
-      expect(user.authorizations.first.uid).to eq(auth.uid)
+    context 'user exists' do
+      it 'not creates a user'
+
+      it 'creates authorization with a given provider' do
+        expect(user.authorizations.first.uid).to eq(auth.uid)
+      end
+
+      it 'creates authorization with a given uid' do
+        expect(user.authorizations.first.provider).to eq(auth.provider)
+      end
+
+      it 'creates authorization with a given avatar_url' do
+        expect(user.authorizations.first.avatar_url).to eq(auth.info[:image])
+      end
+
+      it 'returns a user'
     end
 
-    it 'creates authorization with a given uid' do
-      expect(user.authorizations.first.provider).to eq(auth.provider)
-    end
+    context 'user not exists' do
+      it 'creates user'
 
-    it 'creates authorization with a given avatar_url' do
-      expect(user.authorizations.first.avatar_url).to eq(auth.info[:image])
-    end
+      it 'creates authorization with a given provider' do
+        expect(user.authorizations.first.uid).to eq(auth.uid)
+      end
 
+      it 'creates authorization with a given uid' do
+        expect(user.authorizations.first.provider).to eq(auth.provider)
+      end
+
+      it 'creates authorization with a given avatar_url' do
+        expect(user.authorizations.first.avatar_url).to eq(auth.info[:image])
+      end
+
+      it 'returns a new user'
+    end
   end
 end

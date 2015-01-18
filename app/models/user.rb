@@ -39,6 +39,13 @@ class User < ActiveRecord::Base
     end
   end
 
+  def create_auth_by_email(auth, email)
+    user = User.find_by_authorization(email: email)
+    user ||= create_user_from_oauth
+    user.create_authorization
+    return user
+  end
+
   def create_authorization(auth)
     authorizations.create(uid: auth.uid, provider: auth.provider, avatar_url: auth.info[:image])
   end
