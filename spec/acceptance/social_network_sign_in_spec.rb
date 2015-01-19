@@ -28,7 +28,7 @@ feature 'sign in with social network', %q(
 
     scenario 'sign in with twitter' do
       click_on 'Twitter'
-      fill_in 'Email', with: 'mail@mail.com'
+      fill_in 'email', with: 'mail@mail.com'
       click_button 'Send confirmation instructions'
       open_email('mail@mail.com')
       expect(current_email).to have_link 'Confirm my account'

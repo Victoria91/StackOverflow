@@ -6,8 +6,8 @@ feature 'attach file to question', %q(
   In order to illustrate it
 ) do
 
-  given(:user) { FactoryGirl.create(:user) }
-  given(:question) { FactoryGirl.create(:question, user: user) }
+  given(:user) { create(:user) }
+  given(:question) { create(:question, user: user) }
 
   background do
     login_as user
@@ -15,7 +15,7 @@ feature 'attach file to question', %q(
 
   scenario 'attach to a new question' do
     visit new_question_path
-    fill_in 'Title', with: question.title
+    fill_in 'Title', with: "New #{question.title}"
     fill_in 'Body', with: question.body
     attach_file 'File', "#{Rails.root}/spec/spec_helper.rb"
     click_on 'Create Question'
