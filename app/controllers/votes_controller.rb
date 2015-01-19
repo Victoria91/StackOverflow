@@ -1,4 +1,6 @@
 class VotesController < ApplicationController
+  include Concernable
+
   before_action :authenticate_user!
   before_action :load_parent
 
@@ -14,12 +16,5 @@ class VotesController < ApplicationController
     authorize! :vote_down, @parent
     @parent.vote_down(current_user)
     render 'vote'
-  end
-
-  private
-
-  def load_parent
-    @parent = Question.find(params[:question_id]) if params[:question_id]
-    @parent ||= Answer.find(params[:answer_id])
   end
 end
