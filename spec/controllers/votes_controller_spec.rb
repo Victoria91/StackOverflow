@@ -9,16 +9,19 @@ RSpec.describe VotesController do
     let(:request) { post :vote_up, answer_id: answer, format: :js }
     it_behaves_like 'Authentication-requireable'
 
-    context 'authorized creates a vote' do
+    context 'calls a voke_up method' do
       sign_in_user
 
       it 'for an answer' do
-        # expect(answer).to receive(:vote_up).with(@user) // doesn't work for some reason, even with let!
-        expect{ post :vote_up, answer_id: answer, format: :js }.to change{ @user.votes.where(vote_type: '+1', voteable: answer).count }.by(1)
+        allow(Answer).to receive(:find) { answer }
+        expect(answer).to receive(:vote_up).with(@user)
+        post :vote_up, answer_id: answer, format: :js
       end
 
       it 'for a question' do
-        expect{ post :vote_up, question_id: question, format: :js }.to change{ @user.votes.where(vote_type: '+1', voteable: question).count }.by(1)
+        allow(Question).to receive(:find) { question }
+        expect(question).to receive(:vote_up).with(@user)
+        post :vote_up, question_id: question, format: :js
       end
     end
   end
@@ -27,15 +30,19 @@ RSpec.describe VotesController do
     let(:request) { post :vote_down, answer_id: answer, type: 'up', format: :js }
     it_behaves_like 'Authentication-requireable'
 
-    context 'authorized creates a vote' do
+    context 'calls a voke_down method' do
       sign_in_user
 
       it 'for an answer' do
-        expect{ post :vote_down, answer_id: answer, format: :js }.to change { @user.votes.where(vote_type: '-1').count }.by(1)
+        allow(Answer).to receive(:find) { answer }
+        expect(answer).to receive(:vote_down).with(@user)
+        post :vote_down, answer_id: answer, format: :js
       end
 
       it 'for a question' do
-        expect{ post :vote_down, question_id: question, format: :js }.to change { @user.votes.where(vote_type: '-1').count }.by(1)
+        allow(Question).to receive(:find) { question }
+        expect(question).to receive(:vote_down).with(@user)
+        post :vote_down, question_id: question, format: :js
       end
     end
   end

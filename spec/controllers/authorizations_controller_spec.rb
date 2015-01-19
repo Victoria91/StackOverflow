@@ -42,7 +42,7 @@ RSpec.describe AuthorizationsController do
   end
 
   describe 'GET #show' do
-    let!(:user) { FactoryGirl.create(:user) }
+    let!(:user) { create(:user) }
     before do
       session['devise.token'] = 'token'
       session['devise.email'] = user.email
@@ -51,19 +51,23 @@ RSpec.describe AuthorizationsController do
 
     context 'with correct token' do
       it 'creates authorization' do
-        expect { get :show, token: session['devise.token'] }.to change(user.reload.authorizations, :count).by(1)
+        expect(User).to receive(:find_for_oauth).and_call_original
+        get :show, token: session['devise.token']
       end
+
       it 'signs in user' do
-        expect { get :show, token: session['devise.token'] }.to change { user.reload.sign_in_count }.by(1)
+        expect { get :show, token: session['devise.token'] }.to change { controller.current_user }.to(user)
       end
     end
 
     context 'with invalid token' do
       it 'not creates authorization' do
-        expect { get :show, token: 'invalid_token' }.not_to change(user.authorizations, :count)
+        expect(User).not_to receive(:find_for_oauth)
+        get :show, token: 'invalid token'
       end
+
       it 'not signs in user' do
-        expect { get :show, token: 'invalid_token' }.not_to change(user.authorizations, :count)
+        expect { get :show, token: 'invalid token' }.not_to change { controller.current_user }
       end
     end
 
