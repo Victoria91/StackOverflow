@@ -11,8 +11,8 @@ class Ability
       can :create, [Question, Answer, Comment]
       can [:update, :create, :destroy], [Question, Answer], user: user
       can :accept, Answer, question: { user: user }
-      can :vote, Question do |q|
-        q.votes.where(user: user).empty? && q.user != user
+      can :vote, [Question, Answer] do |obj|
+        obj.votes.where(user: user).empty? && obj.user != user
       end
       can [:me, :users], :profile
       can :subscribe, Question do |q|

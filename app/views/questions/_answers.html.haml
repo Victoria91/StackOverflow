@@ -1,10 +1,22 @@
 - @question.answers.all.each do |answer|
-  %div{ id: "#{answer.id}"}
+  %div{ id: "answer_#{answer.id}"}
     %hr
-    - if can?(:accept, answer) 
-      = link_to '', accept_answer_path(answer), method: :post, remote: true, class: answer.accepted? ? 'accepted' : 'accept', title: 'click to accept', id: "accept_answer_#{answer.id}"
-    - elsif answer.accepted?
-      .accepted
+    .votes
+      - if can?(:vote_up, answer) 
+        = link_to "", vote_up_answer_votes_path(answer), method: :post, remote: true, class: 'vote_up_link'
+      - else
+        .vote_up
+      .clear{style: 'clear:both'}
+      %span= answer.rating
+      - if can?(:vote_down, answer) 
+        = link_to '', vote_down_answer_votes_path(answer), method: :post, remote: true, class: 'vote_down_link'
+      - else
+        .vote_down
+      .clear{style: 'clear:both'}
+      - if can?(:accept, answer)
+        = link_to '', accept_answer_path(answer), method: :post, remote: true, class: answer.accepted? ? 'accepted' : 'accept', title: 'click to accept', id: "accept_answer_#{answer.id}"
+      - elsif answer.accepted?
+        .accepted
     - if can?(:update, answer) 
       %i Your answer
       %br
@@ -14,7 +26,7 @@
           - if can?(:create, Comment)
             = link_to 'comment ', '', id: "leave_comment_answer_#{answer.id}_link", class: 'show_comment_form', data: { answer_id: answer.id }
           = link_to 'Delete', answer, method: :delete, remote: true, id: "delete_answer_#{answer.id}_link"
-        = simple_form_for [answer], remote: true, html: { id: "answer_#{answer.id}", class: "editable_answer_form" }, data: { type: :json, answer_id: answer.id } do |f|
+        = simple_form_for [answer], remote: true, html: { id: "answer_form_#{answer.id}", class: "editable_answer_form" }, data: { type: :json, answer_id: answer.id } do |f|
           .answer_errors{ id: "answer_errors_#{answer.id}" }
           = f.input :body, label: false
           = f.button :submit, class: 'tiny'

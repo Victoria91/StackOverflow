@@ -1,0 +1,22 @@
+.question_summary{ id: "question_summary_{{id}}" }
+  .statistic
+    .votes
+      %span{ class: "vote_count" }
+        %strong
+          0
+        .votes_title
+          votes
+    .answers
+      .answer_count
+        %strong
+          0
+  .summary
+    %h3 
+      %a{ href: "/questions/{{id}}", id: "question_99" }
+        {{title}}
+    .title
+      {{body}}
+    .asked_time
+      December 22, 2014, Monday</div>
+      .avatar
+        %img{ alt: "Picture", src: "http://graph.facebook.com/10204144934776923/picture" }}

@@ -52,7 +52,7 @@ feature 'vote for a question', %q(
 
     scenario 'cannot vote up twice', js: true do
       find('.vote_up_link').click
-      expect(page).to have_selector '.vote_up_link'
+      expect(page).not_to have_selector '.vote_up_link'
     end
 
     scenario 'cannot vote down twice', js: true do

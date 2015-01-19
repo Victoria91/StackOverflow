@@ -1,8 +1,11 @@
 class Answer < ActiveRecord::Base
+  include Votable
+
   belongs_to :question
   belongs_to :user
   has_many :attachments, as: :attachmentable, dependent: :destroy
   has_many :comments, as: :commentable, dependent: :destroy
+  has_many :votes, as: :voteable, dependent: :destroy
 
   validates :body, uniqueness: { scope: :question, message: 'Thank you, but this answer has already been given :)',
                                  case_sensitive: false }

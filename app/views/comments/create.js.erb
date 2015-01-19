@@ -1,5 +1,5 @@
 var parent = '<%= @parent.is_a?(Question) ? "question" : "answer" %>';
-var parentSelector = '<%= @parent.is_a?(Question) ? ".question" : "##{@parent.id}" %>';
+var parentSelector = '<%= @parent.is_a?(Question) ? ".question" : "#answer_#{@parent.id}" %>';
 <% if @comment.errors.present? %>
     <% @comment.errors.full_messages.each do |message| %>
       if (parent === "question") {

@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe Question do
-
   it { should validate_presence_of :title }
   it { should validate_presence_of :body }
   it { should validate_presence_of :user }
@@ -22,6 +21,8 @@ RSpec.describe Question do
   let(:question) { create(:question) }
   let!(:unaccepted_answer) { create(:answer, question: question) }
   let!(:accepted_answer) { create(:answer, question: question, accepted: true) }
+
+  it_behaves_like 'Votable'
 
   describe '#tags_inclusion validation' do
     context 'when Tag.count < 5' do
@@ -57,20 +58,6 @@ RSpec.describe Question do
       accepted_answer.update!(accepted: false)
       expect(question.accepted_answer).to eq(nil)
     end
-
-  end
-
-  describe '#vote_up' do
-    it 'increases question rating' do
-      expect { question.vote_up }.to change { question.rating }.by(1)
-    end
-  end
-
-  describe '#vote_down' do
-    it 'decreases question rating' do
-      expect { question.vote_down }.to change { question.rating }.by(-1)
-    end
-
   end
 
   describe '.created_today' do

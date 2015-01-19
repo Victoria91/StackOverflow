@@ -2,9 +2,9 @@ var old = $(".accepted");
 $(".accepted").removeClass('accepted').addClass('accept');
 $('#accept_answer_<%= @answer.id %>').toggleClass('accepted', <%= @answer.question.accepted_answer ? true : false %>);
 if ($('.accepted').length) {
-  old.parent().append('<span class="secondary label">Answer has been reaccepted</span>');
+  old.parent().parent().append('<span class="secondary label">Answer has been reaccepted</span>');
 }
-$("#<%= @answer.id %>").append('<span class="<%= @answer.question.accepted_answer ? "success" : "secondary" %> label">Answer has been <%= @answer.question.accepted_answer ? "accepted" : "reaccepted" %> </span>');
+$("#answer_<%= @answer.id %>").append('<span class="<%= @answer.question.accepted_answer ? "success" : "secondary" %> label">Answer has been <%= @answer.question.accepted_answer ? "accepted" : "reaccepted" %> </span>');
 $('.success').fadeOut(2000);
 $('.secondary').fadeOut(3500);
 $(document).ready(ready);

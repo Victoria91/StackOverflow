@@ -1,6 +1,6 @@
 <% if @answer.errors.present? %>
     <% @answer.errors.full_messages.each do |message| %>
-        $("#answer_errors_<%= @answer.id %>").html('<%= j message %>');
+        $("#answer_errors_<%= @answer.id %>").html('<%= j message[1] %>');
     <% end %>
 <% else %>
 	$('.answers').html("<%= j render 'questions/answers'%>");
