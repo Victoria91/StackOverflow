@@ -14,16 +14,16 @@ class User < ActiveRecord::Base
 
   scope :subscribed, -> { where(digest: true) }
 
-  def self.find_for_oauth(auth)
+  def self.find_for_oauth(auth, options = {})
     authorization = Authorization.where(provider: auth.provider, uid: auth.uid.to_s).first
     return authorization.user if authorization
 
-    email = auth.info[:email]
+    email = options[:email] || auth.info[:email]
     if email
       user = User.where(email: email).first
       unless user
-        password = Devise.friendly_token[0, 20]
-        user = User.create!(email: email, password: password, password_confirmation: password)
+      password = Devise.friendly_token[0, 20]
+      user = User.create(email: email, password: password, password_confirmation: password)
       end
       user.create_authorization(auth)
     end
@@ -37,13 +37,6 @@ class User < ActiveRecord::Base
         DailyMailer.delay.digest(user)
       end
     end
-  end
-
-  def create_auth_by_email(auth, email)
-    user = User.find_by_authorization(email: email)
-    user ||= create_user_from_oauth
-    user.create_authorization
-    return user
   end
 
   def create_authorization(auth)

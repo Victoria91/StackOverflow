@@ -26,26 +26,10 @@ RSpec.describe User do
           expect { User.find_for_oauth(auth) }.not_to change(User, :count)
         end
 
-        it 'creates a new authorization for user' do
-          expect { User.find_for_oauth(auth) }.to change(user.authorizations, :count).by(1)
-        end
-
-        it 'creates authorization with provider' do
-          user = User.find_for_oauth(auth)
-          authorization = user.authorizations.first
-          expect(authorization.provider).to eq(auth.provider)
-        end
-
-        it 'creates authorization with uid' do
-          user = User.find_for_oauth(auth)
-          authorization = user.authorizations.first
-          expect(authorization.uid).to eq(auth.uid)
-        end
-
-        it 'creates authorization with user avatar' do
-          user = User.find_for_oauth(auth)
-          authorization = user.authorizations.first
-          expect(authorization.avatar_url).to eq(auth.info[:image])
+        it 'invokes a #create_authorization on user' do
+          allow(User).to receive(:where).with(email: user.email) { [user] }
+          expect(user).to receive(:create_authorization).with(auth)
+          User.find_for_oauth(auth)
         end
 
         it 'returns user' do
@@ -68,29 +52,12 @@ RSpec.describe User do
           expect(User.find_for_oauth(auth).email).to eq(auth.info[:email])
         end
 
-        it 'creates authorization' do
-          user = User.find_for_oauth(auth)
-          expect(user.authorizations).not_to be_empty
+        it 'invokes #creates_authorization on a new user' do
+          allow(User).to receive(:new) { user }
+          expect(user).to receive(:create_authorization).with(auth)
+          User.find_for_oauth(auth)
         end
-
-        it 'creates authorization with uid' do
-          user = User.find_for_oauth(auth)
-          expect(user.authorizations.first.uid).to eq(auth.uid)
-        end
-
-        it 'creates authorization with provider' do
-          user = User.find_for_oauth(auth)
-          expect(user.authorizations.first.provider).to eq(auth.provider)
-        end
-
-        it 'creates authorization with user avatar' do
-          user = User.find_for_oauth(auth)
-          expect(user.authorizations.first.avatar_url).to eq(auth.info[:image])
-        end
-        
-
       end
-
     end
   end
 
@@ -147,28 +114,12 @@ RSpec.describe User do
     let!(:auth) { OmniAuth::AuthHash.new(provider: 'facebook', uid: '123456', info: { image: 'http://provider.com/picture' }) }
     let(:user) { create(:user) }
 
-    before { user.create_authorization(auth) }
-
-    context 'user exists' do
-      it 'not creates a user'
-
-      it 'creates authorization with a given provider' do
-        expect(user.authorizations.first.uid).to eq(auth.uid)
-      end
-
-      it 'creates authorization with a given uid' do
-        expect(user.authorizations.first.provider).to eq(auth.provider)
-      end
-
-      it 'creates authorization with a given avatar_url' do
-        expect(user.authorizations.first.avatar_url).to eq(auth.info[:image])
-      end
-
-      it 'returns a user'
+    it 'creates an authorization' do
+      expect { user.create_authorization(auth) }.to change(user.authorizations, :count).by(1)
     end
 
-    context 'user not exists' do
-      it 'creates user'
+    context 'attributes' do
+      before { user.create_authorization(auth) }
 
       it 'creates authorization with a given provider' do
         expect(user.authorizations.first.uid).to eq(auth.uid)
@@ -181,8 +132,7 @@ RSpec.describe User do
       it 'creates authorization with a given avatar_url' do
         expect(user.authorizations.first.avatar_url).to eq(auth.info[:image])
       end
-
-      it 'returns a new user'
     end
   end
+
 end
