@@ -118,7 +118,9 @@ ready = ->
     $('#answer_text_' + answer.id).animate({color: "#f00"}, 2000).animate({color: "#000"}, 2000)
 
   PrivatePub.subscribe "/questions", (data, channel) ->
+    # alert data
     question = $.parseJSON(data['question'])
+    alert data['question']
     $('.questions').append(HandlebarsTemplates["question_summary"](question))
 
   $ ->

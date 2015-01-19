@@ -73,6 +73,6 @@ class QuestionsController < ApplicationController
   end
 
   def publish_to_questions_chanel
-    PrivatePub.publish_to '/questions', question: @question.to_json if @question.save
+    PrivatePub.publish_to '/questions', question: QuestionSerializer.new(@question).as_json if @question.save
   end
 end

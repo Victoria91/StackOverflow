@@ -7,6 +7,8 @@ describe 'Questions API' do
     let(:question) { questions.last }
     let!(:answer) { create(:answer, question: question) }
     let(:success_status) { 200 }
+    let(:user) { questions.last.user }
+    let!(:user_authorization) { user.authorizations.create(avatar_url: 'dsdd') }
 
     it_behaves_like 'API authenticable'
 
@@ -24,6 +26,10 @@ describe 'Questions API' do
 
     it 'returns answers' do
       expect(response.body).to have_json_size(1).at_path('questions/0/answers')
+    end
+
+    it 'contains user avatar' do
+      expect(response.body).to be_json_eql(user_authorization.avatar_url.to_json).at_path('questions/0/avatar_url')
     end
 
     %w(id body created_at updated_at).each do |attr|
