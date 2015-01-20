@@ -11,12 +11,13 @@
         %strong
           0
   .summary
-    %h3 
-      %a{ href: "/questions/{{id}}", id: "question_99" }
-        {{title}}
     .title
-      {{body}}
+      %h3 
+        %a{ href: "/questions/{{id}}", id: "question_{{id}}" }
+          {{title}}
+    {{body}}
     .asked_time
-      December 22, 2014, Monday</div>
+      %div
+        {{created_at_to_human}}
       .avatar
-        %img{ alt: "Picture", src: "http://graph.facebook.com/10204144934776923/picture" }}
+        %img{ alt: "Picture", src: "{{avatar_url}}" }

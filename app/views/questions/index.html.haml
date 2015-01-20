@@ -20,9 +20,9 @@
             %strong= q.answers.count
           = 'answer'.pluralize(q.answers.count)
       .summary
-        %h3= link_to q.title, question_path(q), id: "question_#{q.id}"
         .title
-          = truncate(q.body, length: 120)
+          %h3= link_to q.title, question_path(q), id: "question_#{q.id}"      
+        = truncate(q.body, length: 120)
         - q.tags.each do |tag|
           = link_to tag.name, questions_path(tag: tag.name), class: 'button secondary tiny'
         .asked_time

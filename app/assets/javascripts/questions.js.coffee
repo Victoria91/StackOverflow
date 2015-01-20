@@ -94,7 +94,7 @@ ready = ->
     $('#answer_' + answer.id).append('<br><div class="comments"></div>')
 
   PrivatePub.subscribe "/questions/" + questionId + "/answers", (data, channel) ->
-    answer = $.parseJSON(data['answer']) 
+    answer = $.parseJSON(data['answer'])
     unless $('#answer_' + answer.id).length
       unless user_id == answer.user_id 
         $('.answers').append('<div id="answer_' + answer.id + '"></div>')
@@ -118,10 +118,9 @@ ready = ->
     $('#answer_text_' + answer.id).animate({color: "#f00"}, 2000).animate({color: "#000"}, 2000)
 
   PrivatePub.subscribe "/questions", (data, channel) ->
-    # alert data
-    question = $.parseJSON(data['question'])
-    alert data['question']
-    $('.questions').append(HandlebarsTemplates["question_summary"](question))
+    question = (data['question'])
+    $('.questions').prepend(HandlebarsTemplates["question_summary"](question))
+    $('#question_summary_' + question.id + ' .summary').animate({color: "#f00"}, 2000).animate({color: "#000"}, 2000)
 
   $ ->
     $('.chosen-select').chosen

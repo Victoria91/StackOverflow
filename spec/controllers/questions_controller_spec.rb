@@ -41,7 +41,7 @@ RSpec.describe QuestionsController do
       it 'publishes to questions channel' do
         question = create(:question, user: @user)
         allow(Question).to receive(:new) { question }
-        expect(PrivatePub).to receive(:publish_to).with('/questions', question: question.to_json)
+        expect(PrivatePub).to receive(:publish_to).with('/questions', question: QuestionSerializer.new(question).as_json(root: false ))
         post :create, question: question_params
       end
     end
