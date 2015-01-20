@@ -7,8 +7,6 @@ describe 'Questions API' do
     let(:question) { questions.last }
     let!(:answer) { create(:answer, question: question) }
     let(:success_status) { 200 }
-    let(:user) { questions.last.user }
-    let!(:user_authorization) { user.authorizations.create(avatar_url: 'dsdd') }
 
     it_behaves_like 'API authenticable'
 
@@ -28,14 +26,31 @@ describe 'Questions API' do
       expect(response.body).to have_json_size(1).at_path('questions/0/answers')
     end
 
-    it 'contains user avatar' do
-      expect(response.body).to be_json_eql(user_authorization.avatar_url.to_json).at_path('questions/0/avatar_url')
-    end
-
     %w(id body created_at updated_at).each do |attr|
       it "contains #{attr}" do
         expect(response.body).to be_json_eql(answer.send(attr.to_sym).to_json).at_path("questions/0/answers/0/#{attr}")
       end
+    end
+
+    context 'custom attributes' do
+      context 'question author\'s avatar_url' do
+        it 'contains user avatar if authorizations present' do
+          questions.last.user.authorizations.create(avatar_url: 'avatar_url')
+          send_request(access_token: access_token.token)
+          expect(response.body).to be_json_eql('avatar_url'.to_json).at_path('questions/0/avatar_url')
+        end
+
+        it 'contains \'photo.png\' if there is no authorizations' do
+          send_request(access_token: access_token.token)
+          expect(response.body).to be_json_eql(ActionController::Base.helpers.asset_path('user.png').to_json).at_path('questions/0/avatar_url')
+        end
+      end
+
+      it 'contains human date' do
+        send_request(access_token: access_token.token)
+        expect(response.body).to be_json_eql(question.created_at.strftime('%B %d, %Y, %A').to_json).at_path('questions/0/created_at_to_human')
+      end
+
     end
 
     def send_request(options = {})

@@ -5,7 +5,11 @@ class QuestionSerializer < ActiveModel::Serializer
   has_many :answers, :attachments
 
   def avatar_url
-    object.user.authorizations.first.avatar_url if object.user.authorizations.present?
+    if object.user.try(:authorizations).present?
+      object.user.authorizations.first.avatar_url
+    else
+      ActionController::Base.helpers.asset_path('user.png')
+    end
   end
 
   def created_at_to_human
