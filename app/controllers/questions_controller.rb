@@ -39,16 +39,6 @@ class QuestionsController < ApplicationController
     respond_with(@question)
   end
 
-  def vote_up
-    current_user.votes.create(question: @question, vote_type: '+1')
-    render :vote
-  end
-
-  def vote_down
-    current_user.votes.create(question: @question, vote_type: '-1')
-    render :vote
-  end
-
   def subscribe
     current_user.subscriptions.create(question: @question)
   end

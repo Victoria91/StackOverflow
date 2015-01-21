@@ -154,28 +154,30 @@ RSpec.describe AnswersController do
       let(:another_answer) { create(:answer, question: another_question) }
 
       it 'accepts answer' do
-        expect { post :accept, id: answer, format: :js }.to change { answer.reload.accepted }.to true
+        allow(Answer).to receive(:find) { answer }
+        expect(answer).to receive(:toggle_accepted)
+        post :accept, id: answer, format: :js
       end
 
       it 'reaccept answer' do
         accepted_answer = create(:answer, question: question, accepted: true)
-        expect { post :accept, id: accepted_answer, format: :js }.to change { accepted_answer.reload.accepted }.to false
+        allow(Answer).to receive(:find) { accepted_answer }
+        expect(accepted_answer).to receive(:toggle_accepted)
+        post :accept, id: accepted_answer, format: :js
       end
 
       it 'not accepted another users question' do
-        expect { post :accept, id: another_answer, format: :js }.not_to change { another_answer.reload.accepted }
+        allow(Answer).to receive(:find) { another_answer }
+        expect(another_answer).not_to receive(:toggle_accepted)
+        post :accept, id: another_answer, format: :js
       end
-
     end
 
     context 'unauthorized' do
-      let(:question) { create(:question, user: create(:user)) }
-      let(:answer) { create(:answer, question: question) }
+      let(:unauthorized_status) { 401 }
+      let(:request) { post :accept, id: create(:answer), format: :js }
 
-      it 'not changes accepted state' do
-        expect { post :accept, id: answer, format: :js }.not_to change(answer.reload, :accepted)
-      end
-
+      it_behaves_like 'Authentication-requireable'
     end
   end
 end
