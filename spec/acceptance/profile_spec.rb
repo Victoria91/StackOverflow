@@ -4,7 +4,7 @@ feature 'profile page', %q(
   As a "User"
   I want to view my profile page
 ) do
-  
+
   given(:user) { create(:user) }
 
   scenario 'authorized user can view profile page' do
@@ -12,6 +12,8 @@ feature 'profile page', %q(
     visit root_path
     click_link 'Profile'
     expect(page).to have_content user.email
+    expect(page).to have_content user.sign_in_count
+    expect(page).to have_content user.created_at.strftime("%B %d, %Y, %A")
   end
 
   scenario 'unauthorized cannot view profile page' do

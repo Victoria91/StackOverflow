@@ -1,0 +1,13 @@
+%table
+  %tr
+    %th
+      %i{ style: 'margin-right:180px'} email:
+    %td= @user.email
+  %tr
+    %th
+      %i{ style: 'margin-right:180px'} Profile created:
+    %td= @user.created_at.strftime("%B %d, %Y, %A")
+  %tr
+    %th
+      %i{ style: 'margin-right:180px'} Visited:
+    %td= @user.sign_in_count
