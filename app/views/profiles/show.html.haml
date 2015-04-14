@@ -11,3 +11,18 @@
     %th
       %i{ style: 'margin-right:180px'} Visited:
     %td= @user.sign_in_count
+
+- if @user.authorizations.present?
+  Authorizations:
+  %table
+    %tr
+      %th
+        Avatar
+      %th
+        Provider
+    - @user.authorizations.each do |auth|
+      %tr
+        %td=image_tag(auth.avatar_url)
+        %td=auth.provider
+
+

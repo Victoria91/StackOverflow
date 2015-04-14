@@ -7,13 +7,31 @@ feature 'profile page', %q(
 
   given(:user) { create(:user) }
 
-  scenario 'authorized user can view profile page' do
-    login_as user
-    visit root_path
-    click_link 'Profile'
-    expect(page).to have_content user.email
-    expect(page).to have_content user.sign_in_count
-    expect(page).to have_content user.created_at.strftime("%B %d, %Y, %A")
+  context 'authorized' do
+    background do
+      login_as user
+      visit root_path
+      click_link 'Profile'
+    end     
+    
+    scenario 'can view common information' do
+      expect(page).to have_content user.email
+      expect(page).to have_content user.sign_in_count
+      expect(page).to have_content user.created_at.strftime("%B %d, %Y, %A")
+    end
+
+    context 'authorizations' do
+      scenario 'shows if they present' do
+        user.authorizations << create(:authorization)
+        visit profile_path
+        expect(page).to have_content 'Authorizations'
+        expect(page).to have_selector 'img'
+      end
+
+      scenario 'not shows if no authorizations' do
+        expect(page).not_to have_content 'Authorizations'
+      end
+    end
   end
 
   scenario 'unauthorized cannot view profile page' do
