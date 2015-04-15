@@ -4,7 +4,9 @@
   .answer{ id: "answer_text_{{id}}", data: { answer_id: "{{id}}" } }
     {{body}}
   .floatl
+    %a{ data: { answer_id: "{{id}}" }, id: "edit_answer_{{id}}_link", href: '', class: "show_answer_form"  }
+      Edit
     %a{ data: { answer_id: "{{id}}" }, id: "leave_comment_answer_{{id}}_link", href: '', class: "show_comment_form"  }
-      comment
+      Comment
     %a{ data: { method: :delete, remote: true }, href: "/answers/{{id}}", id: "delete_answer_{{id}}_link", rel: "nofollow" }
       Delete

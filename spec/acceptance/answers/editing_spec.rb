@@ -18,7 +18,7 @@ feature 'editing_answer', %q(
     context 'edit own answer' do
       background do
         visit question_path(question)
-        find('.editable_answer', text: answer.body).click
+        find("#edit_answer_#{answer.id}_link").click
       end
 
       scenario 'editing own answer with valid attributes', js: true do
@@ -64,7 +64,7 @@ feature 'editing_answer', %q(
         visit question_path(question)
         fill_in 'Your answer', with: 'Updated Answer'
         click_on 'Create Answer'
-        find('.answer', text: 'Updated Answer').click
+        find("#edit_answer_#{answer.id}_link").click
       end
 
       scenario 'editing own answer with valid attributes', js: true do
@@ -76,7 +76,6 @@ feature 'editing_answer', %q(
         within '.answers' do
           expect(page).to have_content 'new answer'
           expect(page).not_to have_selector 'textarea'
-          expect(page).not_to have_content 'Updated Answer'
           expect(page).not_to have_selector '.alert'
         end
       end

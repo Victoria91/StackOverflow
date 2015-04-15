@@ -20,11 +20,13 @@
     - if can?(:update, answer) 
       %i Your answer
       %br
-      .editable_answer{ data: { answer_id: answer.id }, title: 'click to edit' }  
+      .editable_answer{ data: { answer_id: answer.id } }  
         .answer{ id: "answer_text_#{answer.id}", data: { answer_id: answer.id } }= answer.body
         .floatl
+          - if can?(:update, answer)
+            = link_to 'Edit ', '', id: "edit_answer_#{answer.id}_link", class: 'show_answer_form', data: { answer_id: answer.id }
           - if can?(:create, Comment)
-            = link_to 'comment ', '', id: "leave_comment_answer_#{answer.id}_link", class: 'show_comment_form', data: { answer_id: answer.id }
+            = link_to 'Comment ', '', id: "leave_comment_answer_#{answer.id}_link", class: 'show_comment_form', data: { answer_id: answer.id }
           = link_to 'Delete', answer, method: :delete, remote: true, id: "delete_answer_#{answer.id}_link"
         = simple_form_for [answer], remote: true, html: { id: "answer_form_#{answer.id}", class: "editable_answer_form" }, data: { type: :json, answer_id: answer.id } do |f|
           .answer_errors{ id: "answer_errors_#{answer.id}" }

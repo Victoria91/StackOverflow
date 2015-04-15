@@ -9,8 +9,8 @@ ready = ->
   signed_in = $('.question').data('signedIn')
   user_id = $('.main .row').data('userId')
 
-  $(document).on 'click', '.answer', (e) ->
-    $(this).hide()
+  $(document).on 'click', '.show_answer_form', (e) ->
+    e.preventDefault()
     answer_id = $(this).data('answerId')
     $("#accept_answer_" + answer_id).hide()
     $("#answer_form_"+answer_id).show()
@@ -23,14 +23,6 @@ ready = ->
     $("#answer_form_" + answer_id).hide()
     $('.answer').show()
     $("#accept_answer_" + answer_id).show()
-
-  $(document).on 'mouseover', '.answer', (e) ->
-    answer_id = $(this).data('answerId')
-    $("#accept_answer_" + answer_id).hide()
-
-  $(document).on 'mouseout', '.answer', (e) ->
-    answer_id = $(this).data('answerId')
-    $("#accept_answer_" + answer_id).animate({ opacity: "show" }, "slow");
 
   $(document).on 'click', '#edit_question_link', (e) ->
     e.preventDefault()
