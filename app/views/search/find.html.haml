@@ -1,9 +1,9 @@
 Search results for 
 %i= params[:search][:query]
-%br
 - if @questions.empty?
+  %br
   No results
 - else
   - @questions.each do |question|
     %br
-    = link_to question.title, question
+    = link_to highlight(question.title, params[:search][:query].split(' ')), question
